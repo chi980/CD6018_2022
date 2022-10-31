@@ -1,9 +1,16 @@
 import React from 'react'
 import styled from "styled-components";
+import kakao_loin from '../assets/kakao_login_medium_wide.png'
 
 const Container = styled.div`
   margin-top: 100px;
   padding: 20px;
+`;
+
+const Kakao = styled.img`
+    margin: 0px auto;
+    display: block;
+    width: 360px;
 `;
 
 const Id = styled.input`
@@ -37,7 +44,7 @@ const Button = styled.div`
   display: block;
   width: 350px;
   height: 50px;
-  margin: 60px auto;
+  margin: 50px auto 10px auto;
   cursor: pointer;
   text-align: center;
   color: #fff;
@@ -51,16 +58,6 @@ const Button = styled.div`
   `}
 `;
 
-const kakao_btn = styled.div`
-  background-image: url("../assets/kakao_login_medium_wide.png'");
-    background-repeat: no-repeat;
-    background-size : cover;
-    margin: 10px auto;
-    /* padding: -10px; */
-    color: transparent;
-    width: 300px;
-    height: 45px;
-`
 
 function About() {
   const REST_API_KEY = "	8a651dea4402a80d5c424422715f8589";
@@ -80,7 +77,7 @@ function About() {
       <Button>로그인</Button>
 
       <a href={KAKAO_AUTH_URL}>
-      <img alt="KAKAO Login" src="../assets/kakao_login_medium_wide.png"/>
+        <Kakao src={kakao_loin} />
       </a>
     </Container>
     </div>
