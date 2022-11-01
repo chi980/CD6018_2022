@@ -10,7 +10,7 @@ const Container = styled.div`
 const Kakao = styled.img`
     margin: 0px auto;
     display: block;
-    width: 360px;
+    width: 352px;
 `;
 
 const Id = styled.input`
@@ -61,7 +61,7 @@ const Button = styled.div`
 
 function Login() {
   const REST_API_KEY = "	8a651dea4402a80d5c424422715f8589";
-  const REDIRECT_URI = "http://localhost:3000/About";
+  const REDIRECT_URI = "http://localhost:3000/Login";
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   
   return (
