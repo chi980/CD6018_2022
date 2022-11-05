@@ -23,4 +23,4 @@ class Category(models.Model):
     contents = models.CharField(max_length=3,choices=CONTENTS)
 
     def __str__(self):
-        return self.name
+        return f'{self.name} : {self.get_name_display()}'

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<p>main화면</p>
+{% if category_list %}
+    <ul>
+    {% for category in category_list %}
+        <li><a href="#">{{ category.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Nothing</p>
+{% endif %}
+{% endblock %}
