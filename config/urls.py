@@ -22,4 +22,6 @@ urlpatterns = [
     path('main/',include('main.urls')),
     path('common/', include('common.urls')),
     path('', views.index, name='index'),  # '/' 에 해당되는 path
+    path('auth/',include('user.urls')),
+    path('account/',include('allauth.urls'))
 ]

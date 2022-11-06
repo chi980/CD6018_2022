@@ -36,13 +36,28 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'main.apps.MainConfig',
     'common.apps.CommonConfig',
+    'user',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites', #사이트,url정보 관리 해주는 기능
+    'allauth', #설치한앱
+    'allauth.account', # 가입한 계정 관리
+    'allauth.socialaccount', # 소셜 계정으로 가입한 계정 관리
+    'allauth.socialaccount.providers.google', # 구글 사용
+    'allauth.socialaccount.providers.kakao', # 카카오 사용
+    'allauth.socialaccount.providers.naver', # 네이버 사용
+
 ]
+
+# 로그인 과정 전에 누구한테 맡길지
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', #기본장고 유저
+    'allauth.account.auth_backends.AuthenticationBackend', #소셜로그인 인증체계
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -124,8 +139,13 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# 위에'django.contrib.sites'에 첫번째 인스턴스 사용
+SITE_ID = 1
 # 로그인 성공후 이동하는 URL
 LOGIN_REDIRECT_URL = '/'
 
 # 로그아웃시 이동하는 URL
 LOGOUT_REDIRECT_URL = '/'
+
+# custom user
+AUTH_USER_MODEL = 'user.User'
