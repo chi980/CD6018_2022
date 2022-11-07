@@ -1,3 +1,5 @@
+{% load static %}
+
 <!-- 네비게이션바 -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
@@ -12,22 +14,105 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- 로그인 팝업창-->
                 <li class="nav-item">
-                    {% if user.is_authenticated %}
-<!--                    <a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a>-->
-                    <a class="nav-link" href="{% url 'user:logout' %}">{{ user.username }} (로그아웃)</a>
-
-                    {% else %}
-<!--                    <a class="nav-link" href="{% url 'common:login' %}">로그인</a>-->
-                    <a class="nav-link" href="{% url 'user:login' %}">로그인</a>
-
-                    {% endif %}
+                    <a class="nav-link" data-toggle="modal" data-target="#layerpop_l">로그인</a>
+                    <div class="modal fade" id="layerpop_l" >
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <!-- header -->
+                            <div class="modal-header">
+                                <!-- 닫기(x) 버튼 -->
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <!-- header title -->
+                            </div>
+                            <!-- body -->
+                            <div class="modal-body">
+                                <div class="form-title text-center">
+                                  <!-- 로그인 -->
+                                  <h2 style="margin-bottom: 20px">Login</h2>
+                                  </div>
+                                  <div class="d-flex flex-column text-center">
+                                  <!-- 로그인 폼 -->
+                                    <form method="post" action="{% url 'common:login' %}">
+                                      <div class="form-group">
+                                        <input type="text" class="form-control" name="username" id="email1" placeholder="Your email address...">
+                                      </div>
+                                      <div class="form-group">
+                                        <input type="password" class="form-control" name="password" id="password1" placeholder="Your password...">
+                                      </div>
+                                      <button type="submit" class="btn btn-block btn-round btn-secondary">Login</button>
+                                    </form>
+                                    
+                                    <div class="text-center text-muted delimiter">or use a social network</div>
+                                    <div class="p-2 login_api">
+                                      <a href="https://kauth.kakao.com/oauth/authorize?client_id=8a651dea4402a80d5c424422715f8589&redirect_uri=http://127.0.0.1:8000/&response_type=code"><img src="{% static 'images/kakao_login_medium_narrow.png' %}"></a>
+                                  </div>
+                                </div>
+                              </div>
+                            <!-- Footer -->
+                            <div class="modal-footer">
+                               <!-- <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>-->
+                               <a>반려동물과 함께 하는 일상 지도<img style="width: 60px; height: 60px" src="{% static 'images/Petzone로고.png' %}"></a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
                 </li>
+
                 <li>
                     {% if not user.is_authenticated %}
-<!--                    <a class="nav-link" href="{% url 'common:signup' %}">회원가입</a>-->
-                    <a class="nav-link" href="{% url 'user:signup' %}">회원가입</a>
-
+                    <!-- <a class="nav-link" href="{% url 'common:signup' %}">회원가입</a> -->
+                    <a class="nav-link" data-toggle="modal" data-target="#layerpop_r">회원가입</a>
+                    <div class="modal fade" id="layerpop_r" >
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <!-- header -->
+                            <div class="modal-header">
+                                <!-- 닫기(x) 버튼 -->
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <!-- header title -->
+                            </div>
+                            <!-- body -->
+                            <div class="modal-body">
+                                <div class="form-title text-center">
+                                  <!-- 회원가입 -->
+                                    <h2 style="margin-bottom: 20px">Sign Up</h2>
+                                  </div>
+                                  <div class="d-flex flex-column text-center">
+                                    <!-- 회원가입 폼 -->
+                                    <form>
+                                        <div class="form-group" method="post" action="{% url 'common:signup' %}">
+                                            <input type="text" class="form-control" id="name1"placeholder="Your Name...">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="nickname1"placeholder="Your Nickname...">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" id="email1"placeholder="Your email address...">
+                                        </div>
+                                      <div class="form-group">
+                                            <input type="password" minlength="8" maxlength="13" class="form-control" id="password1" placeholder="Your password...">
+                                      </div>
+                                      <div class="form-group">
+                                            <input type="date" class="form-control" id="birthday1" placeholder="Your birthday...">
+                                      </div>
+                                      <div class="form-group">
+                                        <input type='radio' name='gender' value='female'/>여성 &nbsp; &nbsp; &nbsp; 
+                                        <input type='radio' name='gender' value='male' />남성
+                                     </div>
+                                      <button type="submit" class="btn btn-block btn-round btn-secondary">Sign Up</button>
+                                    </form>   
+                                </div>
+                              </div>
+                            <!-- Footer -->
+                            <div class="modal-footer">
+                               <!-- <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>-->
+                               <a>반려동물과 함께 하는 일상 지도<img style="width: 60px; height: 60px" src="{% static 'images/Petzone로고.png' %}"></a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
                     {% endif %}
                 </li>
             </ul>
