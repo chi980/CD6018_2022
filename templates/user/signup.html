@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container my-3">
-    <form method="post" action="{% url 'common:signup' %}">
+    <form method="post" action="{% url 'user:signup' %}">
         {% csrf_token %}
         {% include "form_errors.html" %}
         <div class="mb-3">
