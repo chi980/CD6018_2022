@@ -19,8 +19,8 @@ def user_login(request):
         else:
             print("인증실패")
             return redirect('user:login')
-    return render(request, "user/login.html")
-
+    # return render(request, "user/login.html")
+    return render(request,'base.html')
 
 def user_logout(request):
     logout(request)
@@ -63,3 +63,4 @@ def user_signup(request):
     else:
         form = UserForm()
     return render(request, 'user/signup.html', {'form': form})
+    # return render(request, 'base.html', {'form': form})

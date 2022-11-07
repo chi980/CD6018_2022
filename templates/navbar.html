@@ -14,6 +14,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% if not user.is_authenticated %}
                 <!-- 로그인 팝업창-->
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="modal" data-target="#layerpop_l">로그인</a>
@@ -34,13 +35,14 @@
                                   </div>
                                   <div class="d-flex flex-column text-center">
                                   <!-- 로그인 폼 -->
-                                    <form method="post" action="{% url 'common:login' %}">
+                                    <form method="post" action="{% url 'user:login' %}">
                                       {% csrf_token %}
+                                      {% include "form_errors.html" %}
                                       <div class="form-group">
-                                        <input type="text" class="form-control" name="username" id="email1" placeholder="Your email address...">
+                                        <input type="text" class="form-control" name="username" id="username" placeholder="Your email address...">
                                       </div>
                                       <div class="form-group">
-                                        <input type="password" class="form-control" name="password" id="password1" placeholder="Your password...">
+                                        <input type="password" class="form-control" name="password" id="password" placeholder="Your password...">
                                       </div>
                                       <button type="submit" class="btn btn-block btn-round btn-secondary">Login</button>
                                     </form>
@@ -60,11 +62,16 @@
                         </div>
                         </div>
                 </li>
-
+                {% endif %}
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'user:logout' %}">로그아웃</a>
+                </li>
+                {% endif %}
                 <li>
                     {% if not user.is_authenticated %}
-                    <!-- <a class="nav-link" href="{% url 'common:signup' %}">회원가입</a> -->
-                    <a class="nav-link" data-toggle="modal" data-target="#layerpop_r">회원가입</a>
+                     <a class="nav-link" href="{% url 'user:signup' %}">회원가입</a>
+<!--                    <a class="nav-link" data-toggle="modal" data-target="#layerpop_r">회원가입</a>-->
                     <div class="modal fade" id="layerpop_r" >
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -84,27 +91,39 @@
                                     <!-- 회원가입 폼 -->
                                     <form>
                                         {% csrf_token %}
-                                        <div class="form-group" method="post" action="{% url 'common:signup' %}">
-                                            <input type="text" class="form-control" id="name1"placeholder="Your Name...">
+                                        {% include "form_errors.html" %}
+                                        <div class="form-group" method="post" action="{% url 'user:signup' %}">
+                                            <input type="text" class="form-control" name="first_name" id="name1"placeholder="Your Name...">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="nickname1"placeholder="Your Nickname...">
+                                            <input type="text" class="form-control" name=""username id="nickname1"placeholder="Your Nickname...">
                                         </div>
                                         <div class="form-group">
-                                            <input type="email" class="form-control" id="email1"placeholder="Your email address...">
+                                            <input type="email" class="form-control" name="email" id="email1"placeholder="Your email address...">
                                         </div>
                                       <div class="form-group">
-                                            <input type="password" minlength="8" maxlength="13" class="form-control" id="password1" placeholder="Your password...">
+                                            <input type="password" minlength="8" maxlength="13" class="form-control" name="password1" id="password1" placeholder="Your password...">
+                                      </div>
+                                      <div class="form-group">
+                                            <input type="password" minlength="8" maxlength="13" class="form-control" name="password2" id="password2" placeholder="Your password...">
                                       </div>
                                       <div class="form-group">
                                             <input type="date" class="form-control" id="birthday1" placeholder="Your birthday...">
                                       </div>
+<!--                                      <div class="form-group">-->
+<!--                                        <input type='radio' name='gender' value='female'/>여성 &nbsp; &nbsp; &nbsp; -->
+<!--                                        <input type='radio' name='gender' value='male' />남성-->
+<!--                                     </div>-->
                                       <div class="form-group">
-                                        <input type='radio' name='gender' value='female'/>여성 &nbsp; &nbsp; &nbsp; 
-                                        <input type='radio' name='gender' value='male' />남성
-                                     </div>
+                                            {% for radio in form.gender %}
+                                                <label for="{{ radio.id_for_label }}">
+                                                    {{ radio.choice_label }}
+                                                    <span class="radio">{{ radio.tag }}</span>
+                                                </label>
+                                            {% endfor %}
+                                      </div>
                                       <button type="submit" class="btn btn-block btn-round btn-secondary">Sign Up</button>
-                                    </form>   
+                                    </form>
                                 </div>
                               </div>
                             <!-- Footer -->
