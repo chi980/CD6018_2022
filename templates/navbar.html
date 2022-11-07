@@ -35,6 +35,7 @@
                                   <div class="d-flex flex-column text-center">
                                   <!-- 로그인 폼 -->
                                     <form method="post" action="{% url 'common:login' %}">
+                                      {% csrf_token %}
                                       <div class="form-group">
                                         <input type="text" class="form-control" name="username" id="email1" placeholder="Your email address...">
                                       </div>
@@ -82,6 +83,7 @@
                                   <div class="d-flex flex-column text-center">
                                     <!-- 회원가입 폼 -->
                                     <form>
+                                        {% csrf_token %}
                                         <div class="form-group" method="post" action="{% url 'common:signup' %}">
                                             <input type="text" class="form-control" id="name1"placeholder="Your Name...">
                                         </div>
