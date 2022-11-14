@@ -1,51 +1,61 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container my-3">
+{% load static %}
+
+<div class="container my-3" style="padding-bottom: 30px;">
     <form method="post" action="{% url 'user:signup' %}">
         {% csrf_token %}
         {% include "form_errors.html" %}
         <div class="mb-3">
-            <label for="username">사용자 아이디</label>
+            <label for="username">Last Name(성)...</label>
             <input type="text" class="form-control" name="username" id="username"
                    value="{{ form.username.value|default_if_none:'' }}">
         </div>
         <div class="mb-3">
-            <label for="first_name">사용자 이름</label>
+            <label for="first_name">First Name(이름)...</label>
             <input type="text" class="form-control" name="first_name" id="first_name"
                    value="{{ form.first_name.value|default_if_none:'' }}">
         </div>
         <div class="mb-3">
-            <label for="password1">비밀번호</label>
-            <input type="password" class="form-control" name="password1" id="password1"
-                   value="{{ form.password1.value|default_if_none:'' }}">
-        </div>
-        <div class="mb-3">
-            <label for="password2">비밀번호 확인</label>
-            <input type="password" class="form-control" name="password2" id="password2"
-                   value="{{ form.password2.value|default_if_none:'' }}">
-        </div>
-        <div class="mb-3">
-            <label for="email">이메일</label>
+            <label for="email">Email Address...</label>
             <input type="text" class="form-control" name="email" id="email"
                    value="{{ form.email.value|default_if_none:'' }}">
         </div>
         <div class="mb-3">
-            <label for="gender">성별</label>
+            <label for="password1">Password...</label>
+            <input type="password" class="form-control" name="password1" id="password1"
+                   value="{{ form.password1.value|default_if_none:'' }}">
+        </div>
+        <div class="mb-3">
+            <label for="password2">Check Password...</label>
+            <input type="password" class="form-control" name="password2" id="password2"
+                   value="{{ form.password2.value|default_if_none:'' }}">
+        </div>
+        <div class="mb-3">
+            <label for="gender">Sex...</label> <br>
 <!--            {{ form.gender }}-->
             {% for radio in form.gender %}
                 <label for="{{ radio.id_for_label }}">
                     {{ radio.choice_label }}
-                    <span class="radio">{{ radio.tag }}</span>
+                    <span class="radio">{{ radio.tag }}</span> &nbsp;&nbsp;&nbsp;
                 </label>
             {% endfor %}
 
         </div>
         <div class="mb-3">
-            <label for="birthday">클래스 날짜</label>
+            <label for="birthday">Birthday...</label>
             <input type="date" class="form-control" name="birthday" id="birthday" placeholder="연도,월,일" value="{{object.date|date:'Y-m-d'}}" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">생성하기</button>
+        <button type="submit" class="btn btn-block btn-round btn-secondary">Sign Up</button>
     </form>
 </div>
+<footer>
+    <div class="container-fluid" style="bottom:0">
+        <hr>
+        <p>ⓒ 명지대학교 융합소프트웨어학부 2022년 2학기 캡스톤디자인 PetZone팀<br>
+            <a href="https://github.com/chi980/CD6018_2022"><img style="width: 65px; height: 30px" src="{% static 'images/깃허브.png' %}"></a>
+        </p>
+      </div>
+</footer>
 {% endblock %}
