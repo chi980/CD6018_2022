@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import pymysql
-from local_settings import DATABASES
+from local_settings import DATABASES, S3
 
 pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -36,14 +36,16 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'main.apps.MainConfig',
     'common.apps.CommonConfig',
-    'user',
+    'user', # custom User
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites', #사이트,url정보 관리 해주는 기능
+
+
+    'django.contrib.sites', #사이트,url정보 관리 해주는 기능# migrate 할 때 필요
     'allauth', #설치한앱
     'allauth.account', # 가입한 계정 관리
     'allauth.socialaccount', # 소셜 계정으로 가입한 계정 관리
@@ -129,7 +131,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
@@ -142,6 +144,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # 위에'django.contrib.sites'에 첫번째 인스턴스 사용
 SITE_ID = 1
 # 로그인 성공후 이동하는 URL
+ACCOUNT_SIGNUP_REDIRECT_URL = "/"
 LOGIN_REDIRECT_URL = '/'
 
 # 로그아웃시 이동하는 URL
@@ -149,3 +152,11 @@ LOGOUT_REDIRECT_URL = '/'
 
 # custom user
 AUTH_USER_MODEL = 'user.User'
+
+# 이미지 업로드(aws s3)(https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html)
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_ACCESS_KEY_ID = S3['aws_access_key_id']
+AWS_SECRET_ACCESS_KEY = S3['aws_secret_access_key']
+AWS_STORAGE_BUCKET_NAME = S3['aws_storage_bucket_name']
+AWS_QUERYSTRING_AUTH = S3['aws_querystring_auth']

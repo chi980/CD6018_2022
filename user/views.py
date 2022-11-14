@@ -62,5 +62,11 @@ def user_signup(request):
             return redirect('index')
     else:
         form = UserForm()
+        print(form.GENDER_CHOICES)
+        print(form.GENDER_CHOICES)
+
     return render(request, 'user/signup.html', {'form': form})
-    # return render(request, 'base.html', {'form': form})
+    # return render(request, 'navbar.html', {'form': form})
+
+def sociallogin(request):
+    return render(request,'base.html')

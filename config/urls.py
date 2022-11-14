@@ -17,11 +17,27 @@ from django.contrib import admin
 from django.urls import path, include
 from main import views
 
+# sns 로그인
+# from auth.apis import (
+#     LoginApi,
+#     LogoutApi,
+#     GoogleLoginApi,
+#     GoogleSigninCallBackApi
+# )
+# from auth.googleapi import *
+
+
+# login_patterns = [
+#     path('google', GoogleLoginApi.as_view(), name='google_login'),
+#     path('google/callback', GoogleSigninCallBackApi.as_view(), name='google_login_callback'),
+# ]
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('main/',include('main.urls')),
     path('common/', include('common.urls')),
     path('', views.index, name='index'),  # '/' 에 해당되는 path
     path('auth/',include('user.urls')),
-    path('account/',include('allauth.urls'))
+    path('auth/api/',include('allauth.urls'))
+    # path('accounts/',include('allauth.urls'))
 ]
