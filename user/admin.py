@@ -8,5 +8,22 @@ from .models import User,Pet
 class PetAdmin(admin.ModelAdmin):
     search_fields = ['user__id']
 
-admin.site.register(User,UserAdmin)
+class MyUserAdmin(UserAdmin):
+    model = User
+    fieldsets = UserAdmin.fieldsets+ (
+        (
+            'CustomProfile', # you can also use None
+            {
+                'fields': (
+                    'gender',
+                    'birthday',
+                    'category',
+                    'on_off'
+                ),
+            },
+        ),
+    )
+
+
+admin.site.register(User,MyUserAdmin)
 admin.site.register(Pet,PetAdmin)

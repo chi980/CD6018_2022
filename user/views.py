@@ -70,3 +70,6 @@ def user_signup(request):
 
 def sociallogin(request):
     return render(request,'base.html')
+
+def mypage(request):
+    return render(request,'user/mypage.html')

@@ -43,4 +43,7 @@ class Pet(models.Model):
     adoption_day = models.DateField()
     birthday = models.DateField(null=True)
 
+    def __str__(self):
+        return "{}님의 {}".format(self.user.last_name or "익명",self.name)
+
 

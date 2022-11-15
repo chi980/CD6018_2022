@@ -19,6 +19,7 @@
                 {% if not user.is_authenticated %}
                 <!-- 로그인 팝업창-->
                 <li class="nav-item">
+<!--                    <a class="nav-link" href="{% url 'user:login' %}">로그인</a>-->
                     <a class="nav-link" data-toggle="modal" data-target="#layerpop_l">로그인</a>
                     <div class="modal fade" id="layerpop_l" >
                         <div class="modal-dialog">
@@ -51,25 +52,27 @@
                                     
                                     <div class="text-center text-muted delimiter">or use a social network</div>
                                     <div class="p-2 login_api">
-<<<<<<< HEAD
+
 <!--                                      <a href="https://kauth.kakao.com/oauth/authorize?client_id=8a651dea4402a80d5c424422715f8589&redirect_uri=http://127.0.0.1:8000/&response_type=code"><img src="{% static 'images/kakao_login_medium_narrow.png' %}"></a>-->
 <!--                                      <a href="/auth/sociallogin/google/login/?process=login">구글 로그인</a>-->
                                         <a href="{% provider_login_url 'kakao' %}">
-                                            카카오로그인
+                                            <img src="{% static 'images/kakao_login_medium_narrow.png' %}">
                                         </a>
+                                        <br>
                                         <a href="{% provider_login_url 'google' method='oauth2' %}">
                                         구글로그인
                                         </a>
+                                        <br>
                                         <a href="{% provider_login_url 'naver' method='oauth2' %}">
                                             네이버로그인
                                         </a>
-=======
-                                      <a href="https://kauth.kakao.com/oauth/authorize?client_id=8a651dea4402a80d5c424422715f8589&redirect_uri=http://127.0.0.1:8000/&response_type=code"><img src="{% static 'images/kakao_login_medium_narrow.png' %}"></a>
+
+<!--                                      <a href="https://kauth.kakao.com/oauth/authorize?client_id=8a651dea4402a80d5c424422715f8589&redirect_uri=http://127.0.0.1:8000/&response_type=code"><img src="{% static 'images/kakao_login_medium_narrow.png' %}"></a>-->
                                   <!-- 회원가입 -->
                                     </div>
                                       <a class="nav-link" href="{% url 'user:signup' %}">회원가입</a>
                                   <div>
->>>>>>> d9dd16921a97064041f4709c9cbf7aa812a93e3d
+
 
                                   </div>
 
@@ -90,12 +93,12 @@
                     <a href="{% url 'user:logout' %}">로그아웃({{user.username}}님)</a>
                 </li>
                 {% endif %}
-<<<<<<< HEAD
+
                 <li>
                     {% if not user.is_authenticated %}
 
-<!--                    <a class="nav-link" href="{% url 'user:signup' %}">회원가입</a>-->
-                    <a class="nav-link" data-toggle="modal" data-target="#layerpop_r">회원가입</a>
+                    <a class="nav-link" href="{% url 'user:signup' %}">회원가입</a>
+<!--                    <a class="nav-link" data-toggle="modal" data-target="#layerpop_r">회원가입</a>-->
                     <div class="modal fade" id="layerpop_r" >
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -180,8 +183,7 @@
                         </div>
                     {% endif %}
                 </li>
-=======
->>>>>>> d9dd16921a97064041f4709c9cbf7aa812a93e3d
+
             </ul>
         </div>
     </div>
