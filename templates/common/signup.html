@@ -1,30 +1,142 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container my-3">
-    <form method="post" action="{% url 'common:signup' %}">
-        {% csrf_token %}
-        {% include "form_errors.html" %}
-        <div class="mb-3">
-            <label for="username">사용자 이름</label>
-            <input type="text" class="form-control" name="username" id="username"
-                   value="{{ form.username.value|default_if_none:'' }}">
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>My Page</title>
+</head>
+<style>
+    .img_r{
+        width: 160px;
+        height: 160px;
+        margin-top: 30px;
+        border-radius: 70%;
+        overflow: hidden;
+    }
+    .img_sr{
+        width: 120px;
+        height: 120px;
+        margin-top: 30px;
+        margin-left: 15px;
+        border-radius: 70%;
+        overflow: hidden;
+        float: left;
+        text-align:center
+    }
+    html, body {
+        height: 100%;
+    }
+    label{
+        font-weight: 800;
+        text-align: left;
+        float: left;
+    }
+    div.left {
+        width: 20%;
+        height: 100%;
+        float: left;
+        box-sizing: border-box;
+        text-align:center;
+        background-color: rgb(248, 248, 250);
+        border: solid 0.5px rgb(234, 236, 239);
+      }
+      div.right {
+        width: 80%;
+        height: 100%;
+        float: right;
+        box-sizing: border-box;
+        text-align:center;
+      }  
+      div.info{
+        float: left;
+        text-align: left; 
+        margin-left: 0px; 
+        margin-bottom: 15px;
+      }
+      div.petform{
+        width: 60%;
+        float: left;
+      } 
+</style>
+
+<!-- 개인정보 화면 나누기 -->
+<body>
+
+<!-- 좌우 분할 화면 중, 왼쪽 -->
+<div class="left">
+        <!--사용자 정보 제공-->
+        <img class="img_r" src="{% static 'images/프로필사진예시.jpg' %}"> <br>
+        <div style="margin-top: 10px">
+            <a><strong>펫 이름</strong> </a> <br>
+            <a>펫 나이 <strong>| </strong> </a>
+            <a>펫 품종</a>
         </div>
-        <div class="mb-3">
-            <label for="password1">비밀번호</label>
-            <input type="password" class="form-control" name="password1" id="password1"
-                   value="{{ form.password1.value|default_if_none:'' }}">
+
+        <div style="font-size: 20px; margin-top:30px; float: center;">
+            <a><strong>사용자 이름</strong></a>
+            <hr style="margin-top: 0px; width: 160px; height:2px; background-color: black;">
         </div>
-        <div class="mb-3">
-            <label for="password2">비밀번호 확인</label>
-            <input type="password" class="form-control" name="password2" id="password2"
-                   value="{{ form.password2.value|default_if_none:'' }}">
+
+        <!-- click 이벤트를 통해 반려동물 정보와 나의 정보를 다르게 보여줌 -->
+        <div style="margin-top: 50px; margin-left: 10px; text-align:left;">
+            <details>
+                <summary style="font-size: 20px;"><strong>정보관리</strong></summary>
+                <div style="width: 160px; margin-top: 5px; margin-left: 20px;">
+                    <a style="font-size: 18px; color: gray;" href="../login">반려동물 정보</a> <br>
+                    <a style="font-size: 18px; color: gray;" href="../signup">나의 정보</a>
+                </div>
+            </details>
         </div>
-        <div class="mb-3">
-            <label for="email">이메일</label>
-            <input type="text" class="form-control" name="email" id="email"
-                   value="{{ form.email.value|default_if_none:'' }}">
+
+        <div style="margin-top: 10px; margin-left: 10px; text-align:left;">
+            <details>
+                <summary style="font-size: 20px;"><strong>장소관리</strong></summary>
+                <div style="width: 160px; margin-top: 5px; margin-left: 20px;">
+                    <a style="font-size: 18px; color: gray;" href="#">관심장소 보기</a> <br>
+                </div>
+            </details>
         </div>
-        <button type="submit" class="btn btn-primary">생성하기</button>
-    </form>
+           
 </div>
+
+<!-- 좌우 분할 중, 오른쪽 섹션-->
+<div class="right">
+    <h4 style="margin-top: 15px; margin-left: 10px; text-align:left"> <strong>내 정보</strong></h4>
+
+    <div class="container petform" style="float: left;">
+        <div class="info"> <br>
+            <a><strong>이메일</strong></a> <br>
+            <a>admin@naver.com</a> <br> <br>
+
+            <a><strong>이름</strong></a> <br>
+            <a>관리자</a> <br>
+        </div>
+
+        <!-- 내 정보 등록 및 수정 폼 -->
+            <form method="post" action="{% url 'user:signup' %}">
+                {% csrf_token %}
+                {% include "form_errors.html" %}
+
+                <div class="mb-3" style="margin-top: 160px;">
+                    <label for="nickname">닉네임</label>
+                    <input type="text" class="form-control" name="nickname" id="nickname"
+                        value="{{ form.nickname.value|default_if_none:'' }}">
+                </div>
+                <div class="mb-3">
+                    <label for="birthday">생일</label>
+                    <input type="date" class="form-control" name="birthday" id="birthday" placeholder="연도,월,일" value="{{object.date|date:'Y-m-d'}}" required>
+                </div>
+
+                <button type="submit" class="btn btn-block btn-round btn-secondary">정보수정</button>
+                
+            </form>        
+    </div>
+</div>
+
+</div>
+</body>
+</html>
 {% endblock %}

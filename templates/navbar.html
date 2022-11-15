@@ -90,7 +90,12 @@
                 {% endif %}
                 {% if user.is_authenticated %}
                 <li>
+<<<<<<< Updated upstream
                     <a href="{% url 'user:logout' %}">로그아웃({{user.username}}님)</a>
+=======
+                    <a href="{% url 'user:logout' %}">로그아웃</a>
+                    <a href="{% url 'common:login' %}">My Page</a>
+>>>>>>> Stashed changes
                 </li>
                 {% endif %}
 

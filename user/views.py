@@ -66,6 +66,7 @@ def user_signup(request):
         print(form.GENDER_CHOICES)
 
     return render(request, 'user/signup.html', {'form': form})
+<<<<<<< Updated upstream
     # return render(request, 'navbar.html', {'form': form})
 
 def sociallogin(request):
@@ -73,3 +74,6 @@ def sociallogin(request):
 
 def mypage(request):
     return render(request,'user/mypage.html')
+=======
+    #return render(request, 'navbar.html', {'form': form})
+>>>>>>> Stashed changes
