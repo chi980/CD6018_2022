@@ -8,3 +8,15 @@ def upload_image(instance,filename):
     return '%s' % (
         now().strftime('%Y%m%d')+'_'+str(randint(10000000,99999999))
     )
+
+def rename_image(instance,filename):
+    import os
+    from uuid import uuid4
+    upload_to = f'media/{instance}'
+    ext = filename.split('.')[-1]
+    uuid = uuid4().hex
+    if instance:
+        filename = '{}_{}.{}'.format(uuid, instance, ext)
+    else:
+        filename = '{}.{}'.format(uuid, ext)
+    return os.path.join(upload_to,filename)

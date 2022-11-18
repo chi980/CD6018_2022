@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login,logout
 from django.shortcuts import redirect
-from .models import User
-from user.forms import UserForm
+from .models import User,Pet
+from user.forms import UserForm,PetForm
 
 # Create your views here.
 def user_login(request):
@@ -72,4 +72,29 @@ def sociallogin(request):
     return render(request,'base.html')
 
 def mypage(request):
-    return render(request,'user/mypage.html')
+    pet_form = PetForm(request=request,user = request.user)
+    # pet_form = PetForm()
+    return render(request, 'user/mypage.html', {'pet_form': pet_form})
+
+def petcreate(request):
+    # Post 방식 요청
+    if request.method == 'POST':
+        form = PetForm(request.POST,request=request,user = request.user)
+        print(form)
+        # form = PetForm(request.POST)
+        # form.fields['user'].queryset = Pet.objects.
+        # print(form.is_valid())
+        if form.is_valid():
+            print("form is valid")
+            post = form.save(commit=False)
+            post.save()
+            return redirect('index')
+        return redirect('user:petcreate')
+
+    # Get 방식 요청
+    else:
+        print("익명님???????")
+        print(type(User(request.user)))
+        pet_form = PetForm(request=request,user = request.user)
+        # pet_form = PetForm()
+        return render(request, 'user/mypage.html', {'pet_form': pet_form})
