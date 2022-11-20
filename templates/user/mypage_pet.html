@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>My Page</title>
+</head>
+<style>
+    .img_r{
+        width: 160px;
+        height: 160px;
+        margin-top: 30px;
+        border-radius: 70%;
+        overflow: hidden;
+    }
+    .img_sr{
+        width: 120px;
+        height: 120px;
+        margin-top: 30px;
+        margin-left: 15px;
+        border-radius: 70%;
+        overflow: hidden;
+        float: left;
+        text-align:center
+    }
+    html, body {
+        height: 100%;
+    }
+    label{
+        font-weight: 800;
+        text-align: left;
+        float: left;
+    }
+    div.left {
+        width: 20%;
+        height: 100%;
+        float: left;
+        box-sizing: border-box;
+        text-align:center;
+        background-color: rgb(248, 248, 250);
+        border: solid 0.5px rgb(234, 236, 239);
+      }
+      div.right {
+        width: 80%;
+        height: 100%;
+        float: right;
+        box-sizing: border-box;
+        text-align:center;
+      }  
+      div.petform{
+        width: 60%;
+        float: left;
+      } 
+      div.petimg{
+        width: 40%;
+        float: right;
+      }  
+</style>
+<!-- 개인정보 화면 나누기 -->
+<body>
+
+<!-- 좌우 분할 화면 중, 왼쪽 -->
+<div class="left">
+        <!--사용자 정보 제공-->
+        <img class="img_r" src="{% static 'images/프로필사진예시.jpg' %}"> <br>
+        <div style="margin-top: 10px">
+            <a><strong>펫 이름</strong> </a> <br>
+            <a>펫 나이 <strong>| </strong> </a>
+            <a>펫 품종</a>
+        </div>
+
+        <div style="font-size: 20px; margin-top:30px; float: center;">
+            <a><strong>사용자 이름</strong></a>
+            <hr style="margin-top: 0px; width: 160px; height:2px; background-color: black;">
+        </div>
+
+        <!-- click 이벤트를 통해 반려동물 정보와 나의 정보를 다르게 보여줌 -->
+        <div style="margin-top: 50px; margin-left: 10px; text-align:left;">
+            <details>
+                <summary style="font-size: 20px;"><strong>정보관리</strong></summary>
+                <div style="width: 160px; margin-top: 5px; margin-left: 20px;">
+                    <a style="font-size: 18px; color: gray;" href="../mypage_pet/">반려동물 정보</a> <br>
+                    <a style="font-size: 18px; color: gray;" href="../mypage_user/">나의 정보</a>
+                </div>
+            </details>
+        </div>
+
+        <div style="margin-top: 10px; margin-left: 10px; text-align:left;">
+            <details>
+                <summary style="font-size: 20px;"><strong>장소관리</strong></summary>
+                <div style="width: 160px; margin-top: 5px; margin-left: 20px;">
+                    <a style="font-size: 18px; color: gray;" href="../mypage_place/">관심장소</a> <br>
+                </div>
+            </details>
+        </div>
+           
+</div>
+
+<!-- 좌우 분할 중, 오른쪽 섹션-->
+<div class="right">
+    <h4 style="margin-top: 15px; margin-left: 10px; text-align:left"> <strong>반려동물 정보</strong></h4>
+
+    <!-- 사용자의 펫이 있으면 보여주기 -->
+    <button type="button" class="img_sr" style="border: 0;"><img style="width: 120px; height: 120px;" src="{% static 'images/프로필사진예시.jpg' %}"></button>
+    <button type="button" class="img_sr" style="border: 0;"><img style="width: 120px; height: 120px;" src="{% static 'images/마이펫예시.jpg' %}"></button>
+    <!-- 펫 추가-->
+    <button type="button" class="img_sr" style="border: 0;"><img style="width: 85px; height: 85px;" src="{% static 'images/plus.png' %}" alt="추가"></button>
+    <br> <br> <br> <br> <br> <br><br> <br><br> 
+ 
+
+    <!-- 펫 정보 등록 및 수정 폼 -->
+    <div class="container petform" style="float: left;">
+        <form method="post" action="{% url 'user:signup' %}">
+            {% csrf_token %}
+            {% include "form_errors.html" %}
+            <div class="mb-3">
+                <label for="petname">반려동물명</label>
+                <input type="text" class="form-control" name="petname" id="petname"
+                       value="{{ form.petname.value|default_if_none:'' }}">
+            </div>
+            <div class="mb-3">
+                <label for="petkind">반려동물 품종</label>
+                <input type="text" class="form-control" name="petkind" id="petkind"
+                       value="{{ form.petkind.value|default_if_none:'' }}">
+            </div>
+            <div class="mb-3">
+                <label for="petcomeday">반려동물이 내게 온 날</label>
+                <input type="date" class="form-control" name="petcomeday" id="petcomeday" placeholder="연도,월,일" value="{{object.date|date:'Y-m-d'}}" required>
+            </div>
+            <div class="mb-3">
+                <label for="petbirthday">반려동물이 태어난 날</label> <br>
+                <input type="date" class="form-control" name="petbirthday" id="petbirthday" placeholder="연도,월,일" value="{{object.date|date:'Y-m-d'}}" required>
+    
+            </div>
+        </div>
+            <!-- 펫 사진 변경 -->
+            <div class="petimg">
+                <div class="image-container">
+                    <a style="font-size: 15px;"><strong>반려동물 사진 변경</strong></a> <br>
+                    <img style="width: 200px; height: 200px;" id="preview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+                    <div class="input-group mb-3">
+                        <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="input-image">
+                        <label class="custom-file-label m-3" for="input-image" aria-describedby="inputGroupFileAddon02">Choose file</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-block btn-round btn-secondary">Add</button>
+        </form>
+
+    
+
+</div>
+</body>
+
+<script>
+function readImage(input) {
+    // 파일이 있는 경우
+    if(input.files && input.files[0]) {
+        // FileReader 인스턴스 생성
+        const reader = new FileReader()
+        // 이미지 로드
+        reader.onload = e => {
+            const previewImage = document.getElementById("preview-image")
+            previewImage.src = e.target.result
+        }
+        // reader가 이미지 읽어옴
+        reader.readAsDataURL(input.files[0])
+    }
+}
+
+// input file에 change 이벤트
+const inputImage = document.getElementById("input-image")
+inputImage.addEventListener("change", e => {
+    readImage(e.target)
+})
+</script>
+</html>
+{% endblock %}
