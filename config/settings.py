@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import pymysql
-from local_settings import DATABASES, S3
+from local_settings import DATABASES, SECRET_KEY
+import os
 
 pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)sqstsc!nza^o)+q)z_p+0$13v$nb^8p5re5x$5#y1gok0my22'
+SECRET_KEY = SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -156,9 +157,15 @@ LOGOUT_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'user.User'
 
 # 이미지 업로드(aws s3)(https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html)
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#
+# AWS_ACCESS_KEY_ID = S3['aws_access_key_id']
+# AWS_SECRET_ACCESS_KEY = S3['aws_secret_access_key']
+# AWS_STORAGE_BUCKET_NAME = S3['aws_storage_bucket_name']
+# AWS_QUERYSTRING_AUTH = S3['aws_querystring_auth']
 
-AWS_ACCESS_KEY_ID = S3['aws_access_key_id']
-AWS_SECRET_ACCESS_KEY = S3['aws_secret_access_key']
-AWS_STORAGE_BUCKET_NAME = S3['aws_storage_bucket_name']
-AWS_QUERYSTRING_AUTH = S3['aws_querystring_auth']
+# 이미지 업로드(file)
+STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

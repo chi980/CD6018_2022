@@ -1,4 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<a>mypage</a>
+<form action="{% url 'user:petcreate' %}" method="POST">
+	{% csrf_token %}
+	{% include "form_errors.html" %}
+  	<table>
+      	{{pet_form.as_table}}
+  	</table>
+  	<input type="submit" value="제출">
+</form>
 {% endblock %}
