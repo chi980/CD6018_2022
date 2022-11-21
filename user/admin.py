@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User,Pet
+from .models import User,Pet,Favorite
 # Register your models here.
 
 # 모델 검색
@@ -24,6 +24,9 @@ class MyUserAdmin(UserAdmin):
         ),
     )
 
+class FavoriteAdmin(admin.ModelAdmin):
+    pass
 
 admin.site.register(User,MyUserAdmin)
 admin.site.register(Pet,PetAdmin)
+admin.site.register(Favorite,FavoriteAdmin)

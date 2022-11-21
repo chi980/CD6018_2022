@@ -1,13 +1,37 @@
 {% extends 'base.html' %}
 {% block content %}
 <p>main화면</p>
-<p>아래는 등록한 category들 <-- 지워도 됩니다!!!</p>
-{% if category_list %}
-    <ul>
-    {% for category in category_list %}
-        <li><a href="#">{{ category.name }}</a></li>
-    {% endfor %}
-    </ul>
+{% if recommended %}
+    <table border="1">
+        <tr>
+            <td>등수</td>
+            <td>이름</td>
+            <td>주소</td>
+            <td>지번주소</td>
+            <td>연락처</td>
+            <td>시간</td>
+            <td>url</td>
+            <td>출입여부</td>
+            <td>위도</td>
+            <td>경도</td>
+            <td>평점</td>
+        </tr>
+        {% for review in recommended  %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{review.location__name}}</td>
+                <td>{{review.location__address}}</td>
+                <td>{{review.location__lot_address}}</td>
+                <td>{{review.location__phone}}</td>
+                <td>{{review.location__time}}</td>
+                <td>{{review.location__url}}</td>
+                <td>{{review.location__is_animal_in}}</td>
+                <td>{{review.location__latitude}}</td>
+                <td>{{review.location__logitude}}</td>
+                <td>{{review.avg}}</td>
+            </tr>
+        {% endfor %}
+</table>
 {% else %}
     <p>Nothing</p>
 {% endif %}

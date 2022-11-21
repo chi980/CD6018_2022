@@ -5,10 +5,15 @@ from .models import User,Pet,Favorite
 from main.models import Location
 from user.forms import UserForm,PetForm
 
+from django.contrib.auth import get_user_model
+# 로그인 필요
+from django.contrib.auth.decorators import login_required
+
 # json 처리
 from django.http import JsonResponse,HttpResponse
 from django.core import serializers
 import json
+from django.template.loader import render_to_string
 # Create your views here.
 def user_login(request):
     if request.method == 'POST':
@@ -27,6 +32,7 @@ def user_login(request):
     # return render(request, "user/login.html")
     return render(request,'base.html')
 
+@login_required
 def user_logout(request):
     logout(request)
     # return redirect("user:login")
@@ -76,22 +82,27 @@ def user_signup(request):
 def sociallogin(request):
     return render(request,'base.html')
 
+@login_required
 def mypage_pet(request):
     pet_form = PetForm(request=request,user = request.user)
     # pet_form = PetForm()
     return render(request, 'user/mypage_pet.html', {'pet_form': pet_form})
-
+@login_required
 def mypage_user(request):
     pet_form = PetForm(request=request,user = request.user)
     # pet_form = PetForm()
     return render(request, 'user/mypage_user.html', {'pet_form': pet_form})    #여기 user 수정 폼 들어가야함
 
-
+@login_required
 def mypage_place(request):
-    pet_form = PetForm(request=request,user = request.user)
+    favorites = Favorite.objects.filter(user=request.user)
+    # favorites_json = json.loads(serializers.serialize('json', favorites, ensure_ascii=False))
     # pet_form = PetForm()
-    return render(request, 'user/mypage_place.html', {'pet_form': pet_form})   
-
+    return render(request, 'user/mypage_place.html',{'favorites':favorites})
+    # return JsonResponse({
+    #     'html': render_to_string('user/mypage_place.html', {'favorites':favorites_json or None}, request=request),
+    # })
+@login_required
 def pet(request):
     # Post 방식 요청
     if request.method == 'POST':
@@ -114,27 +125,37 @@ def pet(request):
         pet_form = PetForm(request=request,user = request.user)
         # pet_form = PetForm()
         return render(request, 'user/mypage.html', {'pet_form': pet_form})
-
+@login_required
 #로그인 추가하기
 def favorite(request):
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            location_id = request.POST.get('location_id')
-            location = Location.objects.get(id=location_id)
-            my_favorite = Favorite.objects.get_or_create(user=request.user, location__id=location_id)
-            return HttpResponse(status=201)
-        else:
-            # favorites = Favorite.objects.all()
-            favorites = Favorite.objects.filter(user=request.user)
-            favorites_json = json.loads(serializers.serialize('json',favorites,ensure_ascii=False))
-            # return HttpResponse(favorites_json,content_type="text/json-comment-filtered")
-            return JsonResponse({'reload_all': False, 'favorites_json': favorites_json})
+    # if request.user.is_authenticated:
+    #     if request.method == "POST":
+    #         location_id = request.POST.get('location_id')
+    #         location = Location.objects.get(id=location_id)
+    #         my_favorite = Favorite.objects.get_or_create(user=request.user, location__id=location_id)
+    #         return HttpResponse(status=201)
+    #     else:
+    #         # favorites = Favorite.objects.all()
+    #         favorites = Favorite.objects.filter(user=request.user)
+    #         favorites_json = json.loads(serializers.serialize('json',favorites,ensure_ascii=False))
+    #         # return HttpResponse(favorites_json,content_type="text/json-comment-filtered")
+    #         return JsonResponse({'reload_all': False, 'favorites_json': favorites_json})
+    # else:
+    #     #401상태코드
+    #     #https://devlog.jwgo.kr/2020/10/17/fancy-messaging-system-in-django/
+    #     #https://han-py.tistory.com/105
+    #     return HttpResponse(status=401)
+    if request.method == "POST":
+        location_id = request.POST.get('location_id')
+        location = Location.objects.get(id=location_id)
+        my_favorite = Favorite.objects.get_or_create(user=request.user, location__id=location_id)
+        return HttpResponse(status=201)
     else:
-        #401상태코드
-        #https://devlog.jwgo.kr/2020/10/17/fancy-messaging-system-in-django/
-        #https://han-py.tistory.com/105
-        return HttpResponse(status=401)
-
+        # favorites = Favorite.objects.all()
+        favorites = Favorite.objects.filter(user=request.user)
+        favorites_json = json.loads(serializers.serialize('json',favorites,ensure_ascii=False))
+        # return HttpResponse(favorites_json,content_type="text/json-comment-filtered")
+        return JsonResponse({'reload_all': False, 'favorites_json': favorites_json})
 
 # 페이징
 # def business_list(request):

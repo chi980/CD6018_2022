@@ -53,4 +53,4 @@ class Review(models.Model):
     star = models.DecimalField(max_digits=2,decimal_places=1,default=0.0)
 
     def __str__(self):
-        return f'{self.star} | {self.contents}'
+        return f'{self.star} | {self.contents} [{self.category.get_name_display()}]'
