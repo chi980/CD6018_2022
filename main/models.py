@@ -24,3 +24,33 @@ class Category(models.Model):
 
     def __str__(self):
         return f'{self.name} : {self.get_name_display()}'
+
+# location
+class Location(models.Model):
+    ANIMAL_IN_CHOICE=(
+        (0,'불가'),
+        (1,'가능'),
+        (2,'정보 없음')
+    )
+    name = models.CharField(max_length=50)
+    category = models.CharField(max_length=30, blank=True)
+    address = models.CharField(max_length=128, blank=True)
+    lot_address = models.CharField(max_length=100, blank=True)
+    phone = models.CharField(max_length=13, blank=True)
+    time = models.CharField(max_length=128,blank=True)
+    url = models.URLField(blank=True)
+    is_animal_in = models.IntegerField(default=2, choices=ANIMAL_IN_CHOICE)
+    latitude = models.DecimalField(max_digits=9, decimal_places=7, default=0.0)
+    logitude = models.DecimalField(max_digits=10, decimal_places=7, default=0.0)
+
+    def __str__(self):
+        return f'{self.name}(<a href="{self.url}"></a>)'
+
+class Review(models.Model):
+    category = models.ForeignKey('main.Category',on_delete=models.CASCADE, related_name='review',null=True,blank=True)
+    location = models.ForeignKey('main.Location',on_delete=models.SET_NULL,related_name='review',null=True,blank=True)
+    contents = models.TextField(blank=True,null=True)
+    star = models.DecimalField(max_digits=2,decimal_places=1,default=0.0)
+
+    def __str__(self):
+        return f'{self.star} | {self.contents}'

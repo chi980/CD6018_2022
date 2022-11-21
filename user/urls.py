@@ -10,7 +10,8 @@ urlpatterns = [
     path("logout/", views.user_logout, name="logout"),
     path("signup/", views.user_signup, name="signup"),
     path("mypage/", views.mypage,name="mypage"),
-    path("petcreate/",views.petcreate,name="petcreate"),
+    path("pet/",views.pet,name="pet"),
     # path('api/user/',include('allauth.urls')),
     # path('',views.sociallogin,name='sociallogin')
+    path("favorite/",views.favorite,name="favorite")
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

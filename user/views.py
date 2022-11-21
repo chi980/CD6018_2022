@@ -1,9 +1,14 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login,logout
 from django.shortcuts import redirect
-from .models import User,Pet
+from .models import User,Pet,Favorite
+from main.models import Location
 from user.forms import UserForm,PetForm
 
+# json 처리
+from django.http import JsonResponse,HttpResponse
+from django.core import serializers
+import json
 # Create your views here.
 def user_login(request):
     if request.method == 'POST':
@@ -76,7 +81,7 @@ def mypage(request):
     # pet_form = PetForm()
     return render(request, 'user/mypage.html', {'pet_form': pet_form})
 
-def petcreate(request):
+def pet(request):
     # Post 방식 요청
     if request.method == 'POST':
         form = PetForm(request.POST,request=request,user = request.user)
@@ -98,3 +103,22 @@ def petcreate(request):
         pet_form = PetForm(request=request,user = request.user)
         # pet_form = PetForm()
         return render(request, 'user/mypage.html', {'pet_form': pet_form})
+#로그인 추가하기
+def favorite(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            location_id = request.POST.get('location_id')
+            location = Location.objects.get(id=location_id)
+            my_favorite = Favorite.objects.get_or_create(user=request.user, location__id=location_id)
+            return HttpResponse(status=201)
+        else:
+            # favorites = Favorite.objects.all()
+            favorites = Favorite.objects.filter(user=request.user)
+            favorites_json = json.loads(serializers.serialize('json',favorites,ensure_ascii=False))
+            # return HttpResponse(favorites_json,content_type="text/json-comment-filtered")
+            return JsonResponse({'reload_all': False, 'favorites_json': favorites_json})
+    else:
+        #401상태코드
+        #https://devlog.jwgo.kr/2020/10/17/fancy-messaging-system-in-django/
+        #https://han-py.tistory.com/105
+        return HttpResponse(status=401)

@@ -50,4 +50,9 @@ class Pet(models.Model):
     def __str__(self):
         return "{}님의 {}".format(self.user.last_name or "익명",self.name)
 
+class Favorite(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name='favorite')
+    location = models.OneToOneField('main.Location',on_delete=models.CASCADE, related_name='favorite')
 
+    def __str__(self):
+        return f'{self.user.id}님의 {self.location.name}'
