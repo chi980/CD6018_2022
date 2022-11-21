@@ -91,6 +91,8 @@
                 {% if user.is_authenticated %}
                 <li>
                     <a href="{% url 'user:logout' %}">로그아웃({{user.username}}님)</a>
+                    <a href="{% url 'user:mypage_pet' %}">My Page</a>
+
                 </li>
                 {% endif %}
 

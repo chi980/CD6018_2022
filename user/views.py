@@ -76,10 +76,21 @@ def user_signup(request):
 def sociallogin(request):
     return render(request,'base.html')
 
-def mypage(request):
+def mypage_pet(request):
     pet_form = PetForm(request=request,user = request.user)
     # pet_form = PetForm()
-    return render(request, 'user/mypage.html', {'pet_form': pet_form})
+    return render(request, 'user/mypage_pet.html', {'pet_form': pet_form})
+
+def mypage_user(request):
+    pet_form = PetForm(request=request,user = request.user)
+    # pet_form = PetForm()
+    return render(request, 'user/mypage_user.html', {'pet_form': pet_form})    #여기 user 수정 폼 들어가야함
+
+
+def mypage_place(request):
+    pet_form = PetForm(request=request,user = request.user)
+    # pet_form = PetForm()
+    return render(request, 'user/mypage_place.html', {'pet_form': pet_form})   
 
 def pet(request):
     # Post 방식 요청
@@ -103,6 +114,7 @@ def pet(request):
         pet_form = PetForm(request=request,user = request.user)
         # pet_form = PetForm()
         return render(request, 'user/mypage.html', {'pet_form': pet_form})
+
 #로그인 추가하기
 def favorite(request):
     if request.user.is_authenticated:
@@ -122,3 +134,15 @@ def favorite(request):
         #https://devlog.jwgo.kr/2020/10/17/fancy-messaging-system-in-django/
         #https://han-py.tistory.com/105
         return HttpResponse(status=401)
+
+
+# 페이징
+# def business_list(request):
+#    business_list = Business.objects.all().order_by('-id') #데이터 역순 정렬
+#    page = request.GET.get('page', '1') #GET 방식으로 정보를 받아오는 데이터
+#    paginator = Paginator(business_list, '2') #Paginator(분할될 객체, 페이지 당 담길 객체수)
+#    paginated_business_lists = paginator.get_page(page) #페이지 번호를 받아 해당 페이지를 리턴
+#    ctx = {'business_list':business_list,'paginated_business_lists':paginated_business_lists}
+#
+#    return render(request, template_name='list.html', context=ctx)
+

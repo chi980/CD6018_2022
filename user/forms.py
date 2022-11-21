@@ -1,7 +1,8 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from user.models import User, Pet
 from django.forms.widgets import NumberInput
+from django.contrib.auth import get_user_model
 
 class UserForm(UserCreationForm):
     GENDER_MALE = "m"
@@ -28,6 +29,11 @@ class UserForm(UserCreationForm):
             "gender",
             "birthday"
         )
+
+class MyUserChangeForm(UserChangeForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['first_name','email','password']
 
 class PetForm(forms.ModelForm):
     KIND_CHOICES = (
