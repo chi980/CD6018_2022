@@ -114,13 +114,16 @@
 <!--            <a><strong>이름</strong></a> <br>-->
 <!--            <a>관리자</a> <br>-->
 <!--        </div>-->
+            <p>{{request.user.id}}</p>
 
+            <p>{{request.user.username}}</p>
         <!-- 내 정보 등록 및 수정 폼 -->
             <form method="post" action="{% url 'user:mypage_user' %}">
                 {% csrf_token %}
                 {% include "form_errors.html" %}
 <!--                {{form.as_p }}-->
-                {{form.first_name}}
+
+                {{form}}
                 <input type="submit" value=Submit">
 <!--                <div class="mb-3" style="margin-top: 160px;">-->
 <!--                    <label for="nickname">닉네임</label>-->

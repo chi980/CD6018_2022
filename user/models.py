@@ -5,6 +5,7 @@ from user.utils import rename_image
 
 # Create your models here.
 
+# first_name:이름, email:이메일,username:아이디 ->template request.user.first_name형식으로 받아오면 됩니다!
 class User(AbstractUser):
     GENDER_MALE = "m"
     GENDER_FEMALE = "f"
