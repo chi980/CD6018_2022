@@ -95,10 +95,10 @@ def mypage_user(request):
         form = MyUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('user:mypage_user')
     else:
         form = MyUserChangeForm(instance=request.user)
-        return render(request, 'user/mypage_user.html',{'form',form})    #여기 user 수정 폼 들어가야함
+        return render(request, 'user/mypage_user.html',{'form':form})    #여기 user 수정 폼 들어가야함
 
 @login_required
 def mypage_place(request):
