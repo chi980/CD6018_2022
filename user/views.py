@@ -88,12 +88,17 @@ def mypage_pet(request):
     pet_form = PetForm(request=request,user = request.user)
     # pet_form = PetForm()
     return render(request, 'user/mypage_pet.html', {'pet_form': pet_form})
+#https://han-py.tistory.com/147
 @login_required
 def mypage_user(request):
-    # pet_form = PetForm(request=request,user = request.user)
-    # pet_form = PetForm()
-    # user_form = MyUserChangeForm('fir')
-    return render(request, 'user/mypage_user.html')    #여기 user 수정 폼 들어가야함
+    if request.method == 'POST':
+        form = MyUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = MyUserChangeForm(instance=request.user)
+        return render(request, 'user/mypage_user.html',{'form',form})    #여기 user 수정 폼 들어가야함
 
 @login_required
 def mypage_place(request):

@@ -33,7 +33,7 @@ class UserForm(UserCreationForm):
 class MyUserChangeForm(UserChangeForm):
     class Meta:
         model = get_user_model()
-        fields = ['first_name','email','password']
+        fields = ['first_name','email','birthday']
 
 class PetForm(forms.ModelForm):
     KIND_CHOICES = (
