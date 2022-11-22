@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login,logout
-from django.shortcuts import redirect
+from django.shortcuts import redirect,HttpResponseRedirect
 from .models import User,Pet,Favorite
 from main.models import Location
-from user.forms import UserForm,PetForm
+from user.forms import UserForm,PetForm, MyUserChangeForm
+from django.contrib import messages
 
 from django.contrib.auth import get_user_model
 # 로그인 필요
@@ -89,9 +90,10 @@ def mypage_pet(request):
     return render(request, 'user/mypage_pet.html', {'pet_form': pet_form})
 @login_required
 def mypage_user(request):
-    pet_form = PetForm(request=request,user = request.user)
+    # pet_form = PetForm(request=request,user = request.user)
     # pet_form = PetForm()
-    return render(request, 'user/mypage_user.html', {'pet_form': pet_form})    #여기 user 수정 폼 들어가야함
+    # user_form = MyUserChangeForm('fir')
+    return render(request, 'user/mypage_user.html')    #여기 user 수정 폼 들어가야함
 
 @login_required
 def mypage_place(request):
@@ -167,3 +169,17 @@ def favorite(request):
 #
 #    return render(request, template_name='list.html', context=ctx)
 
+#message사용법:https://stackoverflow.com/questions/28240746/django-how-to-implement-alertpopup-message-after-complete-method-in-view
+
+def delFavorite(request):
+    if request.method=='POST':
+        try:
+            favorite_id = request.favorite_id
+            record = Favorite.objects.get(id=favorite_id)
+            record.delete()
+            messages.info(request,'성공적으로 지워졌습니다.')
+            return HttpResponseRedirect('user:mypage_place')
+        except:
+            messages.info(request, '없는 객체입니다.')
+            return HttpResponse(status=400)
+    return HttpResponse(status=200)

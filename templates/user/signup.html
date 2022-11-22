@@ -17,6 +17,11 @@
                    value="{{ form.first_name.value|default_if_none:'' }}">
         </div>
         <div class="mb-3">
+            <label for="username">Id(아이디)...</label>
+            <input type="text" class="form-control" name="username" id="username"
+                   value="{{ form.username.value|default_if_none:'' }}">
+        </div>
+        <div class="mb-3">
             <label for="email">Email Address...</label>
             <input type="text" class="form-control" name="email" id="email"
                    value="{{ form.email.value|default_if_none:'' }}">
