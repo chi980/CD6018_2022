@@ -18,7 +18,7 @@ class User(AbstractUser):
     gender = models.CharField(max_length=1,choices=GENDER_CHOICES,default=GENDER_MALE)
     birthday = models.DateField(null=True)
     category = models.ForeignKey('main.Category',on_delete=models.SET_NULL,null=True,blank=True,related_name='user')
-    on_off = models.BooleanField(default=False) # False면 음식점만
+    on_off = models.BooleanField(default=False) # False면
 
     # USERNAME_FIELD = 'email'
     # REQUIRED_FIELDS = []

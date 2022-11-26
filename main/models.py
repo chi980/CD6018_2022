@@ -42,6 +42,7 @@ class Location(models.Model):
     is_animal_in = models.IntegerField(default=2, choices=ANIMAL_IN_CHOICE)
     latitude = models.DecimalField(max_digits=9, decimal_places=7, default=0.0)
     logitude = models.DecimalField(max_digits=10, decimal_places=7, default=0.0)
+    on_off = models.IntegerField()
 
     def __str__(self):
         return f'{self.name}(<a href="{self.url}"></a>)'
