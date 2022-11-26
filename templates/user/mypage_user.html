@@ -76,7 +76,7 @@
         </div>
 
         <div style="font-size: 20px; margin-top:30px; float: center;">
-            <a><strong>사용자 이름</strong></a>
+            <a><strong>{{request.user.username}}</strong></a>
             <hr style="margin-top: 0px; width: 160px; height:2px; background-color: black;">
         </div>
 
@@ -107,35 +107,43 @@
     <h4 style="margin-top: 15px; margin-left: 10px; text-align:left"> <strong>내 정보</strong></h4>
 
     <div class="container petform" style="float: left;">
-<!--        <div class="info"> <br>-->
-<!--            <a><strong>이메일</strong></a> <br>-->
-<!--            <a>admin@naver.com</a> <br> <br>-->
+        <div class="info"> <br>
+            <a><strong>ID</strong></a> <br>
+            <a>{{request.user.username}}</a> <br> <br>
 
-<!--            <a><strong>이름</strong></a> <br>-->
-<!--            <a>관리자</a> <br>-->
-<!--        </div>-->
-            <p>{{request.user.id}}</p>
+            <a><strong>성별</strong></a> <br>
+            {% if request.user.gender == "f" %}
+                <a>여성</a> <br>
+            {% else %}
+                <a>남성</a>
+            {% endif %}
 
-            <p>{{request.user.username}}</p>
+        </div>
         <!-- 내 정보 등록 및 수정 폼 -->
             <form method="post" action="{% url 'user:mypage_user' %}">
                 {% csrf_token %}
                 {% include "form_errors.html" %}
 <!--                {{form.as_p }}-->
+                <div class="mb-3" style="margin-top: 180px;">
+                    <hr />
+                    <h5 style="float: left;"> <strong> 수정가능 정보 </strong></h5> <br><br>
+                    {{ form.first_name.errors }}
+                    <label for="{{ form.first_name.id_for_label }}">이름</label> <br> <br>
+                    <a style="float: left;"> {{ form.first_name }} </a> <br> <br>
+                </div>
+                <div class="mb-3">
+                    {{ form.email.errors }}
+                    <label for="{{ form.email.id_for_label }}">이메일</label> <br> <br>
+                    <a style="float: left;">{{ form.email }} </a>  <br> <br>
+                </div>
+                 <div class="mb-3">
+                    {{ form.birthday.errors }}
+                    <label for="{{ form.birthday.id_for_label }}">생일</label> <br> <br>
+                    <input style="float: left; width: 191px;" type="date" placeholder={{ form.birthday }}
+                </div>
+                <br> <br>
 
-                {{form}}
-                <input type="submit" value=Submit">
-<!--                <div class="mb-3" style="margin-top: 160px;">-->
-<!--                    <label for="nickname">닉네임</label>-->
-<!--                    <input type="text" class="form-control" name="nickname" id="nickname"-->
-<!--                        value="{{ form.nickname.value|default_if_none:'' }}">-->
-<!--                </div>-->
-<!--                <div class="mb-3">-->
-<!--                    <label for="birthday">생일</label>-->
-<!--                    <input type="date" class="form-control" name="birthday" id="birthday" placeholder="연도,월,일" value="{{object.date|date:'Y-m-d'}}" required>-->
-<!--                </div>-->
-
-<!--                <button type="submit" class="btn btn-block btn-round btn-secondary">정보수정</button>-->
+                <button type="submit"  onclick="Alert()" class="btn btn-block btn-round btn-secondary" style="width: 191px;" >정보수정</button>
                 
             </form>        
     </div>
@@ -143,5 +151,12 @@
 
 </div>
 </body>
+
+<script>
+    function Alert() {
+      alert("내 정보 수정완료");
+    }  
+
+</script>
 </html>
 {% endblock %}

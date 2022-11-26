@@ -16,5 +16,6 @@ urlpatterns = [
     path("mypage_place/", views.mypage_place,name="mypage_place"),
     # path('api/user/',include('allauth.urls')),
     # path('',views.sociallogin,name='sociallogin')
-    path("favorite/",views.favorite,name="favorite")
+    path("favorite/",views.favorite,name="favorite"),
+    path("catecory/",views.user_catecory,name="catecory")
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<style>
+    .box {
+        background-color: rgb(248, 248, 250);
+        border: solid 0.5px rgb(234, 236, 239);
+        float: left;
+        width: 31%;
+        height: 250px;
+        margin-right: 20px;
+        margin-top: 55px;
+        border-radius: 20px;
+        text-align: center;
+    }
+    .box_l{
+        background-color: rgb(248, 248, 250);
+        border: solid 0.5px rgb(234, 236, 239); 
+        float: left;
+        width: 31%;
+        height: 250px;
+        margin-top: 20px;
+        border-radius: 20px;
+        text-align: center;
+    }
+    .img_box{
+        width: 100px;
+        height: 100px;
+        margin-top: 15px;
+        margin-bottom: 25px;
+    }
+    .rad{
+       margin-top: 15px; 
+    }
+    .btn{
+        float: right;
+        width: 80px;
+    }
+
+</style>
+
+<div class="container my-3">
+    {% csrf_token %}
+    {% include "form_errors.html" %}
+    <h4 style="margin-top: 15px;  text-align:left"> <strong>{{request.user.username}} 님의 취향 Catecory</strong></h4>
+    <h6>Pet Zone에서는 각 가게들의 <strong>리뷰를 AI를 통해 분석한 데이터</strong>를 기반으로 {{request.user.username}} 님의 취향에 맞춘 <mark>전방 50m내 맛집</mark>을 추천해드립니다.</h6>
+
+   <!-- <form method="post" action="{% url 'user:catecory' %}">-->
+        <button type="submit" onclick="Alert()" class="btn btn-block btn-round btn-secondary" >선택</button>
+        <div class="box">
+            <img class="img_box" src="{% static 'images/cash-payment.png' %}"> <br>
+            <a><strong>저렴한 가격 & 좋은 분위기를 원하는 가성비 충</strong></a> <br>
+            <a> 맛과 가격, 서비스, 분위기가 중요해요!</a> <br>
+            <input class="rad" type="radio" name="catecory" value="CSM" checked>
+        </div>
+        <div class="box">
+            <img class="img_box" src="{% static 'images/no.png' %}"> <br>
+            <a><strong>오랜 대기와 불친절은 사절합니다!</strong></a> <br>
+            <a> 맛과 짧은 웨이팅, 서비스가 중요해요!</a> <br>
+            <input class="rad" type="radio" name="catecory" value="WS">
+        </div>
+        <div class="box_l">
+            <img class="img_box" src="{% static 'images/serving-dish.png' %}"> <br>
+            <a><strong>서비스가 중요한 당신! 가격까지 착하길 원하신다구요?!</strong></a> <br>
+            <a> 맛과 서비스, 가격이 중요해요!</a> <br>
+            <input class="rad" type="radio" name="catecory" value="SC">
+        </div> <br>
+        <div class="box">
+            <img class="img_box" src="{% static 'images/alarm-clock.png' %}"> <br>
+            <a><strong>웨이팅 시간이 아까운 바쁜 당신</strong></a> <br>
+            <a> 맛과 짧은 웨이팅이 중요해요!</a> <br>
+            <input class="rad" type="radio" name="catecory" value="W">
+        </div>
+        <div class="box">
+            <img class="img_box" src="{% static 'images/cheers.png' %}"> <br>
+            <a><strong>오늘은 분위기에 취하고 싶은 날!</strong></a> <br>
+            <a> 맛과 분위기, 서비스가 중요해요!</a> <br>
+            <input class="rad" type="radio" name="catecory" value="MS">
+        </div>
+        <div class="box">
+            <img class="img_box" src="{% static 'images/four-stars.png' %}"> <br>
+            <a><strong>모든 것이 빠지지 않는 무난한 맛집을 찾으신다구요?!</strong></a> <br>
+            <a> 맛과 가격, 서비스, 웨이팅 모두 중요해요!</a> <br>
+            <input class="rad" type="radio" name="catecory" value="CSW">
+        </div>
+    </form>
+</div>
+
+<script>
+    function Alert() {
+      alert("{{request.user.username}} 님 취향선택 완료!");
+    }  
+
+</script>
+{% endblock %}

@@ -188,3 +188,7 @@ def delFavorite(request):
             messages.info(request, '없는 객체입니다.')
             return HttpResponse(status=400)
     return HttpResponse(status=200)
+
+    
+def user_catecory(request):
+    return render(request,'user/catecory.html')
