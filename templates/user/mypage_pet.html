@@ -73,7 +73,7 @@
         </div>
 
         <div style="font-size: 20px; margin-top:30px; float: center;">
-            <a><strong>사용자 이름</strong></a>
+            <a><strong>{{request.user.username}}</strong></a>
             <hr style="margin-top: 0px; width: 160px; height:2px; background-color: black;">
         </div>
 
@@ -135,7 +135,7 @@
                 <input type="date" class="form-control" name="petbirthday" id="petbirthday" placeholder="연도,월,일" value="{{object.date|date:'Y-m-d'}}" required>
     
             </div>
-        </div>
+            </div>
             <!-- 펫 사진 변경 -->
             <div class="petimg">
                 <div class="image-container">
@@ -148,7 +148,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                </div>
             <button type="submit" class="btn btn-block btn-round btn-secondary">Add</button>
         </form>
 
