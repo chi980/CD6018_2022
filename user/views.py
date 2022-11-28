@@ -18,6 +18,7 @@ from django.template.loader import render_to_string
 # Create your views here.
 def user_login(request):
     if request.method == 'POST':
+        print("sns로그인도  useR_login?")
         print(request.POST)
         print(request.POST['password'])
         username = request.POST.get("username")

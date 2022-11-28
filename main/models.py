@@ -32,6 +32,10 @@ class Location(models.Model):
         (1,'가능'),
         (2,'정보 없음')
     )
+    ON_OFF_CHOICE=(
+        (0,'음식점'),
+        (1,'애견')
+    )
     name = models.CharField(max_length=50)
     category = models.CharField(max_length=30, blank=True)
     address = models.CharField(max_length=128, blank=True)
@@ -42,7 +46,7 @@ class Location(models.Model):
     is_animal_in = models.IntegerField(default=2, choices=ANIMAL_IN_CHOICE)
     latitude = models.DecimalField(max_digits=9, decimal_places=7, default=0.0)
     logitude = models.DecimalField(max_digits=10, decimal_places=7, default=0.0)
-    on_off = models.IntegerField()
+    on_off = models.IntegerField(default=0,choices=ON_OFF_CHOICE)
 
     def __str__(self):
         return f'{self.name}(<a href="{self.url}"></a>)'

@@ -144,6 +144,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 위에'django.contrib.sites'에 첫번째 인스턴스 사용
 SITE_ID = 1
+
+ACCOUNT_SIGNUP_REDIRECT_URL = "/"
 # 로그인 성공후 이동하는 URL
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 ACCOUNT_SIGNUP_REDIRECT_URL = "/"
@@ -155,6 +157,12 @@ LOGOUT_REDIRECT_URL = '/'
 
 # custom user
 AUTH_USER_MODEL = 'user.User'
+
+# sns로그인 버튼을 누르는 경우 바로 로그인 화면으로 redirect
+SOCIALACCOUNT_LOGIN_ON_GET=True
+# 이메일 중복 가능
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # 이미지 업로드(aws s3)(https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html)
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

@@ -14,7 +14,6 @@ class User(AbstractUser):
         (GENDER_MALE,"남자"),
         (GENDER_FEMALE,"여자")
     )
-
     gender = models.CharField(max_length=1,choices=GENDER_CHOICES,default=GENDER_MALE)
     birthday = models.DateField(null=True)
     category = models.ForeignKey('main.Category',on_delete=models.SET_NULL,null=True,blank=True,related_name='user')

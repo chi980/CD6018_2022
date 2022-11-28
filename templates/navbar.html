@@ -60,12 +60,12 @@
                                             <img src="{% static 'images/kakao_login_medium_narrow.png' %}">
                                         </a>
                                         <br>
-                                        <a href="{% provider_login_url 'google' method='oauth2' %}">
-                                        구글로그인
+                                        <a class="btn btn-block btn-social btn-google" href="{% provider_login_url 'google' method='oauth2' %}">
+                                            <span class="fa fa-google"></span> Sign in with Google
                                         </a>
                                         <br>
-                                        <a href="{% provider_login_url 'naver' method='oauth2' %}">
-                                            네이버로그인
+                                        <a class="btn btn-block btn-social btn-naver" href="{% provider_login_url 'naver' method='oauth2' %}">
+                                            <span class="fa fa-naver"></span> Sign in with Naver
                                         </a>
 
 <!--                                      <a href="https://kauth.kakao.com/oauth/authorize?client_id=8a651dea4402a80d5c424422715f8589&redirect_uri=http://127.0.0.1:8000/&response_type=code"><img src="{% static 'images/kakao_login_medium_narrow.png' %}"></a>-->
