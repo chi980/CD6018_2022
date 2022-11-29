@@ -111,7 +111,7 @@ def mypage_place(request):
     # return JsonResponse({
     #     'html': render_to_string('user/mypage_place.html', {'favorites':favorites_json or None}, request=request),
     # })
-@login_required
+@login_required(login_url='/')
 def pet(request, pet_id):
     # my_pet = Pet.objects.get(user = request.user)
     # current_pet = Pet.objects.get(id=pet_id)
@@ -200,7 +200,15 @@ def delFavorite(request):
 
     
 def user_catecory(request):
-    return render(request,'user/catecory.html')
+    # return render(request,'user/catecory.html')
+    if request.method == 'POST':
+        change_form = CategoryChangeForm(request.POST, instance=request.user)
+        if change_form.is_valid():
+            change_form.save()
+            return redirect('index')
+    else:
+        change_form = CategoryChangeForm(instance=request.user)
+        return render(request,'user/change_category.html', {'change_form':change_form})
 
 def user_category_change(request):
     if request.method == 'POST':

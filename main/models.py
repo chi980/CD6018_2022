@@ -23,7 +23,7 @@ class Category(models.Model):
     contents = models.CharField(max_length=3,choices=CONTENTS)
 
     def __str__(self):
-        return f'{self.name} : {self.get_name_display()}'
+        return f'{self.get_name_display()}:{self.get_contents_display()}'
 
 # location
 class Location(models.Model):
