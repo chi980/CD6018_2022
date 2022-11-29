@@ -152,7 +152,17 @@
             <button type="submit" class="btn btn-block btn-round btn-secondary">Add</button>
         </form>
 
-    
+    {% if my_pet %}
+        {% for pet in my_pet %}
+            {{ pet.id }} |
+            {{ pet.profile }} |
+            {{ pet.name }} |
+            {{ pet.kind }} |
+            {{ pet.breed }} |
+            {{ pet.adaoption_day }} |
+            {{ pet.birthday }} |
+        {% endfor %}
+    {% endif %}
 
 </div>
 </body>

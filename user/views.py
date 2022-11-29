@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login,logout
-from django.shortcuts import redirect,HttpResponseRedirect
+from django.shortcuts import redirect,HttpResponseRedirect,get_object_or_404
 from .models import User,Pet,Favorite
 from main.models import Location
-from user.forms import UserForm,PetForm, MyUserChangeForm
+from user.forms import UserForm,PetForm, MyUserChangeForm, CategoryChangeForm
 from django.contrib import messages
 
 from django.contrib.auth import get_user_model
@@ -86,9 +86,10 @@ def sociallogin(request):
 
 @login_required
 def mypage_pet(request):
-    pet_form = PetForm(request=request,user = request.user)
+    # pet_form = PetForm(request=request,user = request.user)
     # pet_form = PetForm()
-    return render(request, 'user/mypage_pet.html', {'pet_form': pet_form})
+    my_pet = Pet.objects.filter(user=request.user)
+    return render(request, 'user/mypage_pet.html', {'my_pet': my_pet})
 #https://han-py.tistory.com/147
 @login_required
 def mypage_user(request):
@@ -111,28 +112,35 @@ def mypage_place(request):
     #     'html': render_to_string('user/mypage_place.html', {'favorites':favorites_json or None}, request=request),
     # })
 @login_required
-def pet(request):
+def pet(request, pet_id):
+    # my_pet = Pet.objects.get(user = request.user)
+    # current_pet = Pet.objects.get(id=pet_id)
+    # pet_form = PetForm(request=request, user=request.user)
+    my_pet = get_object_or_404(Pet,pk=pet_id)
     # Post 방식 요청
     if request.method == 'POST':
-        form = PetForm(request.POST,request=request,user = request.user)
-        print(form)
-        # form = PetForm(request.POST)
-        # form.fields['user'].queryset = Pet.objects.
-        # print(form.is_valid())
+        form = PetForm(request.POST,instance=my_pet)
         if form.is_valid():
             print("form is valid")
-            post = form.save(commit=False)
-            post.save()
-            return redirect('index')
-        return redirect('user:petcreate')
-
-    # Get 방식 요청
+            my_pet = form.save(commit=False)
+            my_pet.save()
+            return redirect('/')
+            # return redirect('user:mypage_pet',pet_id=my_pet.pk)
+        else:
+            return redirect('/')
     else:
-        print("익명님???????")
-        print(type(User(request.user)))
-        pet_form = PetForm(request=request,user = request.user)
-        # pet_form = PetForm()
-        return render(request, 'user/mypage.html', {'pet_form': pet_form})
+        print(my_pet)
+        pet_form = PetForm(instance=my_pet)
+        # pet_form = PetForm(instance=my_pet)
+        # return redirect('user:mypage_pet')
+    # # Get 방식 요청
+    # else:
+    #     pet_form = PetForm(request=request,user = request.user)
+    #     # pet_form = PetForm()
+    #     return render(request, 'user/pet.html', {'pet_form': pet_form})
+        return render(request, 'user/pet.html', {'my_pet':my_pet,'pet_form':pet_form})
+
+
 @login_required
 #로그인 추가하기
 def favorite(request):
@@ -193,3 +201,14 @@ def delFavorite(request):
     
 def user_catecory(request):
     return render(request,'user/catecory.html')
+
+def user_category_change(request):
+    if request.method == 'POST':
+        change_form = CategoryChangeForm(request.POST, instance=request.user)
+        if change_form.is_valid():
+            change_form.save()
+            return redirect('index')
+    else:
+        change_form = CategoryChangeForm(instance=request.user)
+        return render(request,'user/change_category.html', {'change_form':change_form})
+#     pass

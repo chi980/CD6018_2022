@@ -14,17 +14,23 @@ class User(AbstractUser):
         (GENDER_MALE,"남자"),
         (GENDER_FEMALE,"여자")
     )
+
+    ON_OFF_CHOICE=(
+        (0,'음식점'),
+        (1,'애견')
+    )
+
     gender = models.CharField(max_length=1,choices=GENDER_CHOICES,default=GENDER_MALE)
     birthday = models.DateField(null=True)
     category = models.ForeignKey('main.Category',on_delete=models.SET_NULL,null=True,blank=True,related_name='user')
-    on_off = models.BooleanField(default=False) # False면
-
+    # on_off = models.BooleanField(default=False) # False면
+    on_off = models.IntegerField(default=0,choices=ON_OFF_CHOICE)
     # USERNAME_FIELD = 'email'
     # REQUIRED_FIELDS = []
 
     def __str__(self):
-        return "{}님({})".format(self.last_name or '익명',self.username)
-
+        # return "{}님({})".format(self.last_name or '익명',self.username)
+        return f"아이디: {self.username} | 이름: {self.last_name} {self.first_name}| 성별: {self.gender} | 생일: {self.birthday} | 카테고리: {self.category} | on_off: {self.on_off}"
 class Pet(models.Model):
     # 참고: https://m.segye.com/view/20201020515846
     KIND_CHOICES = (

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<style>
+  .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
+  .toggle.ios .toggle-handle { border-radius: 20px; }
+</style>
+<form action="{% url 'user:change_category' %}" method="post">
+    {% csrf_token %}
+    {% for category in change_form.category %}
+        {% if forloop.counter != 1 %}
+<!--        <p>{{forloop.counter}}</p>-->
+        <br>
+        {{ category }}
+        {% endif %}
+    {% endfor %}
+    <br>
+<!--    <input type="checkbox" checked data-toggle="toggle" data-size="xs" value="{{change_form.on_off.value}}">-->
+    {{ change_form.on_off}}
+    <br>
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

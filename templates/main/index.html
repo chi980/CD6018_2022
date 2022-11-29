@@ -35,4 +35,33 @@
 {% else %}
     <p>Nothing</p>
 {% endif %}
+<hr>
+{% if locations_pet != None%}
+<table  border="1">
+    <tr>
+            <td>이름</td>
+            <td>주소</td>
+            <td>지번주소</td>
+            <td>연락처</td>
+            <td>시간</td>
+            <td>url</td>
+            <td>출입여부</td>
+            <td>위도</td>
+            <td>경도</td>
+    </tr>
+    {% for location in locations_pet  %}
+    <tr>
+        <td>{{location.name}}</td>
+        <td>{{location.address}}</td>
+        <td>{{location.lot_address}}</td>
+        <td>{{location.phone}}</td>
+        <td>{{location.time}}</td>
+        <td>{{location.url}}</td>
+        <td>{{location.is_animal_in}}</td>
+        <td>{{location.latitude}}</td>
+        <td>{{location.logitude}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
 {% endblock %}

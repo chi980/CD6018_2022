@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<form action="{% url 'user:pet' my_pet.id%}" method="post">
+    {% csrf_token %}
+    {{pet_form}}
+    <input type="submit" value="Submit">
+</form>
+{{ my_pet.id }}
+{{ my_pet.profile }}
+{{ my_pet.name }}
+{{ my_pet.kind }}
+{{ my_pet.breed }}
+{{ my_pet.adaoption_day }}
+{{ my_pet.birthday }}
+
+{% endblock %}
