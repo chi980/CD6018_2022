@@ -4,6 +4,8 @@
 <form action="{% url 'user:pet' my_pet.id%}" method="post">
     {% csrf_token %}
     {{pet_form}}
+
+
     <input type="submit" value="Submit">
 </form>
 {{ my_pet.id }}

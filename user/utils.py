@@ -20,3 +20,13 @@ def rename_image(instance,filename):
     else:
         filename = '{}.{}'.format(uuid, ext)
     return os.path.join(upload_to,filename)
+
+def rename_category_image(instance, filename):
+    import os
+    from uuid import uuid4
+    print(filename)
+    upload_to = f'media/'
+    ext = filename.split('.')[-1]
+    uuid = uuid4().hex
+    filename = '{}.{}'.format(uuid, ext)
+    return os.path.join(upload_to,filename)

@@ -1,5 +1,5 @@
 from django.db import models
-
+from user.utils import rename_category_image
 # Create your models here.
 
 class Category(models.Model):
@@ -21,9 +21,10 @@ class Category(models.Model):
     )
     name = models.CharField(max_length=3,choices=NAME)
     contents = models.CharField(max_length=3,choices=CONTENTS)
+    profile = models.ImageField(upload_to='media/',editable=True,null=True, max_length=255)
 
     def __str__(self):
-        return f'{self.get_name_display()}:{self.get_contents_display()}'
+        return f'{self.get_name_display()}'
 
 # location
 class Location(models.Model):
