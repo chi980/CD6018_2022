@@ -17,7 +17,7 @@ class User(AbstractUser):
 
     ON_OFF_CHOICE=(
         (0,'음식점'),
-        (1,'애견')
+        (1,'전체')
     )
 
     gender = models.CharField(max_length=1,choices=GENDER_CHOICES,default=GENDER_MALE)

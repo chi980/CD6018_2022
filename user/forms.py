@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from user.models import User, Pet
+from main.models import Category
 from django.forms.widgets import NumberInput
 from django.contrib.auth import get_user_model
 
@@ -36,13 +37,14 @@ class MyUserChangeForm(UserChangeForm):
         fields = ['first_name','email','birthday']
 
 class CategoryChangeForm(UserChangeForm):
+    password = None
+    category = forms.ModelChoiceField(queryset=Category.objects.all(),widget=forms.RadioSelect)
     class Meta:
         model = get_user_model()
         fields = ['category','on_off']
-        widgets = {
-            'category': forms.RadioSelect(),
-            'on_off':forms.CheckboxInput()
-        }
+        # widgets = {
+        #     # 'on_off':forms.CheckboxInput()
+        # }
 
 class PetForm(forms.ModelForm):
     KIND_CHOICES = (

@@ -7,27 +7,28 @@
 </style>
 <form action="{% url 'user:change_category' %}" method="post">
     {% csrf_token %}
-    {% for category in change_form.category %}
-        {% if forloop.counter != 1 %}
-<!--        <p>{{forloop.counter}}</p>-->
-        <br>
-        <img src="/static/{{}}">
-        {{category}}
-<!--    form.field.value-->
-<!--        카테고리이미지-->
-<!--        {{ category.data.profile}}-->
-<!--        {{ category.fields.profile}}-->
-<!--        카테고리이름-->
-<!--        {{ category.data.name}}-->
-<!--        {{ category.fields.profile}}-->
-<!--        카테고리 내용-->
-<!--        {{ category.data.contents }}-->
+    {{change_form}}
+<!--    {% for category in change_form.category %}-->
+<!--        {% if forloop.counter != 1 %}-->
+<!--&lt;!&ndash;        <p>{{forloop.counter}}</p>&ndash;&gt;-->
+<!--        <br>-->
 
-        {% endif %}
-    {% endfor %}
-    <br>
-<!--    <input type="checkbox" checked data-toggle="toggle" data-size="xs" value="{{change_form.on_off.value}}">-->
-    {{ change_form.on_off}}
+<!--        {{category}}-->
+<!--&lt;!&ndash;    form.field.value&ndash;&gt;-->
+<!--&lt;!&ndash;        카테고리이미지&ndash;&gt;-->
+<!--&lt;!&ndash;        {{ category.data.profile}}&ndash;&gt;-->
+<!--&lt;!&ndash;        {{ category.fields.profile}}&ndash;&gt;-->
+<!--&lt;!&ndash;        카테고리이름&ndash;&gt;-->
+<!--&lt;!&ndash;        {{ category.data.name}}&ndash;&gt;-->
+<!--&lt;!&ndash;        {{ category.fields.profile}}&ndash;&gt;-->
+<!--&lt;!&ndash;        카테고리 내용&ndash;&gt;-->
+<!--&lt;!&ndash;        {{ category.data.contents }}&ndash;&gt;-->
+
+<!--        {% endif %}-->
+<!--    {% endfor %}-->
+<!--    <br>-->
+<!--&lt;!&ndash;    <input type="checkbox" checked data-toggle="toggle" data-size="xs" value="{{change_form.on_off.value}}">&ndash;&gt;-->
+<!--    {{ change_form.on_off}}-->
     <br>
     <input type="submit" value="Submit">
 </form>

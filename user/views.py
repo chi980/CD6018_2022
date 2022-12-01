@@ -212,9 +212,14 @@ def user_catecory(request):
 
 def user_category_change(request):
     if request.method == 'POST':
+        print('POST')
         change_form = CategoryChangeForm(request.POST, instance=request.user)
         if change_form.is_valid():
+            print('form valid')
             change_form.save()
+            return redirect('index')
+        else:
+            print('form invalid')
             return redirect('index')
     else:
         change_form = CategoryChangeForm(instance=request.user)
