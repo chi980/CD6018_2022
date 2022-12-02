@@ -14,7 +14,6 @@ from pathlib import Path
 import pymysql
 from local_settings import DATABASES, SECRET_KEY
 import os
-
 pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -167,7 +166,7 @@ ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 SOCIALACCOUNT_ADAPTER = "user.adapter.CustomSocialAccountAdapter"
-
+ACCOUNT_UNIQUE_EMAIL = False
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [

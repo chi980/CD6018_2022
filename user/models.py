@@ -20,6 +20,7 @@ class User(AbstractUser):
         (1,'전체')
     )
 
+    email = models.EmailField(unique=False)
     gender = models.CharField(max_length=1,choices=GENDER_CHOICES,default=GENDER_MALE)
     birthday = models.DateField(null=True)
     category = models.ForeignKey('main.Category',on_delete=models.SET_NULL,null=True,blank=True,related_name='user')
