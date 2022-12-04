@@ -14,6 +14,7 @@ class UserForm(UserCreationForm):
         (GENDER_FEMALE,"여자")
     ]
     first_name = forms.CharField(label="이름")
+    last_name = forms.CharField(label="성")
     email = forms.EmailField(label="이메일")
     gender = forms.ChoiceField(label="성별",widget=forms.RadioSelect,choices=GENDER_CHOICES)
     # gender = forms.ModelChoiceField(label="성별",widget=forms.RadioSelect,choices=User.objects.all(),)
@@ -24,6 +25,7 @@ class UserForm(UserCreationForm):
         fields = (
             "username",
             "first_name",
+            "last_name",
             "password1",
             "password2",
             "email",

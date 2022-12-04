@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login,logout
-from django.shortcuts import redirect,HttpResponseRedirect,get_object_or_404
+from django.shortcuts import redirect,HttpResponseRedirect,get_object_or_404,HttpResponse
 from .models import User,Pet,Favorite
 from main.models import Location
 from user.forms import UserForm,PetForm, MyUserChangeForm, CategoryChangeForm
@@ -30,9 +30,11 @@ def user_login(request):
             return redirect('index')
         else:
             print("인증실패")
-            return redirect('user:login')
+            # return redirect('user:login')
+            return HttpResponse("<script>alert('입력하신 내용을 다시 확인해주세요.');location.href='/';</script>")
     # return render(request, "user/login.html")
-    return render(request,'base.html')
+    else:
+        return render(request,'base.html')
 
 @login_required
 def user_logout(request):
