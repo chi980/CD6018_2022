@@ -26,25 +26,6 @@ var positions = [
   ],
   selectedMarker = null;
 
-$(document).ready(function () {
-  $.getJSON("test.json", function (data) {
-    //할 일 처리
-    // let member_data = "";
-    $.each(data, function (key, value) {
-      console.log(key);
-      //   member_data += "<tr>";
-      //   member_data += "<td>" + value.id + "</td>";
-      //   member_data += "<td>" + value.name + "</td>";
-      //   member_data += "<td>" + value.age + "</td>";
-      //   member_data += "<td>" + value.address + "</td>";
-      //   member_data += "<td>" + value.gender + "</td>";
-      //   member_data += "<td>" + value.job + "</td>";
-      //   member_data += "<td>" + value.hobby + "</td>";
-      //   member_data += "</tr>";
-    });
-    // $("#member_table").append(member_data);
-  });
-});
 var mapContainer = document.getElementById("map"), // 지도를 표시할 div
   mapOption = {
     center: new kakao.maps.LatLng(37.4825508, 126.9732587), // 지도의 중심좌표
