@@ -5,7 +5,6 @@ var mapContainer = document.getElementById("map"), // 지도를 표시할 div
     mapTypeId: kakao.maps.MapTypeId.ROADMAP, // 지도종류
   };
 
-
 var positions = [
     {
       title: "디폴트",
@@ -38,12 +37,12 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 // 마커를 표시할 위치와 title 객체 배열입니다
 
 // 나의 위치 마커 이미지의 이미지 주소입니다
-var myMarkerImgSrc = "./image/my_marker.png";
+var myMarkerImgSrc = "/static/images/my_marker.png";
 myImgSize = new kakao.maps.Size(22, 22);
 myMarkerImage = new kakao.maps.MarkerImage(myMarkerImgSrc, myImgSize);
 
 // 음식 마커 이미지의 이미지 주소입니다
-var foodMarkerImgSrc = "./images/food_marker.png";
+var foodMarkerImgSrc = "/static/images/food_marker.png";
 foodImgSize = new kakao.maps.Size(32, 40);
 OverFoodImgSize = new kakao.maps.Size(36, 45);
 foodMarkerImage = new kakao.maps.MarkerImage(foodMarkerImgSrc, foodImgSize);
@@ -53,7 +52,7 @@ OverFoodMarkerImage = new kakao.maps.MarkerImage(
 );
 
 // 카페 마커 이미지의 이미지 주소입니다
-var cafeMarkerImgSrc = "./images/cafe_marker.png";
+var cafeMarkerImgSrc = "/static/images/cafe_marker.png";
 cafeImgSize = new kakao.maps.Size(32, 40);
 OverCafeImgSize = new kakao.maps.Size(36, 45);
 cafeMarkerImage = new kakao.maps.MarkerImage(cafeMarkerImgSrc, foodImgSize);
@@ -137,7 +136,7 @@ function makeOutListener(customOverlay) {
 
 function locationLoadSuccess(pos) {
   // 나의 위치 마커 이미지의 이미지 주소입니다
-  var myMarkerImgSrc = "./images/my_marker.png";
+  var myMarkerImgSrc = "/static/images/my_marker.png";
 
   // 내 위치 마커 이미지의 이미지 크기 입니다
   var myimageSize = new kakao.maps.Size(22, 22);
@@ -370,72 +369,3 @@ function keywordSearch() {
     }
   }
 }
-
-// 마커를 생성하고 지도 위에 표시하고, 마커에 mouseover, mouseout, click 이벤트를 등록하는 함수입니다
-
-// 마커 객체에 마커아이디와 마커의 기본 이미지를 추가합니다
-
-// 마커에 mouseover 이벤트를 등록합니다
-// kakao.maps.event.addListener(
-//   marker,
-//   "mouseover",
-//   function (mouseEvent) {
-//     // 클릭된 마커가 없고, mouseover된 마커가 클릭된 마커가 아니면
-//     // 마커의 이미지를 오버 이미지로 변경합니다
-//     if (!selectedMarker || selectedMarker !== marker) {
-//       marker.setImageSize(overImage);
-//     }
-//   }
-// );
-
-// // 마커에 mouseout 이벤트를 등록합니다
-// kakao.maps.event.addListener(marker, "mouseout", function (mouseEvent) {
-//   // 클릭된 마커가 없고, mouseout된 마커가 클릭된 마커가 아니면
-//   // 마커의 이미지를 기본 이미지로 변경합니다
-//   if (!selectedMarker || selectedMarker !== marker) {
-//     marker.setImage(normalImage);
-//   }
-// });
-
-// // 마커에 click 이벤트를 등록합니다
-// kakao.maps.event.addListener(marker, "click", function (mouseEvent) {
-//   // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
-//   // 마커의 이미지를 클릭 이미지로 변경합니다
-//   if (!selectedMarker || selectedMarker !== marker) {
-//     // 클릭된 마커 객체가 null이 아니면
-//     // 클릭된 마커의 이미지를 기본 이미지로 변경하고
-//     !!selectedMarker &&
-//       selectedMarker.setImage(selectedMarker.normalImage);
-
-//     // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
-//     marker.setImage(clickImage);
-//   }
-
-//   // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
-//   selectedMarker = marker;
-// });
-
-// 지도에 클릭 이벤트를 등록합니다
-// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
-// kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-
-// 	// 클릭한 위도, 경도 정보를 가져옵니다
-// 	var latlng = mouseEvent.latLng;
-
-// 	var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-// 	message += '경도는 ' + latlng.getLng() + ' 입니다';
-
-// 	var resultDiv = document.getElementById('result');
-// 	resultDiv.innerHTML = message;
-// 	console.log('good');
-
-// });
-// MakrerImage 객체를 생성하여 반환하는 함수입니다
-
-// // 마커에 클릭이벤트를 등록합니다
-// kakao.maps.event.addListener(marker, 'click', function() {
-// 	// 마커 위에 인포윈도우를 표시합니다
-// 	infowindow.open(map, marker);
-// });
-// 아래 코드는 인포윈도우를 지도에서 제거합니다
-// infowindow.close();

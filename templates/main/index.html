@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+<<<<<<< HEAD
 <p>main화면</p>
 <input type="checkbox" id="checkbox" />
 <header class="header">
@@ -37,6 +38,64 @@
     <section class="section-1" id="result"></section>
   </nav>
   <section class="section-1" id="map"></section>
+=======
+{% load static %}
+
+{% if recommended %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <link rel="stylesheet" href="/path/to/leaflet.css" />
+    <script src="/path/to/leaflet.js"></script> -->
+    <title>펫과 함께하는 장소</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="static/style.css" />
+  </head>
+  <body>
+    <input type="checkbox" id="checkbox" />
+    <header class="header">
+      <h2 class="u-name">
+        PET&ZONE
+        <label for="checkbox">
+          <i id="navbtn" class="fa fa-bars" aria-hidden="true"></i>
+        </label>
+      </h2>
+      <i class="fa fa-user" aria-hidden="true"></i>
+    </header>
+    <div class="body">
+      <nav class="side-bar">
+        <input
+          type="text"
+          class="form-control"
+          id="keyword"
+          placeholder="장소명(ex 브론시스)"
+        />
+        <span>최근 검색어</span>
+        <button
+          type="button"
+          class="btn btn-lg btn-primary"
+          onclick="keywordSearch()"
+        >
+          검색하기
+        </button>
+        <button
+          type="button"
+          class="btn btn-lg btn-primary"
+          onclick="getCurrentPosBtn()"
+        >
+          내 위치
+        </button>
+        <section class="section-1" id="result"></section>
+      </nav>
+      <section class="section-1" id="map"></section>
+      <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4f831c1ef2222f20d9bc5096cfa70dcf&libraries=services"></script>
+    </div>
+    <script src="/static/map.js"></script>
+  </body>
+</html>
+
+>>>>>>> 2d42892ef1bab451a8882b6089ba3f065ca47a9d
 
 </div>
 <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4f831c1ef2222f20d9bc5096cfa70dcf&libraries=services"></script>
@@ -74,7 +133,60 @@
         {% endfor %}
 </table>
 {% else %}
-    <p>Nothing</p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <link rel="stylesheet" href="/path/to/leaflet.css" />
+    <script src="/path/to/leaflet.js"></script> -->
+    <title>펫과 함께하는 장소</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <input type="checkbox" id="checkbox" />
+    <header class="header">
+      <h2 class="u-name">
+        PET&ZONE
+        <label for="checkbox">
+          <i id="navbtn" class="fa fa-bars" aria-hidden="true"></i>
+        </label>
+      </h2>
+      <i class="fa fa-user" aria-hidden="true"></i>
+    </header>
+    <div class="body">
+      <nav class="side-bar">
+        <input
+          type="text"
+          class="form-control"
+          id="keyword"
+          placeholder="장소명(ex 브론시스)"
+        />
+        <span>최근 검색어</span>
+        <button
+          type="button"
+          class="btn btn-lg btn-primary"
+          onclick="keywordSearch()"
+        >
+          검색하기
+        </button>
+        <button
+          type="button"
+          class="btn btn-lg btn-primary"
+          onclick="getCurrentPosBtn()"
+        >
+          내 위치
+        </button>
+        <section class="section-1" id="result"></section>
+      </nav>
+      <section class="section-1" id="map"></section>
+      <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4f831c1ef2222f20d9bc5096cfa70dcf&libraries=services"></script>
+    </div>
+    <script src="/static/map.js"></script>
+  </body>
+</html>
+
+
 {% endif %}
 <hr>
 {% if locations_pet != None%}
