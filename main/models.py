@@ -21,7 +21,7 @@ class Category(models.Model):
     )
     name = models.CharField(max_length=3,choices=NAME)
     contents = models.CharField(max_length=3,choices=CONTENTS)
-    profile = models.ImageField(upload_to='media/',editable=True,null=True, max_length=255)
+    profile = models.ImageField(upload_to='media/',editable=True,null=True, blank=True,max_length=255)
 
     def __str__(self):
         return f'{self.get_name_display()}'

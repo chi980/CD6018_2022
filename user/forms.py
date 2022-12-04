@@ -4,6 +4,7 @@ from user.models import User, Pet
 from main.models import Category
 from django.forms.widgets import NumberInput
 from django.contrib.auth import get_user_model
+from allauth.account.forms import SignupForm
 
 class UserForm(UserCreationForm):
     GENDER_MALE = "m"
@@ -79,3 +80,7 @@ class PetForm(forms.ModelForm):
     class Meta:
         model = Pet
         fields = ('profile','name','kind','breed','adoption_day','birthday')
+
+class SnsUserCustomSignupFrom(SignupForm):
+
+    email = forms.EmailField()

@@ -1,11 +1,12 @@
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from user.models import User
-
+from django.shortcuts import HttpResponse
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
 
     def populate_user(self, request, sociallogin, data):
+        social_app_name = sociallogin.account.provider.lower()
         user = super().populate_user(request, sociallogin, data)
-        user.username = user.email.split('@')[0]
+        user.username = user.email.split('@')[0] + social_app_name
         # print("여기는 adaoter")
         # print(user)
         # print(user.email)
@@ -37,14 +38,18 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
                 pass
 
     def save_user(self, request, sociallogin, form):
-        # serializer = UserResigerBaseSerializer(data=request.POST)
-        # serializer.is_valid()
-        #
+        # data = form.cleaned_data
         # user = super().save_user(request, sociallogin, form)
         # return user
         print("save_user!!!!!!!!!!!!!!!!!!!!")
-        print(request.POST)
-        print(type(form))
+        # print(type(form))
+        # pre_user = User.objects.get(email = sociallogin.user.email)
+        # if not pre_user:
+        #     user = super(CustomSocialAccountAdapter, self).save_user(request, sociallogin, form)
+        #         # Do what ever you want with the user
+        #     return user
+        # return super(CustomSocialAccountAdapter, self).save_user(request, pre_user, form)
+        # return HttpResponse("<script>alert('입력하신 내용을 다시 확인해주세요.');location.href='/';</script>")
         user = super(CustomSocialAccountAdapter, self).save_user(request, sociallogin, form)
         # Do what ever you want with the user
         return user

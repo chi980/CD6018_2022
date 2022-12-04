@@ -159,14 +159,16 @@ LOGOUT_REDIRECT_URL = '/'
 # custom user
 AUTH_USER_MODEL = 'user.User'
 
+# https://github.com/pythonkr/pyconkr/issues/27
 # sns로그인 버튼을 누르는 경우 바로 로그인 화면으로 redirect
 SOCIALACCOUNT_LOGIN_ON_GET=True
 # 이메일 중복 가능
 ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-
+# ACCOUNT_AUTHENTICATION_METHOD = 'username'
 SOCIALACCOUNT_ADAPTER = "user.adapter.CustomSocialAccountAdapter"
 ACCOUNT_UNIQUE_EMAIL = False
+UNIQUE_EMAIL = False
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
