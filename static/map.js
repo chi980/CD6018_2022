@@ -38,12 +38,12 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 // 마커를 표시할 위치와 title 객체 배열입니다
 
 // 나의 위치 마커 이미지의 이미지 주소입니다
-var myMarkerImgSrc = "./img/my_marker.png";
+var myMarkerImgSrc = "./image/my_marker.png";
 myImgSize = new kakao.maps.Size(22, 22);
 myMarkerImage = new kakao.maps.MarkerImage(myMarkerImgSrc, myImgSize);
 
 // 음식 마커 이미지의 이미지 주소입니다
-var foodMarkerImgSrc = "./img/food_marker.png";
+var foodMarkerImgSrc = "./images/food_marker.png";
 foodImgSize = new kakao.maps.Size(32, 40);
 OverFoodImgSize = new kakao.maps.Size(36, 45);
 foodMarkerImage = new kakao.maps.MarkerImage(foodMarkerImgSrc, foodImgSize);
@@ -53,7 +53,7 @@ OverFoodMarkerImage = new kakao.maps.MarkerImage(
 );
 
 // 카페 마커 이미지의 이미지 주소입니다
-var cafeMarkerImgSrc = "./img/cafe_marker.png";
+var cafeMarkerImgSrc = "./images/cafe_marker.png";
 cafeImgSize = new kakao.maps.Size(32, 40);
 OverCafeImgSize = new kakao.maps.Size(36, 45);
 cafeMarkerImage = new kakao.maps.MarkerImage(cafeMarkerImgSrc, foodImgSize);
@@ -137,7 +137,7 @@ function makeOutListener(customOverlay) {
 
 function locationLoadSuccess(pos) {
   // 나의 위치 마커 이미지의 이미지 주소입니다
-  var myMarkerImgSrc = "./img/my_marker.png";
+  var myMarkerImgSrc = "./images/my_marker.png";
 
   // 내 위치 마커 이미지의 이미지 크기 입니다
   var myimageSize = new kakao.maps.Size(22, 22);
