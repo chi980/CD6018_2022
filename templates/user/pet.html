@@ -1,19 +1,62 @@
 {% extends "base.html" %}
 {% block content %}
 {% load static %}
-<form action="{% url 'user:pet' my_pet.id%}" method="post" enctype="multipart/form-data">
+
+<style>
+     label{
+        font-weight: 800;
+        float: left;
+        text-align: center;
+        margin-top: 15px;
+    }
+  .box {
+        background-color: rgb(248, 248, 250);
+        border: solid 0.5px rgb(234, 236, 239);
+        width: 40%;
+        height: 50%;
+        margin-left: 25%;
+        margin-top: 10px;
+        border-radius: 20px;
+        padding-left: 15px;
+    }
+
+</style>
+
+<h4 style="margin-top: 20px; margin-left: 25%; text-align:left"> <strong>{{ my_pet.name }}의 정보</strong></h4> <br>
+
+<form action="{% url 'user:pet' my_pet.id%}" method="post"  enctype="multipart/form-data">
     {% csrf_token %}
-    {{pet_form}}
+    <div class="box">
+        <input type="submit" style="width: 150px; float: right; margin-top: 10px; margin-right: 15px;"  value="수정" class="btn btn-block btn-round btn-secondary"><br><br>
 
+        <label for="name">반려동물 이름</label> <br><br>
+        <a>{{pet_form.name}}</a><br>
 
-    <input type="submit" value="Submit">
+        <label for="kind">{{ my_pet.name }}의 종류</label> <br><br>
+        <a>{{pet_form.kind}}<br></a>
+
+        <label for="breed">{{ my_pet.name }}의 품종</label><br><br>
+        {{pet_form.breed}}<br>
+
+        <label for="adoption_day">{{ my_pet.name }}(이)가 내게 온 날</label> <br><br>
+        {{pet_form.adoption_day}}<br>
+
+        <label for="birthday">{{ my_pet.name }}(이)가 태어난 날</label> <br><br>
+        {{pet_form.birthday}}<br>
+
+        <label for="profile">{{ my_pet.name }}의 사진</label><br><br>
+        <img style="width: 120px; height: 120px;" src="/media/{{ my_pet.profile }}"> <br>
+        {{pet_form.profile}}<br><br>
+    </div>
+
 </form>
-{{ my_pet.id }}
+
+<!-- {{ my_pet.id }}
 {{ my_pet.profile }}
 {{ my_pet.name }}
 {{ my_pet.kind }}
 {{ my_pet.breed }}
 {{ my_pet.adaoption_day }}
-{{ my_pet.birthday }}
+{{ my_pet.birthday }} -->
 
 {% endblock %}

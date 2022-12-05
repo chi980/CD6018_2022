@@ -145,7 +145,21 @@
 
                 <button type="submit"  onclick="Alert()" class="btn btn-block btn-round btn-secondary" style="width: 191px;" >정보수정</button>
                 
-            </form>        
+            </form>   
+
+            {% if my_pet %}
+            {% for pet in my_pet %}
+            {{ pet.id }} |
+            {{ pet.profile }} |
+            {{ pet.name }} |
+            {{ pet.kind }} |
+            {{ pet.breed }} |
+            {{ pet.adaoption_day }} |
+            {{ pet.birthday }} |
+            <a href="/auth/pet/{{pet.id}}">자세히 보기</a>
+            <br>
+        {% endfor %}
+    {% endif %}     
     </div>
 </div>
 

@@ -4,32 +4,112 @@
 <style>
   .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
   .toggle.ios .toggle-handle { border-radius: 20px; }
+  .box {
+        background-color: rgb(248, 248, 250);
+        border: solid 0.5px rgb(234, 236, 239);
+        float: left;
+        width: 31%;
+        height: 250px;
+        margin-right: 20px;
+        margin-top: 60px;
+        border-radius: 20px;
+        text-align: center;
+    }
+    .box_l{
+        background-color: rgb(248, 248, 250);
+        border: solid 0.5px rgb(234, 236, 239);
+        float: left;
+        width: 31%;
+        height: 250px;
+        margin-right: 20px;
+        margin-top: 25px;
+        border-radius: 20px;
+        text-align: center;
+    }
+    .img_box{
+        width: 100px;
+        height: 100px;
+        margin-top: 15px;
+        margin-bottom: 25px;
+    }
+    .rad{
+       margin-top: 15px; 
+    }
+    .on{
+        border: 2px solid rgb(252, 248, 226);
+        border-radius: 30px;
+        background-color: rgb(252, 248, 226);
+        float: right;
+        margin-right: 10px;
+        font-size: 18px;
+    }
+
 </style>
-<form action="{% url 'user:change_category' %}" method="post">
-    {% csrf_token %}
-    {{change_form}}
-<!--    {% for category in change_form.category %}-->
-<!--        {% if forloop.counter != 1 %}-->
-<!--&lt;!&ndash;        <p>{{forloop.counter}}</p>&ndash;&gt;-->
-<!--        <br>-->
 
-<!--        {{category}}-->
-<!--&lt;!&ndash;    form.field.value&ndash;&gt;-->
-<!--&lt;!&ndash;        카테고리이미지&ndash;&gt;-->
-<!--&lt;!&ndash;        {{ category.data.profile}}&ndash;&gt;-->
-<!--&lt;!&ndash;        {{ category.fields.profile}}&ndash;&gt;-->
-<!--&lt;!&ndash;        카테고리이름&ndash;&gt;-->
-<!--&lt;!&ndash;        {{ category.data.name}}&ndash;&gt;-->
-<!--&lt;!&ndash;        {{ category.fields.profile}}&ndash;&gt;-->
-<!--&lt;!&ndash;        카테고리 내용&ndash;&gt;-->
-<!--&lt;!&ndash;        {{ category.data.contents }}&ndash;&gt;-->
+<h4 style="margin-top: 15px; margin-left: 15px;  text-align:left"> <strong>{{request.user.username}} 님의 취향 Catecory</strong></h4>
+<h6 style="margin-left: 15px;">Pet Zone에서는 각 가게들의 <strong>리뷰를 AI를 통해 분석한 데이터</strong>를 기반으로 {{request.user.username}} 님의 취향에 맞춘 <mark>전방 50m내 맛집</mark>을 추천해드립니다.</h6>
+<input type="submit" onclick="Alert()" class="btn btn-block btn-round btn-secondary" value="저장" style="float: right; width: 80px;" ></input> 
+<a class="on"> <strong>놀거리도 볼래요!</strong> {{ change_form.on_off}}</a> <br>
 
-<!--        {% endif %}-->
-<!--    {% endfor %}-->
-<!--    <br>-->
-<!--&lt;!&ndash;    <input type="checkbox" checked data-toggle="toggle" data-size="xs" value="{{change_form.on_off.value}}">&ndash;&gt;-->
-<!--    {{ change_form.on_off}}-->
-    <br>
-    <input type="submit" value="Submit">
-</form>
+<div class="container my-3">
+    <form action="{% url 'user:change_category' %}" method="post">
+            {% csrf_token %}
+            {% include "form_errors.html" %}
+            {% for category in change_form.category %}
+                  {% if forloop.counter == 1 %}
+                  <div class="box">
+                      <img class="img_box" src="{% static 'images/cash-payment.png' %}"> <br>
+                      <a><strong>{{category|linebreaksbr}}</strong></a> <br>
+                      <a> 맛과 가격, 서비스, 분위기가 중요해요!</a> 
+                  </div>
+                  
+                  {% elif forloop.counter == 2 %}
+                  <div class="box">
+                      <img class="img_box" src="{% static 'images/no.png' %}"> <br>
+                      <a><strong>{{category|linebreaksbr}}</strong></a> <br>
+                      <a> 맛과 짧은 웨이팅, 서비스가 중요해요!</a> 
+                  </div>
+                  
+                  {% elif forloop.counter == 3 %}
+                  <div class="box">
+                      <img class="img_box" src="{% static 'images/serving-dish.png' %}"> <br>
+                      <a><strong>{{category|linebreaksbr}}</strong></a> <br>
+                      <a> 맛과 서비스, 가격이 중요해요!</a> <br>
+                  </div> 
+
+                  {% elif forloop.counter == 4 %}
+                  <div class="box">
+                      <img class="img_box" src="{% static 'images/alarm-clock.png' %}"> <br>
+                      <a><strong>{{category|linebreaksbr}}</strong></a> <br>
+                      <a> 맛과 짧은 웨이팅이 중요해요!</a> <br>
+                  </div>
+
+                  {% elif forloop.counter == 5 %}
+                  <div class="box">
+                      <img class="img_box" src="{% static 'images/cheers.png' %}"> <br>
+                      <a><strong>{{category|linebreaksbr}}</strong></a> <br>
+                      <a> 맛과 분위기, 서비스가 중요해요!</a> <br>
+                  </div>
+
+                  {% elif forloop.counter == 6 %}
+                  <div class="box">
+                      <img class="img_box" src="{% static 'images/four-stars.png' %}"> <br>
+                      <a><strong>{{category|linebreaksbr}}</strong></a> <br>
+                      <a> 맛과 가격, 서비스, 웨이팅 모두 중요해요!</a> <br>
+                  </div>
+                  {% endif %}
+            {% endfor %}
+        <br>
+
+        
+    </form>    
+</div>
+
+<script>
+    function Alert() {
+      alert("{{request.user.username}} 님 취향선택 완료!");
+    }  
+
+</script>
+
 {% endblock %}

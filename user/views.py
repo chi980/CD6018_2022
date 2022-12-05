@@ -74,13 +74,15 @@ def user_signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)  # 사용자 인증
             login(request, user)  # 로그인
-            return render(request,'user/catecory.html')
+            return redirect('/auth/catecory/')
     else:
         form = UserForm()
         print(form.GENDER_CHOICES)
         print(form.GENDER_CHOICES)
 
     return render(request, 'user/signup.html', {'form': form})
+    # return render(request, 'navbar.html', {'form': form})
+
     # return render(request, 'navbar.html', {'form': form})
 
 def sociallogin(request):

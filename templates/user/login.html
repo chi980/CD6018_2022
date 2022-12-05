@@ -1,9 +1,9 @@
-
 {% extends "base.html" %}
 
 
 {% block content %}
 {% load socialaccount %}
+{% load static %}
 {% providers_media_js %}
 <div class="container my-3">
     <form method="post" action="{% url 'user:login' %}">
@@ -19,14 +19,26 @@
             <input type="password" class="form-control" name="password" id="password"
                    value="{{ form.password.value|default_if_none:'' }}">
         </div>
-        <button type="submit" class="btn btn-primary">로그인</button>
-    </form>
-    <a href="{% provider_login_url 'kakao' method='oauth2' %}">카카오로그인</a>
-<!--    <a href="https://accounts.kakao.com/login/?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fscope%3D%26response_type%3Dcode%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%253A8000%252Fauth%252Fapi%252Fkakao%252Flogin%252Fcallback%252F%26state%3DWTlJUguAxjUv%26through_account%3Dtrue%26client_id%3D8a651dea4402a80d5c424422715f8589">카카오로그인new</a>-->
-    <a href="{% provider_login_url 'google' method='oauth2' %}">구글로그인</a>
-<!--    <a href="https://accounts.google.com/o/oauth2/auth/oauthchooseaccount?client_id=931990695857-eunnds88idkq1j2kcc76tjk66kt48aaf.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fauth%2Fapi%2Fgoogle%2Flogin%2Fcallback%2F&scope=profile&response_type=code&state=KybbpoHdjQ74&service=lso&o2v=1&flowName=GeneralOAuthFlow">구글로그인new</a>-->
-    <a href="{% provider_login_url 'naver' method='oauth2' %}">네이버로그인</a>
-<!--    <a href="https://nid.naver.com/oauth2.0/authorize?client_id=dFt5nYib4CZlvhK7eY__&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fauth%2Fapi%2Fnaver%2Flogin%2Fcallback%2F&scope=&response_type=code&state=DnuqJz2gjTBH">네이버로그인 new</a>-->
-    <a href="{% url 'user:signup' %}">회원가입</a>
+        <button style="width: 175px; height: 44px;" type="submit" class="btn btn-block btn-round btn-secondary">Login</button>
+    </form> 
+    
+    <a class="nav-link" href="{% url 'user:signup' %}">회원가입</a>
+    <br>
+
+
+    <div class="text-left text-muted delimiter">or use a social network</div>
+
+    <div class="p-2 login_api">
+        <a style="margin-left: 15px;" href="{% provider_login_url 'kakao' %}">
+            <img src="{% static 'images/kakao_login_medium_narrow.png' %}">
+        </a> <br>
+        <a class="btn btn-block btn-social btn-google" href="{% provider_login_url 'google' method='oauth2' %}">
+            <img  style="margin-top: 13px; width: 180px; height: 48px;  float: left;"src="{% static 'images/구글로그인.png' %}">
+        </a>  <br><br><br>
+        <a class="btn btn-block btn-social btn-naver" href="{% provider_login_url 'naver' method='oauth2' %}">
+            <img style="width: 175px; height: 44px; float: left;" src="{% static 'images/btnG_완성형.png' %}">
+        </a>  <br> <br> <br> 
+    </div>
+
 </div>
 {% endblock %}

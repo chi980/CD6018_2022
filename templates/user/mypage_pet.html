@@ -19,12 +19,14 @@
     .img_sr{
         width: 120px;
         height: 120px;
-        margin-top: 30px;
-        margin-left: 15px;
         border-radius: 70%;
         overflow: hidden;
-        float: left;
         text-align:center
+    }
+    .btn_pet{
+        margin-top: 30px;
+        margin-left: 25px;
+        float: left;
     }
     html, body {
         height: 100%;
@@ -57,7 +59,15 @@
       div.petimg{
         width: 40%;
         float: right;
-      }  
+      }
+      a:link {
+        color : black;
+        text-decoration: none;
+      }
+    a:visited {
+        color : black;
+        text-decoration: none;
+      }
 </style>
 <!-- 개인정보 화면 나누기 -->
 <body>
@@ -65,14 +75,20 @@
 <!-- 좌우 분할 화면 중, 왼쪽 -->
 <div class="left">
         <!--사용자 정보 제공-->
-        <img class="img_r" src="{% static 'images/프로필사진예시.jpg' %}"> <br>
-        <div style="margin-top: 10px">
-            <a><strong>펫 이름</strong> </a> <br>
-            <a>펫 나이 <strong>| </strong> </a>
-            <a>펫 품종</a>
-        </div>
+        {% if my_pet %}
+            {% for pet in my_pet %}
+                {% if forloop.counter == 1 %}
+                    <img class="img_r" src="/media/{{ pet.profile }}">
+                    <div style="margin-top: 10px">
+                        <a>우리 집 대표</a> <br>
+                        <a><strong>{{ pet.name }}</strong> </a> <br>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        
 
-        <div style="font-size: 20px; margin-top:30px; float: center;">
+        <div style="font-size: 20px; margin-top:15px; float: center;">
             <a><strong>{{request.user.username}}</strong></a>
             <hr style="margin-top: 0px; width: 160px; height:2px; background-color: black;">
         </div>
@@ -104,10 +120,14 @@
     <h4 style="margin-top: 15px; margin-left: 10px; text-align:left"> <strong>반려동물 정보</strong></h4>
 
     <!-- 사용자의 펫이 있으면 보여주기 -->
-    <button type="button" class="img_sr" style="border: 0;"><img style="width: 120px; height: 120px;" src="{% static 'images/프로필사진예시.jpg' %}"></button>
-    <button type="button" class="img_sr" style="border: 0;"><img style="width: 120px; height: 120px;" src="{% static 'images/마이펫예시.jpg' %}"></button>
-    <!-- 펫 추가-->
-    <button type="button" class="img_sr" style="border: 0;"><img style="width: 85px; height: 85px;" src="{% static 'images/plus.png' %}" alt="추가"></button>
+    {% if my_pet %}
+        {% for pet in my_pet %}
+        <div class="btn_pet" OnClick="location.href='/auth/pet/{{pet.id}}'">
+            <img class="img_sr" style="width: 120px; height: 120px;" src="/media/{{ pet.profile }}"> <br>
+            <a ><strong>{{ pet.name }} 정보수정</strong></a>
+        </div>
+        {% endfor %}
+    {% endif %}
     <br> <br> <br> <br> <br> <br><br> <br><br> 
  
 
@@ -116,15 +136,18 @@
         <form method="post" action="{% url 'user:mypage_pet' %}" enctype="multipart/form-data">
             {% csrf_token %}
             {% include "form_errors.html" %}
+            
+        <form method="post" action="{% url 'user:signup' %}">
+            <h5 style="float: left;"> <strong> 새로운 가족 등록 </strong></h5> <br><br>
             <div class="mb-3">
                 <label for="name">반려동물명</label>
                 <input type="text" class="form-control" name="name" id="name"
                        value="{{ form.name.value|default_if_none:'' }}">
             </div>
-            <div class="mb-3">
-                <label for="kind">반려동물 종류</label>
-                {{form.kind}}
-            </div>
+            <div style="float: left;">
+                <label for="kind">반려동물 종류</label> <br>
+                    <a>   {{form.kind}} </a> 
+            </div> <br> <br> <br>
             <div class="mb-3">
                 <label for="breed">반려동물 품종</label>
                 <input type="text" class="form-control" name="breed" id="breed"
@@ -145,18 +168,15 @@
                 <div class="image-container">
                     <a style="font-size: 15px;"><strong>반려동물 사진 변경</strong></a> <br>
                     <img style="width: 200px; height: 200px;" id="preview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-                    <div class="input-group mb-3">
-                        <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="profile" name="profile">
-                        <label class="custom-file-label m-3" for="profile" aria-describedby="inputGroupFileAddon02">Choose file</label>
-                        </div>
-                    </div>
+                    <input style="display: block;" type="file" id="input-image profile" name="profile">
+                    
+             
                 </div>
                 </div>
             <button type="submit" class="btn btn-block btn-round btn-secondary">Add</button>
         </form>
 
-    {% if my_pet %}
+    <!-- {% if my_pet %}
         {% for pet in my_pet %}
             {{ pet.id }} |
             {{ pet.profile }} |
@@ -165,8 +185,10 @@
             {{ pet.breed }} |
             {{ pet.adaoption_day }} |
             {{ pet.birthday }} |
+            <a href="/auth/pet/{{pet.id}}">자세히 보기</a>
+            <br>
         {% endfor %}
-    {% endif %}
+    {% endif %} -->
 
 </div>
 </body>
@@ -192,6 +214,7 @@ const inputImage = document.getElementById("input-image")
 inputImage.addEventListener("change", e => {
     readImage(e.target)
 })
+
 </script>
 </html>
 {% endblock %}
