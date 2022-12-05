@@ -5,7 +5,7 @@ from .models import User,Pet,Favorite
 from main.models import Location
 from user.forms import UserForm,PetForm, MyUserChangeForm, CategoryChangeForm
 from django.contrib import messages
-
+from django.views.decorators.http import require_POST
 from django.contrib.auth import get_user_model
 # 로그인 필요
 from django.contrib.auth.decorators import login_required
@@ -32,9 +32,9 @@ def user_login(request):
             print("인증실패")
             # return redirect('user:login')
             return HttpResponse("<script>alert('입력하신 내용을 다시 확인해주세요.');location.href='/';</script>")
-    # return render(request, "user/login.html")
     else:
-        return render(request,'base.html')
+        return render(request, "user/login.html")
+        # return render(request,'base.html')
 
 @login_required
 def user_logout(request):
@@ -91,8 +91,6 @@ def mypage_pet(request):
     my_pet = Pet.objects.filter(user=request.user)
     if request.method == 'POST':
         form = PetForm(request.POST,request.FILES)
-        print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-        print("form is sent")
         if form.is_valid():
             print("form is valid")
             my_pet = form.save(commit=False)
@@ -156,6 +154,13 @@ def pet(request, pet_id):
     #     return render(request, 'user/pet.html', {'pet_form': pet_form})
         return render(request, 'user/pet.html', {'my_pet':my_pet,'pet_form':pet_form})
 
+@require_POST
+def pet_delete(request, pet_id):
+    if request.POST:
+        my_pet = Pet.objects.get(id=pet_id)
+        my_pet.delete()
+        return redirect('user:mypage_pet')
+
 @login_required
 #로그인 추가하기
 def favorite(request):
@@ -187,6 +192,7 @@ def favorite(request):
         favorites_json = json.loads(serializers.serialize('json',favorites,ensure_ascii=False))
         # return HttpResponse(favorites_json,content_type="text/json-comment-filtered")
         return JsonResponse({'reload_all': False, 'favorites_json': favorites_json})
+
 
 # 페이징
 # def business_list(request):

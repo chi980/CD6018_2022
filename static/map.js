@@ -221,14 +221,14 @@ kakao.maps.event.addListener(map, 'idle', function() {
             // AJAX 통신 성공시 받은 데이터를 console에 print
             console.log(data);
             // 만약 login되어 있고 category선택한 경우, json 리스트 형태로 데이터 받아서 첫 번쨰 요소 console에 출력하고, 임시로 만든 p태그에 첫 번째 요소 set
-            if(Array.isArray(data)){
-                console.log(data[0])
-                console.log(data[0]['fields'].name)
-                console.log(data[0]['fields'].contents)
-                console.log(data[0]['fields'].profile)
-                const del_p= document.getElementById('delete_p');
-                del_p.innerHTML = data[0]['fields'].name + data[0]['fields'].contents + data[0]['fields'].profile
-            }
+//            if(Array.isArray(data)){
+//                console.log(data[0])
+//                console.log(data[0]['fields'].name)
+//                console.log(data[0]['fields'].contents)
+//                console.log(data[0]['fields'].profile)
+//                const del_p= document.getElementById('delete_p');
+//                del_p.innerHTML = data[0]['fields'].name + data[0]['fields'].contents + data[0]['fields'].profile
+//            }
         },
         error:function(data){
             // AJAX 통신 실패시 alert창

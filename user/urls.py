@@ -12,6 +12,7 @@ urlpatterns = [
     # path("mypage/", views.mypage,name="mypage"),
     # path("pet/new/",views.pet_new,name="pet_new"),
     path("pet/<int:pet_id>/",views.pet,name="pet"),
+    path("pet/delete/<int:pet_id>",views.pet_delete,name="pet_delete"),
     path("mypage_pet/", views.mypage_pet,name="mypage_pet"),
     path("mypage_user/", views.mypage_user,name="mypage_user"),
     path("mypage_place/", views.mypage_place,name="mypage_place"),

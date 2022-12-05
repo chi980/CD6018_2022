@@ -12,7 +12,10 @@ def upload_image(instance,filename):
 def rename_image(instance,filename):
     import os
     from uuid import uuid4
-    upload_to = f'media/{instance}'
+    # print("&&&&&&&&&&&&&&&&&&&&&&&&&utils.py")
+    # print(type(instance))
+    # print(instance.user)
+    upload_to = f'media/pet/{instance.user.id}/'
     ext = filename.split('.')[-1]
     uuid = uuid4().hex
     if instance:

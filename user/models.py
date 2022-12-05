@@ -44,9 +44,9 @@ class Pet(models.Model):
         (6,"기타")
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name='pet')
-    profile = models.ImageField(upload_to='media/',editable=True,null=True)  #s3사용시
+    # profile = models.ImageField(upload_to='media/',editable=True,null=True)  #s3사용시
     # profile = models.ImageField(upload_to='images/',editable=True,null=True)
-    # profile = models.ImageField(upload_to=rename_image,editable=True,null=True, max_length=255)
+    profile = models.ImageField(upload_to=rename_image,editable=True,null=True, max_length=255)
 
     name = models.CharField(max_length=20)
     kind = models.IntegerField(choices=KIND_CHOICES)

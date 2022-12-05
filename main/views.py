@@ -99,16 +99,16 @@ def recommended(request):
             return response
         # return HttpResponse({locations_pet_list,recommended_list}, content_type="text/json-comment-filtered")
         # return HttpResponse({"locations_pet_list":locations_pet_list,"recommended_list":recommended_list}, content_type="text/json-comment-filtered")
-        return JsonResponse([recommended_list,locations_pet_list,], safe=False)
+        return JsonResponse([recommended_list,locations_pet_list], safe=False)
     # Category 일단 보내보기
-    if request.user.is_authenticated:
-        if not request.user.category:
-            response = JsonResponse({"error": "카테고리 설정이 필요합니다."})
-            response.status_code = 403  # To announce that the user isn't allowed to publish
-            return response
-        categories = Category.objects.all()
-        category_list = serializers.serialize('json',categories)
-        return HttpResponse(category_list,content_type="text/json-comment-filtered")
+    # if request.user.is_authenticated:
+    #     if not request.user.category:
+    #         response = JsonResponse({"error": "카테고리 설정이 필요합니다."})
+    #         response.status_code = 403  # To announce that the user isn't allowed to publish
+    #         return response
+    #     categories = Category.objects.all()
+    #     category_list = serializers.serialize('json',categories)
+    #     return HttpResponse(category_list,content_type="text/json-comment-filtered")
     else:
         response = JsonResponse({"error": "로그인이 필요합니다."})
         response.status_code = 403  # To announce that the user isn't allowed to publish
