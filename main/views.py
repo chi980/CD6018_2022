@@ -7,8 +7,10 @@ from django.db.models import Avg
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+
 import json
 from django.core import serializers
+
 # Create your views here.
 
 
@@ -62,8 +64,10 @@ def recommended(request):
     cur_longitude_min = jsonObject.get('swLatlng')['Ma']
     cur_longitude_max = jsonObject.get('neLatlng')['Ma']
 
-    location_pet = None
+    locations_pet = None
     recommended = None
+    locations_pet_list = None
+    recommended_list = None
     if request.user.is_authenticated:
         locations = Location.objects.filter(Q(logitude__range=[cur_longitude_min, cur_longitude_max]) & Q(latitude__range=[cur_latitude_min, cur_latitude_max]))
         locations_res = locations.filter(Q(on_off=0)).values_list('id', flat=True)
@@ -85,8 +89,17 @@ def recommended(request):
             response = JsonResponse({"error": "카테고리 설정이 필요합니다."})
             response.status_code = 403  # To announce that the user isn't allowed to publish
             return response
-    # return HttpResponse("Server에서 성공적으로 ajax데이터 받음")
-    # if recommended:
+        if locations_pet:
+             locations_pet_list= serializers.serialize('json', locations_pet)
+        if recommended:
+            recommended_list = serializers.serialize('json', recommended)
+        else:
+            response = JsonResponse({"error": "추천할 장소가 없습니다."})
+            response.status_code = 403  # To announce that the user isn't allowed to publish
+            return response
+        # return HttpResponse({locations_pet_list,recommended_list}, content_type="text/json-comment-filtered")
+        # return HttpResponse({"locations_pet_list":locations_pet_list,"recommended_list":recommended_list}, content_type="text/json-comment-filtered")
+        return JsonResponse([recommended_list,locations_pet_list,], safe=False)
     # Category 일단 보내보기
     if request.user.is_authenticated:
         if not request.user.category:

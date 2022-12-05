@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% load static %}
-<form action="{% url 'user:pet' my_pet.id%}" method="post">
+<form action="{% url 'user:pet' my_pet.id%}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{pet_form}}
 

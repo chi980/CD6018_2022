@@ -88,10 +88,23 @@ def sociallogin(request):
 
 @login_required
 def mypage_pet(request):
-    # pet_form = PetForm(request=request,user = request.user)
-    # pet_form = PetForm()
     my_pet = Pet.objects.filter(user=request.user)
-    return render(request, 'user/mypage_pet.html', {'my_pet': my_pet})
+    if request.method == 'POST':
+        form = PetForm(request.POST,request.FILES)
+        print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+        print("form is sent")
+        if form.is_valid():
+            print("form is valid")
+            my_pet = form.save(commit=False)
+            my_pet.user = request.user
+            my_pet.save()
+            return redirect("user:mypage_pet")
+        print("form is invalid")
+        # print(form.errors)
+        return HttpResponse("<script>alert('입력하신 내용을 다시 확인해주세요.');location.href='/auth/mypage_pet/.';</script>")
+    else:
+        form = PetForm()
+        return render(request,'user/mypage_pet.html',{'form':form,'my_pet': my_pet})
 #https://han-py.tistory.com/147
 @login_required
 def mypage_user(request):
@@ -121,9 +134,10 @@ def pet(request, pet_id):
     my_pet = get_object_or_404(Pet,pk=pet_id)
     # Post 방식 요청
     if request.method == 'POST':
-        form = PetForm(request.POST,instance=my_pet)
+        form = PetForm(request.POST,request.FILES,instance=my_pet)
         if form.is_valid():
             print("form is valid")
+            print(request.POST.get('profile'))
             my_pet = form.save(commit=False)
             my_pet.save()
             return redirect('/')
@@ -141,7 +155,6 @@ def pet(request, pet_id):
     #     # pet_form = PetForm()
     #     return render(request, 'user/pet.html', {'pet_form': pet_form})
         return render(request, 'user/pet.html', {'my_pet':my_pet,'pet_form':pet_form})
-
 
 @login_required
 #로그인 추가하기

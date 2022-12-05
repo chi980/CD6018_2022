@@ -72,14 +72,14 @@ class PetForm(forms.ModelForm):
     # user = forms.ModelChoiceField(queryset=User.objects.all(),widget=forms.HiddenInput)
     profile = forms.ImageField(label='프로필')
     name = forms.CharField(label='이름')
-    kind = forms.Select()
+    kind = forms.ChoiceField(label="성별",widget=forms.Select,choices=KIND_CHOICES)
     breed = forms.CharField(label="품종")
     adoption_day = forms.DateField(label='입양일',widget=NumberInput(attrs={'type': 'date'}))
     birthday = forms.DateField(label='생일',widget=NumberInput(attrs={'type': 'date'}))
 
     class Meta:
         model = Pet
-        fields = ('profile','name','kind','breed','adoption_day','birthday')
+        fields = ['profile','name','kind','breed','adoption_day','birthday']
 
 class SnsUserCustomSignupFrom(SignupForm):
 

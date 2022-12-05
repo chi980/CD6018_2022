@@ -211,7 +211,7 @@ kakao.maps.event.addListener(map, 'idle', function() {
     message += '북동쪽 위도, 경도는  ' + neLatlng.toString() + '입니다 </p>';
     console.log(message);
     $.ajax({
-        url: 'main/recommended/',
+        url: '/main/recommended/',
         type: 'POST',
         headers: {
             'X-CSRFTOKEN' : '{{ csrf_token }}'
@@ -233,7 +233,10 @@ kakao.maps.event.addListener(map, 'idle', function() {
         error:function(data){
             // AJAX 통신 실패시 alert창
 //            alert(data.status); // the status code
-            alert(data.responseJSON.error);
+            console.log(data)
+            if(data.responseJSON.error){
+                alert(data.responseJSON.error);
+            }
         }
     });
 });

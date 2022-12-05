@@ -113,26 +113,30 @@
 
     <!-- 펫 정보 등록 및 수정 폼 -->
     <div class="container petform" style="float: left;">
-        <form method="post" action="{% url 'user:signup' %}">
+        <form method="post" action="{% url 'user:mypage_pet' %}" enctype="multipart/form-data">
             {% csrf_token %}
             {% include "form_errors.html" %}
             <div class="mb-3">
-                <label for="petname">반려동물명</label>
-                <input type="text" class="form-control" name="petname" id="petname"
-                       value="{{ form.petname.value|default_if_none:'' }}">
+                <label for="name">반려동물명</label>
+                <input type="text" class="form-control" name="name" id="name"
+                       value="{{ form.name.value|default_if_none:'' }}">
             </div>
             <div class="mb-3">
-                <label for="petkind">반려동물 품종</label>
-                <input type="text" class="form-control" name="petkind" id="petkind"
-                       value="{{ form.petkind.value|default_if_none:'' }}">
+                <label for="kind">반려동물 종류</label>
+                {{form.kind}}
             </div>
             <div class="mb-3">
-                <label for="petcomeday">반려동물이 내게 온 날</label>
-                <input type="date" class="form-control" name="petcomeday" id="petcomeday" placeholder="연도,월,일" value="{{object.date|date:'Y-m-d'}}" required>
+                <label for="breed">반려동물 품종</label>
+                <input type="text" class="form-control" name="breed" id="breed"
+                       value="{{ form.breed.value|default_if_none:'' }}">
             </div>
             <div class="mb-3">
-                <label for="petbirthday">반려동물이 태어난 날</label> <br>
-                <input type="date" class="form-control" name="petbirthday" id="petbirthday" placeholder="연도,월,일" value="{{object.date|date:'Y-m-d'}}" required>
+                <label for="adoption_day">반려동물이 내게 온 날</label>
+                <input type="date" class="form-control" name="adoption_day" id="adoption_day" placeholder="연도,월,일" value="{{object.date|date:'Y-m-d'}}" required>
+            </div>
+            <div class="mb-3">
+                <label for="birthday">반려동물이 태어난 날</label> <br>
+                <input type="date" class="form-control" name="birthday" id="birthday" placeholder="연도,월,일" value="{{object.date|date:'Y-m-d'}}" required>
     
             </div>
             </div>
@@ -143,8 +147,8 @@
                     <img style="width: 200px; height: 200px;" id="preview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
                     <div class="input-group mb-3">
                         <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="input-image">
-                        <label class="custom-file-label m-3" for="input-image" aria-describedby="inputGroupFileAddon02">Choose file</label>
+                        <input type="file" class="custom-file-input" id="profile" name="profile">
+                        <label class="custom-file-label m-3" for="profile" aria-describedby="inputGroupFileAddon02">Choose file</label>
                         </div>
                     </div>
                 </div>
