@@ -45,8 +45,8 @@ class Location(models.Model):
     time = models.CharField(max_length=128,blank=True)
     url = models.URLField(blank=True)
     is_animal_in = models.IntegerField(default=2, choices=ANIMAL_IN_CHOICE)
-    latitude = models.DecimalField(max_digits=9, decimal_places=7, default=0.0)
-    logitude = models.DecimalField(max_digits=10, decimal_places=7, default=0.0)
+    latitude = models.DecimalField(max_digits=9, decimal_places=7, default=0.0)     #위도
+    logitude = models.DecimalField(max_digits=10, decimal_places=7, default=0.0)    #경도
     on_off = models.IntegerField(default=0,choices=ON_OFF_CHOICE)
 
     def __str__(self):

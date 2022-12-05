@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 import json
-
+from django.core import serializers
 # Create your views here.
 
 
@@ -61,9 +61,44 @@ def recommended(request):
     cur_latitude_max = jsonObject.get('neLatlng')['La']
     cur_longitude_min = jsonObject.get('swLatlng')['Ma']
     cur_longitude_max = jsonObject.get('neLatlng')['Ma']
-    print(type(jsonObject.get('swLatlng')))
-    print(type(jsonObject.get('neLatlng')))
-    print(cur_latitude_min)
-    # return JsonResponse(jsonObject)
-    return HttpResponse("Server에서 성공적으로 ajax데이터 받음")
 
+    location_pet = None
+    recommended = None
+    if request.user.is_authenticated:
+        locations = Location.objects.filter(Q(logitude__range=[cur_longitude_min, cur_longitude_max]) & Q(latitude__range=[cur_latitude_min, cur_latitude_max]))
+        locations_res = locations.filter(Q(on_off=0)).values_list('id', flat=True)
+        if (request.user.on_off == 1):
+            locations_pet = locations.filter(Q(on_off=1))
+        if (request.user.category):
+            recommended = Review.objects.filter(
+                Q(location_id__in=locations_res) & Q(category=request.user.category)).values('location', 'location__name',
+                                                                                             'location__address',
+                                                                                             'location__lot_address',
+                                                                                             'location__phone',
+                                                                                             'location__time',
+                                                                                             'location__url',
+                                                                                             'location__is_animal_in',
+                                                                                             'location__latitude',
+                                                                                             'location__logitude').annotate(
+                avg=Avg('star')).order_by('-avg')[:10]
+        else:
+            response = JsonResponse({"error": "카테고리 설정이 필요합니다."})
+            response.status_code = 403  # To announce that the user isn't allowed to publish
+            return response
+    # return HttpResponse("Server에서 성공적으로 ajax데이터 받음")
+    # if recommended:
+    # Category 일단 보내보기
+    if request.user.is_authenticated:
+        if not request.user.category:
+            response = JsonResponse({"error": "카테고리 설정이 필요합니다."})
+            response.status_code = 403  # To announce that the user isn't allowed to publish
+            return response
+        categories = Category.objects.all()
+        category_list = serializers.serialize('json',categories)
+        return HttpResponse(category_list,content_type="text/json-comment-filtered")
+    else:
+        response = JsonResponse({"error": "로그인이 필요합니다."})
+        response.status_code = 403  # To announce that the user isn't allowed to publish
+        return response
+        # return HttpResponse("로그인 필요합니다.")
+    # return HttpResponse("로그인 하세요")
