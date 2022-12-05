@@ -1,11 +1,14 @@
-# from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render, redirect
 from main.models import Location, Review, Category
 from .models import Category
 from django.db.models import Q
 from django.db.models import Avg
-
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+import json
+
 # Create your views here.
 
 
@@ -46,3 +49,21 @@ def index(request):
             recommended= Review.objects.filter(Q(location_id__in=locations_res) & Q(category=request.user.category)).values('location','location__name','location__address','location__lot_address','location__phone','location__time','location__url','location__is_animal_in','location__latitude','location__logitude').annotate(avg=Avg('star')).order_by('-avg')[:10]
 
     return render(request,'main/index.html',{'recommended':recommended,'locations_pet':locations_pet})
+
+@csrf_exempt
+@require_POST
+def recommended(request):
+    jsonObject = json.loads(request.body)
+    print("Ajax 데이터를 받았음")
+    print("남서쪽:",jsonObject.get('swLatlng'))
+    print("북동쪽:",jsonObject.get('neLatlng'))
+    cur_latitude_min = jsonObject.get('swLatlng')['La']
+    cur_latitude_max = jsonObject.get('neLatlng')['La']
+    cur_longitude_min = jsonObject.get('swLatlng')['Ma']
+    cur_longitude_max = jsonObject.get('neLatlng')['Ma']
+    print(type(jsonObject.get('swLatlng')))
+    print(type(jsonObject.get('neLatlng')))
+    print(cur_latitude_min)
+    # return JsonResponse(jsonObject)
+    return HttpResponse("Server에서 성공적으로 ajax데이터 받음")
+

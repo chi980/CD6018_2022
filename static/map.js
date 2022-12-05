@@ -169,13 +169,77 @@ function locationLoadError(pos) {
   alert("위치 정보를 가져오는데 실패했습니다.");
 }
 
-// 위치 가져오기 버튼 클릭시
+// 1. 내 위치 가져오기 버튼 클릭시
 function getCurrentPosBtn() {
+  console.log("위치 가져오기 버튼 클릭")
   navigator.geolocation.getCurrentPosition(
     locationLoadSuccess,
     locationLoadError
   );
+
 }
+
+// 2. 중심좌표 변경 이벤트
+//https://apis.map.kakao.com/web/sample/addMapCenterChangedEvent/
+//kakao.maps.event.addListener(map, 'center_changed', function() {
+//    console.log('중심좌표가 변경됩니다.');
+//    myMapInfo();
+//
+//});
+
+// 3. 영역 변경 이벤트
+// 지도가 이동, 확대, 축소로 인해 지도영역이 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
+//kakao.maps.event.addListener(map, 'bounds_changed', function() {
+//    console.log('영역이 변경됩니다.');
+//    myMapInfo();
+//});
+kakao.maps.event.addListener(map, 'idle', function() {
+    console.log("idle상태입니다.");
+    // 지도 영역정보를 얻어옵니다
+    var bounds = map.getBounds();
+
+    // 영역정보의 남서쪽 정보를 얻어옵니다
+    var swLatlng = bounds.getSouthWest();
+
+    // 영역정보의 북동쪽 정보를 얻어옵니다
+    var neLatlng = bounds.getNorthEast();
+    var mapinfo = {
+        'swLatlng':swLatlng,
+        'neLatlng':neLatlng
+    }
+    var message = '<p>영역좌표는 남서쪽 위도, 경도는  ' + swLatlng.toString() + '이고 <br>';
+    message += '북동쪽 위도, 경도는  ' + neLatlng.toString() + '입니다 </p>';
+    console.log(message);
+    $.ajax({
+        url: 'main/recommended/',
+        type: 'POST',
+        headers: {
+            'X-CSRFTOKEN' : '{{ csrf_token }}'
+        },
+        data: JSON.stringify(mapinfo),
+        success:function(data){
+            console.log(data);
+        },
+        error:function(){
+            alert("AJAX 실패~~~~~~~~~");
+        }
+    });
+});
+//function myMapInfo(){
+//    // 지도 영역정보를 얻어옵니다
+//    var bounds = map.getBounds();
+//
+//    // 영역정보의 남서쪽 정보를 얻어옵니다
+//    var swLatlng = bounds.getSouthWest();
+//
+//    // 영역정보의 북동쪽 정보를 얻어옵니다
+//    var neLatlng = bounds.getNorthEast();
+//
+//    var message = '<p>영역좌표는 남서쪽 위도, 경도는  ' + swLatlng.toString() + '이고 <br>';
+//    message += '북동쪽 위도, 경도는  ' + neLatlng.toString() + '입니다 </p>';
+//    console.log(message);
+//}
+
 
 // 검색 버튼 클릭시
 function keywordSearch() {
