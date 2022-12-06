@@ -1,9 +1,44 @@
+/*=============== VARIABLES CSS ===============*/
+:root {
+  --header-height: 3.5rem; /*56px*/
+  /*========== Font and typography ==========*/
+  /*.5rem = 8px | 1rem = 16px ...*/
+  --body-font: "LeeSeoyun";
+  --superbig-font-size: 3rem;
+  --big-font-size: 2rem;
+  --h1-font-size: 1.5rem;
+  --h2-font-size: 1.25rem;
+  --h3-font-size: 1rem;
+  --normal-font-size: 0.938rem;
+  --small-font-size: 0.813rem;
+  --smaller-font-size: 0.75rem;
+
+  /*========== Font weight ==========*/
+  --font-medium: 500;
+  --font-semi-bold: 600;
+  --font-bold: 700;
+
+  /*========== Margenes Bottom ==========*/
+  /*.5rem = 8px | 1rem = 16px ...*/
+  --mb-0-5: 0.5rem;
+  --mb-0-75: 0.75rem;
+  --mb-1: 1rem;
+  --mb-1-5: 1.5rem;
+  --mb-2: 2rem;
+  --mb-2-5: 2.5rem;
+
+  /*========== z index ==========*/
+  --z-tooltip: 10;
+  --z-fixed: 100;
+}
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: arial, sans-serif;
 }
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -40,9 +75,12 @@
   color: #ccc;
   padding: 5px 0;
 }
+#side-bar {
+  background-color: #838daa;
+}
 .side-bar {
   width: 500px;
-  background: #262931;
+  /* background: #262931; */
   min-height: 100vh;
   transition: 500ms width;
 }
@@ -385,4 +423,67 @@ ul {
   z-index: 0;
   top: -20px;
   left: 49px;
+}
+
+/*=============== STEPS ===============*/
+.steps__bg {
+  background-color: var(--second-color);
+  padding: 2rem 2rem;
+}
+
+.steps__container {
+  gap: 2rem;
+  padding-top: 1rem;
+  margin-top: 0;
+}
+
+.steps__title {
+  font-size: 2rem;
+  color: #fff;
+}
+
+.steps__card {
+  background-color: #ffffff;
+  padding: 2.5rem 3rem 2rem 1.5rem;
+  border-radius: 1rem;
+}
+
+.steps__card-number {
+  display: inline-block;
+  background-color: #ffffff;
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: var(--h3-font-size);
+  margin-bottom: var(--mb-1-5);
+  transition: 0.3s;
+}
+
+.steps__card-img {
+  display: flexbox;
+  position: absolute;
+  width: 40%;
+  right: 3%;
+  bottom: -10%;
+  padding: 0.5rem 0.75rem;
+  font-size: var(--h3-font-size);
+  margin-bottom: var(--mb-1-5);
+  transition: 0.3s;
+}
+
+.steps__card-title {
+  font-size: var(--h3-font-size);
+  margin-bottom: var(--mb-0-5);
+}
+
+.steps__card-description {
+  font-size: var(--small-font-size);
+}
+
+.steps__card:hover .steps__card-number {
+  transform: translateY(-0.25rem);
+}
+
+.grid {
+  display: grid;
 }

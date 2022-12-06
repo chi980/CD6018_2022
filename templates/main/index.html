@@ -15,18 +15,23 @@
 <!--  <i class="fa fa-user" aria-hidden="true"></i>-->
 <!--</header>-->
 <div class="body">
-  <nav class="side-bar">
-    <input
+  <nav id="side-bar" class="side-bar">
+    
+      <div class="input-group mb-3" v-if="main-side">
+          <input type="text" id="keyword" value="커피" class="form-control" v-on:keyup.enter="search">
+          <!-- <button @click="search" class="btn btn-secondary">검색하기</button> -->
+      </div>
+    <!-- <input
       type="text"
       class="form-control"
       id="keyword"
       placeholder="장소명(ex 브론시스)"
     />
-    <span>최근 검색어</span>
+    <span>최근 검색어</span> -->
     <button
+    @click="search"
       type="button"
       class="btn btn-lg btn-primary"
-      onclick="keywordSearch()"
     >
       검색하기
     </button>
@@ -37,7 +42,102 @@
     >
       내 위치
     </button>
-    <section class="section-1" id="result"></section>
+      
+      {% if recommended %}
+      <!--==================== STEPS ====================-->
+        {% for review in recommended  %}
+      <section v-if="steps section container" id="steps">
+        <div class="steps__bg">
+          
+            <div class="steps__container grid">
+                <div class="steps__card">
+                  <p class="steps__card-description">
+                    <div class="steps__card-title">{{review.location__name}}</div>
+                    <!-- <img class="steps__card-img" src="assets/img/home_product1.png" style="bottom:-12%"> -->
+                    <div class="steps__card-title">{{review.location__address}}</div>
+                    <div class="steps__card-title">{{review.location__lot_address}}</div><br>
+                    <div class="steps__card-title">{{review.location__time}}</div>
+                    <div class="steps__card-title">{{review.location__phone}}</div>
+                  </p>
+                        <!-- {{review.location__lot_address}}
+                    </p> -->
+                </div>
+              </div>
+            </section>
+        {% endfor %}
+      {% endif %}
+            
+      <!-- <h4>Result</h4>
+            <div v-if="noData">
+                <div class="alert alert-danger" role="alert">
+                    {{ noData }}
+                </div>
+            </div>
+            <ul id="info.search.place.list" class="placelist">
+              <li class="PlaceItem clickArea">
+                <div data-id="btnWrap" class="utile_item">
+                  <span data-id="screenOutName" class="screen_out">{{ list.place_name }}</span>
+                  <a href="#none" data-id="fav" class="fav">
+                    <span class="ico_fav">관심장소</span>
+                  </a>
+                </div>
+                <div class="head_item clickArea">
+                  <strong class="tit_name">
+                    <a a :href="location.url" target="_blank"><svg xmlns="http://www.w3.org/2000/svg"
+                      width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right-square"
+                      viewBox="0 0 16 16">
+                      <path fill-rule="evenodd"
+                          d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.854 8.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707l-4.096 4.096z" />
+                  </svg>{{ list.place_name }}</a>
+                  </strong>
+                  <span > </span>{{ location.name }}
+                </div>
+              </li>
+            </ul> -->
+            <!-- <div class="mb-3">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-right">#</th>
+                            <th>상호</th>
+                            <th>주소</th>
+                            <th>전화</th>
+                            <th class="text-right">거리(m)</th>
+                            <th class="text-center">URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(list, index) in totoalResult" :key="index">
+              
+                            <td>{{ list.place_name }}</td>
+                            <td>
+                                {{ list.road_address_name }} <a href="#" @click="setMarker(list.y, list.x)"><svg
+                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-map" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.502.502 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103zM10 1.91l-4-.8v12.98l4 .8V1.91zm1 12.98 4-.8V1.11l-4 .8v12.98zm-6-.8V1.11l-4 .8v12.98l4-.8z" />
+                                    </svg></a>
+                            </td>
+                            <td>{{ list.phone }}</td>
+                            <td class="text-right">{{ list.distance }}</td>
+                            <td class="text-center">
+                                <a :href="list.place_url" target="_blank"><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right-square"
+                                        viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.854 8.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707l-4.096 4.096z" />
+                                    </svg></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+
+            <!-- <div v-if="hasNextPage" style="text-align: center;">
+                <button @click="nextPage" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                  </svg> 더 보기</button>
+            </div> -->
   </nav>
   <section class="section-1" id="map"></section>
 
