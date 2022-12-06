@@ -142,7 +142,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # 위에'django.contrib.sites'에 첫번째 인스턴스 사용
 SITE_ID = 1
 
-LOGIN_URL = "/"
+LOGIN_URL = "/auth/login/"
 
 ACCOUNT_SIGNUP_REDIRECT_URL = "/"
 # 로그인 성공후 이동하는 URL

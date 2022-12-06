@@ -108,6 +108,7 @@ def mypage_pet(request):
 #https://han-py.tistory.com/147
 @login_required
 def mypage_user(request):
+    my_pet = Pet.objects.filter(user=request.user)
     if request.method == 'POST':
         form = MyUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
@@ -115,14 +116,15 @@ def mypage_user(request):
             return redirect('user:mypage_user')
     else:
         form = MyUserChangeForm(instance=request.user)
-        return render(request, 'user/mypage_user.html',{'form':form})    #여기 user 수정 폼 들어가야함
+        return render(request, 'user/mypage_user.html',{'form':form,'my_pet': my_pet})    #여기 user 수정 폼 들어가야함
 
 @login_required
 def mypage_place(request):
+    my_pet = Pet.objects.filter(user=request.user)
     favorites = Favorite.objects.filter(user=request.user)
     # favorites_json = json.loads(serializers.serialize('json', favorites, ensure_ascii=False))
     # pet_form = PetForm()
-    return render(request, 'user/mypage_place.html',{'favorites':favorites})
+    return render(request, 'user/mypage_place.html',{'favorites':favorites,'my_pet': my_pet})
     # return JsonResponse({
     #     'html': render_to_string('user/mypage_place.html', {'favorites':favorites_json or None}, request=request),
     # })
