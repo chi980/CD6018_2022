@@ -194,7 +194,7 @@ function getCurrentPosBtn() {
 //    myMapInfo();
 //});
 kakao.maps.event.addListener(map, 'idle', function() {
-    console.log("idle상태입니다.");
+//    console.log("idle상태입니다.");
     // 지도 영역정보를 얻어옵니다
     var bounds = map.getBounds();
 
@@ -218,8 +218,8 @@ kakao.maps.event.addListener(map, 'idle', function() {
         },
         data: JSON.stringify(mapinfo),
         success:function(data){
-            // AJAX 통신 성공시 받은 데이터를 console에 print
             console.log(data);
+            // AJAX 통신 성공시 받은 데이터를 console에 print
             // 만약 login되어 있고 category선택한 경우, json 리스트 형태로 데이터 받아서 첫 번쨰 요소 console에 출력하고, 임시로 만든 p태그에 첫 번째 요소 set
 //            if(Array.isArray(data)){
 //                console.log(data[0])
