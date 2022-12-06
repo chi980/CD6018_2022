@@ -40,9 +40,12 @@
   color: #ccc;
   padding: 5px 0;
 }
+#side-bar {
+  background-color: #ffffff;
+}
 .side-bar {
   width: 500px;
-  background: #262931;
+  background: #ffffff;
   min-height: 100vh;
   transition: 500ms width;
 }
@@ -385,4 +388,63 @@ ul {
   z-index: 0;
   top: -20px;
   left: 49px;
+}
+
+/*=============== STEPS ===============*/
+.steps__bg {
+  background-color: var(--second-color);
+  padding: 3rem 2rem 2rem;
+}
+
+.steps__container {
+  gap: 2rem;
+  padding-top: 1rem;
+  margin-top: 0;
+}
+
+.steps__title {
+  font-size: 2rem;
+  color: #fff;
+}
+
+.steps__card {
+  background-color: var(--container-color);
+  padding: 2.5rem 3rem 2rem 1.5rem;
+  border-radius: 1rem;
+}
+
+.steps__card-number {
+  display: inline-block;
+  background-color: var(--first-color-alt);
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: var(--h3-font-size);
+  margin-bottom: var(--mb-1-5);
+  transition: 0.3s;
+}
+
+.steps__card-img {
+  display: flexbox;
+  position: absolute;
+  width: 40%;
+  right: 3%;
+  bottom: -10%;
+  padding: 0.5rem 0.75rem;
+  font-size: var(--h3-font-size);
+  margin-bottom: var(--mb-1-5);
+  transition: 0.3s;
+}
+
+.steps__card-title {
+  font-size: var(--h3-font-size);
+  margin-bottom: var(--mb-0-5);
+}
+
+.steps__card-description {
+  font-size: var(--small-font-size);
+}
+
+.steps__card:hover .steps__card-number {
+  transform: translateY(-0.25rem);
 }

@@ -1,214 +1,89 @@
 .area {
-    width: 60px;
-    height: 70px;
-    cursor: pointer;
-    background-repeat: no-repeat;
-    background-size: contain;
+  width: 60px;
+  height: 70px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 .area .name {
-    text-align: center;
-    font-size: 0.7em;
+  text-align: center;
+  font-size: 0.7em;
 }
 .area .cnt {
-    text-align: center;
-    font-size: 1em;
-    font-weight: bold;
-    padding-top: 10px;
+  text-align: center;
+  font-size: 1em;
+  font-weight: bold;
+  padding-top: 10px;
 }
 .marker {
-    width: 60px;
-    height: 70px;
-    cursor: pointer;
-    background-repeat: no-repeat;
-    background-size: contain;
+  width: 60px;
+  height: 70px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 .marker .name {
-    text-align: center;
-    font-size: 0.7em;
+  text-align: center;
+  font-size: 0.7em;
 }
 .marker .cnt {
-    text-align: center;
-    white-space:pre-line;
-    font-size: 0.8em;
-    font-weight: bold;
-    padding-top: 3px;
+  text-align: center;
+  white-space: pre-line;
+  font-size: 0.8em;
+  font-weight: bold;
+  padding-top: 3px;
 }
 .marker .img {
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    left: 55px;
-    top: -6px;
-    border-radius: 8px;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 55px;
+  top: -6px;
+  border-radius: 8px;
 }
 @media (max-width: 1199px) {
-    #container {
-        overflow: hidden;
-        height: 100vh;
-        position: relative;
-    }
-    #mapWrapper {
-        width: 100%;
-        height: 100vh;
-        z-index: 1;
-    }
-    #rvWrapper {
-        width: 100%;
-        height: 100vh;
-        top: 0;
-        right: 0;
-        position: absolute;
-        z-index: 0;
-    }
-    #container.view_roadview #mapWrapper {
-        height: 50%;
-    }
+  #container {
+    overflow: hidden;
+    height: 100vh;
+    position: relative;
+  }
+  #mapWrapper {
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+  }
+  #rvWrapper {
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    right: 0;
+    position: absolute;
+    z-index: 0;
+  }
+  #container.view_roadview #mapWrapper {
+    height: 50%;
+  }
 }
 @media (min-width: 1200px) {
-    #container {
-        overflow: hidden;
-        height: 100vh;
-        position: relative;
-    }
-    #mapWrapper {
-        width: 100%;
-        height: 100vh;
-        z-index: 1;
-    }
-    #rvWrapper {
-        width: 50%;
-        height: 100vh;
-        top: 0;
-        right: 0;
-        position: absolute;
-        z-index: 0;
-    }
-    #container.view_roadview #mapWrapper {
-        width: 50%;
-    }
-}
-#resetControl {
-    position: absolute;
-    cursor: pointer;
-    z-index: 2;
-    top: 10px;
-    right: 3px;
-    width: 52px;
-    height: 52px;
-    object-fit: contain;
-}
-#resetControl:active {
-    content: url("../img/reset/resetOver/resetOver.png");
-}
-.resetTooltip {
-    visibility: hidden;
-    position: absolute;
-    z-index: 2;
-    top: 15px;
-    right: 55px;
-    width: 96px;
-    height: 34px;
-    object-fit: contain;
-}
-#resetControl:hover +.resetTooltip {
-    visibility: visible;
-}
-#custom_zoomcontrol_plus {
-    position: absolute;
-    cursor: pointer;
+  #container {
+    overflow: hidden;
+    height: 100vh;
+    position: relative;
+  }
+  #mapWrapper {
+    width: 100%;
+    height: 100vh;
     z-index: 1;
-    top: 70px;
-    right: 3px;
-    width: 52px;
-    height: 52px;
-    object-fit: contain;
-}
-.plusTooltip {
-    visibility: hidden;
+  }
+  #rvWrapper {
+    width: 50%;
+    height: 100vh;
+    top: 0;
+    right: 0;
     position: absolute;
-    z-index: 2;
-    top: 75px;
-    right: 55px;
-    width: 96px;
-    height: 34px;
-    object-fit: contain;
-}
-#custom_zoomcontrol_plus:hover +.plusTooltip {
-    visibility: visible;
-}
-#custom_zoomcontrol_plus:active {
-    content: url("../img/plus/plusOver/group-11.png");
-}
-#custom_zoomcontrol_minus {
-    position: absolute;
-    cursor: pointer;
-    z-index: 1;
-    top: 130px;
-    right: 3px;
-    width: 52px;
-    height: 52px;
-    object-fit: contain;
-}
-.minusTooltip {
-    visibility: hidden;
-    position: absolute;
-    z-index: 2;
-    top: 135px;
-    right: 55px;
-    width: 96px;
-    height: 34px;
-    object-fit: contain;
-}
-#custom_zoomcontrol_minus:hover +.minusTooltip {
-    visibility: visible;
-}
-#custom_zoomcontrol_minus:active {
-    content: url("../img/minus/minusOver/group-10.png");
-}
-#roadviewControl {
-    position: absolute;
-    cursor: pointer;
-    z-index: 1;
-    top: 190px;
-    right: 3px;
-    width: 55px;
-    height: 55px;
-    object-fit: contain;
-    /* border-radius: 10px;
-    box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.27);
-    border: solid 1px #c1c1c1;
-    background-color: #f67c7c; */
-}
-#roadviewControl.active {
-    content: url("../img/roadview/roadviewOver/roadviewOver.png");
-}
-.roadviewTooltip {
-    visibility: hidden;
-    position: absolute;
-    z-index: 2;
-    top: 195px;
-    right: 55px;
-    width: 96px;
-    height: 34px;
-    object-fit: contain;
-}
-#roadviewControl:hover +.roadviewTooltip {
-    visibility: visible;
-}
-#close {
-    position: absolute;
-    padding: 4px;
-    top: 5px;
-    left: 5px;
-    cursor: pointer;
-    background: #fff;
-    border-radius: 4px;
-    border: 1px solid #c8c8c8;
-    box-shadow: 0 1px #888;
-}
-#close .img {
-    display: block;
-    background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/rv_close.png") no-repeat;
-    width: 14px;
-    height: 14px;
+    z-index: 0;
+  }
+  #container.view_roadview #mapWrapper {
+    width: 50%;
+  }
 }

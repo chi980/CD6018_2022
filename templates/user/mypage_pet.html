@@ -167,12 +167,10 @@
             <div class="petimg">
                 <div class="image-container">
                     <a style="font-size: 15px;"><strong>반려동물 사진 변경</strong></a> <br>
-                    <img style="width: 200px; height: 200px;" id="preview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-                    <input style="display: block;" type="file" id="input-image profile" name="profile">
-                    
-             
+                    <img style="width: 200px; height: 200px;" id="preview" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+                    <input style="display: block;" type="file" id="profile" name="profile" onchange="readURL(this);">
                 </div>
-                </div>
+            </div>
             <button type="submit" class="btn btn-block btn-round btn-secondary">Add</button>
         </form>
 
@@ -194,26 +192,17 @@
 </body>
 
 <script>
-function readImage(input) {
-    // 파일이 있는 경우
-    if(input.files && input.files[0]) {
-        // FileReader 인스턴스 생성
-        const reader = new FileReader()
-        // 이미지 로드
-        reader.onload = e => {
-            const previewImage = document.getElementById("preview-image")
-            previewImage.src = e.target.result
-        }
-        // reader가 이미지 읽어옴
-        reader.readAsDataURL(input.files[0])
-    }
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('preview').src = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    document.getElementById('preview').src = "";
+  }
 }
-
-// input file에 change 이벤트
-const inputImage = document.getElementById("input-image")
-inputImage.addEventListener("change", e => {
-    readImage(e.target)
-})
 
 </script>
 </html>
