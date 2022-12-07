@@ -26,6 +26,13 @@
         float: left;
         text-align:center
     }
+    .all {
+    background-color: rgb(248, 248, 250);
+    border: solid 0.5px rgb(234, 236, 239);
+    border-radius: 20px;
+    width: 60%;
+    margin-left: 20%;
+   }
     html, body {
         height: 100%;
     }
@@ -67,18 +74,24 @@
 
 <!-- 좌우 분할 화면 중, 왼쪽 -->
 <div class="left">
-        <!--사용자 정보 제공-->
-        <img class="img_r" src="{% static 'images/프로필사진예시.jpg' %}"> <br>
-        <div style="margin-top: 10px">
-            <a><strong>펫 이름</strong> </a> <br>
-            <a>펫 나이 <strong>| </strong> </a>
-            <a>펫 품종</a>
-        </div>
+    <!--사용자 정보 제공-->
+    {% if my_pet %}
+        {% for pet in my_pet %}
+            {% if forloop.counter == 1 %}
+                <img class="img_r" src="/media/{{ pet.profile }}">
+                <div style="margin-top: 10px">
+                    <a>우리 집 대표</a> <br>
+                    <a><strong>{{ pet.name }}</strong> </a> <br>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    
 
-        <div style="font-size: 20px; margin-top:30px; float: center;">
-            <a><strong>{{request.user.username}}</strong></a>
-            <hr style="margin-top: 0px; width: 160px; height:2px; background-color: black;">
-        </div>
+    <div style="font-size: 20px; margin-top:15px; float: center;">
+        <a><strong>{{request.user.username}}</strong></a>
+        <hr style="margin-top: 0px; width: 160px; height:2px; background-color: black;">
+    </div>
 
         <!-- click 이벤트를 통해 반려동물 정보와 나의 정보를 다르게 보여줌 -->
         <div style="margin-top: 50px; margin-left: 10px; text-align:left;">
@@ -104,9 +117,9 @@
 
 <!-- 좌우 분할 중, 오른쪽 섹션-->
 <div class="right">
-    <h4 style="margin-top: 15px; margin-left: 10px; text-align:left"> <strong>내 정보</strong></h4>
+    <h4 style="margin-top: 15px; margin-left: 20%; text-align:left"> <strong>내 정보</strong></h4> 
 
-    <div class="container petform" style="float: left;">
+    <div class="container petform all" style="float: left;">
         <div class="info"> <br>
             <a><strong>ID</strong></a> <br>
             <a>{{request.user.username}}</a> <br> <br>
@@ -141,25 +154,11 @@
                     <label for="{{ form.birthday.id_for_label }}">생일</label> <br> <br>
                     <input style="float: left; width: 191px;" type="date" placeholder={{ form.birthday }}
                 </div>
+                <br> <br> <br> <br>
+
+                <button type="submit"  onclick="Alert()" class="btn btn-block btn-round btn-secondary" style="width: 191px; margin-left: 35%;" >정보수정</button>
                 <br> <br>
-
-                <button type="submit"  onclick="Alert()" class="btn btn-block btn-round btn-secondary" style="width: 191px;" >정보수정</button>
-                
             </form>   
-
-            {% if my_pet %}
-            {% for pet in my_pet %}
-            {{ pet.id }} |
-            {{ pet.profile }} |
-            {{ pet.name }} |
-            {{ pet.kind }} |
-            {{ pet.breed }} |
-            {{ pet.adaoption_day }} |
-            {{ pet.birthday }} |
-            <a href="/auth/pet/{{pet.id}}">자세히 보기</a>
-            <br>
-        {% endfor %}
-    {% endif %}     
     </div>
 </div>
 
