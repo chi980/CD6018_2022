@@ -23,6 +23,11 @@
         overflow: hidden;
         text-align:center
     }
+    .all {
+        background-color: rgb(248, 248, 250);
+        border: solid 0.5px rgb(234, 236, 239);
+        border-radius: 20px;
+   }
     .btn_pet{
         margin-top: 30px;
         margin-left: 25px;
@@ -57,16 +62,9 @@
         float: left;
       } 
       div.petimg{
-        width: 40%;
+        width: 39%;
         float: right;
-      }
-      a:link {
-        color : black;
-        text-decoration: none;
-      }
-    a:visited {
-        color : black;
-        text-decoration: none;
+        margin-bottom: 200px;
       }
 </style>
 <!-- 개인정보 화면 나누기 -->
@@ -128,17 +126,18 @@
         </div>
         {% endfor %}
     {% endif %}
-    <br> <br> <br> <br> <br> <br><br> <br><br> 
+    <br> <br> <br> <br> <br> <br><br> <br><br> <br> 
  
 
     <!-- 펫 정보 등록 및 수정 폼 -->
-    <div class="container petform" style="float: left;">
+    <div class="all">
+    <div class="container petform " style="float: left; margin-bottom: 15px;"> 
         <form method="post" action="{% url 'user:mypage_pet' %}" enctype="multipart/form-data">
             {% csrf_token %}
             {% include "form_errors.html" %}
             
         <form method="post" action="{% url 'user:signup' %}">
-            <h5 style="float: left;"> <strong> 새로운 가족 등록 </strong></h5> <br><br>
+            <h4 style="float: left;"> <strong> 새로운 가족 등록 </strong></h4> <br><br><br>
             <div class="mb-3">
                 <label for="name">반려동물명</label>
                 <input type="text" class="form-control" name="name" id="name"
@@ -165,14 +164,15 @@
             </div>
             <!-- 펫 사진 변경 -->
             <div class="petimg">
-                <div class="image-container">
+                <div class="image-container" style="margin-top: 50px;">
                     <a style="font-size: 15px;"><strong>반려동물 사진 변경</strong></a> <br>
                     <img style="width: 200px; height: 200px;" id="preview" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
                     <input style="display: block;" type="file" id="profile" name="profile" onchange="readURL(this);">
                 </div>
-            </div>
-            <button type="submit" class="btn btn-block btn-round btn-secondary">Add</button>
+            </div> 
+            <button type="submit" class="btn btn-block btn-round btn-secondary" style="width: 191px; margin-left: 35%;">Add</button> <br>
         </form>
+    </div>
 
     <!-- {% if my_pet %}
         {% for pet in my_pet %}

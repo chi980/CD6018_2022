@@ -2,68 +2,79 @@
 {% block content %}
 {% load static %}
 
-<div class="container my-3" style="padding-bottom: 30px;">
+<style>
+   .box
+   {
+    width: 300px;
+    height: 100px;
+    text-align: left;
+    margin-left: 35%;
+   }
+   .all
+   {
+    background-color: rgb(248, 248, 250);
+    border: solid 0.5px rgb(234, 236, 239);
+    border-radius: 20px;
+    width: 60%;
+    margin-left: 20%;
+   }
+</style>
+
+<div class="container my-3 all" style="padding-bottom: 30px;">
     <form method="post" action="{% url 'user:signup' %}">
         {% csrf_token %}
         {% include "form_errors.html" %}
-        <h4 style="margin-top: 15px;  text-align:left"> <strong>로그인 정보</strong></h4>
-        <div class="mb-3">
+        <h4 style="float: left;"> <strong> 회원가입 </strong></h4> <br><br><br>
+        <h4 style="margin-top: 15px; margin-left: 35%; text-align:left;"> <strong>로그인 정보</strong></h4> <br>
+        <div class="mb-3 box">
             <label for="username">아이디 (ID)</label>
             <input type="text" class="form-control" name="username" id="username"
                    value="{{ form.username.value|default_if_none:'' }}">
         </div>
-        <div class="mb-3">
+        <div class="mb-3 box">
             <label for="password1">비밀번호 (Password)</label>
             <input type="password" class="form-control" name="password1" id="password1"
                    value="{{ form.password1.value|default_if_none:'' }}">
         </div>
-        <div class="mb-3">
+        <div class="mb-3 box">
             <label for="password2">비밀번호 확인 (Check Password)</label>
             <input type="password" class="form-control" name="password2" id="password2"
                    value="{{ form.password2.value|default_if_none:'' }}">
         </div>
 
-        <h4 style="margin-top: 50px; text-align:left"> <strong>사용자 정보</strong></h4>
-        <div class="mb-3">
+        <h4 style="margin-top: 50px; margin-left: 35%; text-align:left;"> <strong>사용자 정보</strong></h4> <br>
+        <div class="mb-3 box">
             <label for="email">이메일 (Email)</label>
             <input type="text" class="form-control" name="email" id="email"
                    value="{{ form.email.value|default_if_none:'' }}">
         </div>
-        <div class="mb-3">
+        <div class="mb-3 box">
             <label for="last_name">성 (Last Name)</label>
             <input type="text" class="form-control" name="last_name" id="last_name"
                    value="{{ form.last_name.value|default_if_none:'' }}">
         </div>
-        <div class="mb-3">
+        <div class="mb-3 box">
             <label for="first_name">이름 (First Name)</label>
             <input type="text" class="form-control" name="first_name" id="first_name"
                    value="{{ form.first_name.value|default_if_none:'' }}">
         </div>
-        <div class="mb-3">
+        <div class="mb-3 box">
             <label for="gender">성별(Sex)</label> <br>
 <!--            {{ form.gender }}-->
             {% for radio in form.gender %}
                 <label for="{{ radio.id_for_label }}">
                     {{ radio.choice_label }}
-                    <span class="radio">{{ radio.tag }}</span> &nbsp;&nbsp;&nbsp;
+                    <span style="margin-left: 25px;" class="radio">{{ radio.tag }}</span> 
                 </label>
             {% endfor %}
 
         </div>
-        <div class="mb-3">
+        <div class="mb-3 box">
             <label for="birthday">생일(Birthday)</label>
             <input type="date" class="form-control" name="birthday" id="birthday" placeholder="연도,월,일" value="{{object.date|date:'Y-m-d'}}" required>
         </div>
 
-        <button type="submit" class="btn btn-block btn-round btn-secondary">Sign Up</button>
+        <button type="submit" style="width: 300px; margin-left: 35%;" class="btn btn-block btn-round btn-secondary">Sign Up</button>
     </form>
 </div>
-<footer>
-    <div class="container-fluid" style="bottom:0">
-        <hr>
-        <p>ⓒ 명지대학교 융합소프트웨어학부 2022년 2학기 캡스톤디자인 PetZone팀<br>
-            <a href="https://github.com/chi980/CD6018_2022"><img style="width: 65px; height: 30px" src="{% static 'images/깃허브.png' %}"></a>
-        </p>
-      </div>
-</footer>
 {% endblock %}

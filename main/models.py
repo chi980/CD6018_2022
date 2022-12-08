@@ -37,8 +37,14 @@ class Location(models.Model):
         (0,'음식점'),
         (1,'애견')
     )
+    CATEGORY_CHOICE=(
+        (0,'카페'),
+        (1,'음식점'),
+        (2,'애견')
+    )
     name = models.CharField(max_length=50)
-    category = models.CharField(max_length=30, blank=True)
+    # category = models.CharField(max_length=30, blank=True)
+    category = models.IntegerField(blank=True, default=1, choices=CATEGORY_CHOICE)
     address = models.CharField(max_length=128, blank=True)
     lot_address = models.CharField(max_length=100, blank=True)
     phone = models.CharField(max_length=13, blank=True)

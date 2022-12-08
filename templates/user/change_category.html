@@ -11,7 +11,7 @@
         width: 31%;
         height: 250px;
         margin-right: 20px;
-        margin-top: 60px;
+        margin-top: 30px;
         border-radius: 20px;
         text-align: center;
     }
@@ -48,13 +48,14 @@
 
 <h4 style="margin-top: 15px; margin-left: 15px;  text-align:left"> <strong>{{request.user.username}} 님의 취향 Catecory</strong></h4>
 <h6 style="margin-left: 15px;">Pet Zone에서는 각 가게들의 <strong>리뷰를 AI를 통해 분석한 데이터</strong>를 기반으로 {{request.user.username}} 님의 취향에 맞춘 <mark>전방 50m내 맛집</mark>을 추천해드립니다.</h6>
-<input type="submit" onclick="Alert()" class="btn btn-block btn-round btn-secondary" value="저장" style="float: right; width: 80px;" ></input> 
-<a class="on"> <strong>놀거리도 볼래요!</strong> {{ change_form.on_off}}</a> <br>
 
 <div class="container my-3">
     <form action="{% url 'user:change_category' %}" method="post">
             {% csrf_token %}
             {% include "form_errors.html" %}
+            <input type="submit" onclick="Alert()" class="btn btn-block btn-round btn-secondary" value="저장" style="float: right; width: 80px;" ></input> 
+            <a class="on"> <strong>놀거리도 볼래요!</strong> {{ change_form.on_off}}</a> <br> <br><br><br>
+
             {% for category in change_form.category %}
                   {% if forloop.counter == 1 %}
                   <div class="box">

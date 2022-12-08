@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 import json
 from django.core import serializers
-
+from decimal import Decimal
 # Create your views here.
 
 
@@ -56,50 +56,58 @@ def index(request):
 @require_POST
 def recommended(request):
     jsonObject = json.loads(request.body)
-    print("Ajax 데이터를 받았음")
-    print("남서쪽:",jsonObject.get('swLatlng'))
-    print("북동쪽:",jsonObject.get('neLatlng'))
-    cur_latitude_min = jsonObject.get('swLatlng')['La']
-    cur_latitude_max = jsonObject.get('neLatlng')['La']
-    cur_longitude_min = jsonObject.get('swLatlng')['Ma']
-    cur_longitude_max = jsonObject.get('neLatlng')['Ma']
+    # print("Ajax 데이터를 받았음")
+    # print("남서쪽:",jsonObject.get('swLatlng'))
+    # print("북동쪽:",jsonObject.get('neLatlng'))
+    cur_latitude_min = jsonObject.get('swLatlng')['Ma']
+    cur_latitude_max = jsonObject.get('neLatlng')['Ma']
+    cur_longitude_min = jsonObject.get('swLatlng')['La']
+    cur_longitude_max = jsonObject.get('neLatlng')['La']
+
+    # cur_latitude_min = 37.47919116788586
+    # cur_latitude_max = 37.48531880573196
+    # cur_longitude_min = 126.97144148512074
+    # cur_longitude_max = 126.97486509760063
 
     locations_pet = None
     recommended = None
     locations_pet_list = None
     recommended_list = None
     if request.user.is_authenticated:
-        locations = Location.objects.filter(Q(logitude__range=[cur_longitude_min, cur_longitude_max]) & Q(latitude__range=[cur_latitude_min, cur_latitude_max]))
+        # 해당 지역 내의 location
+        print(cur_longitude_min,cur_longitude_max)
+        print(cur_latitude_min,cur_latitude_max)
+        locations = Location.objects.filter(Q(logitude__range=(cur_longitude_min, cur_longitude_max)) & Q(latitude__range=(cur_latitude_min, cur_latitude_max)))
+        # locations = Location.objects.all()
+        print("*"*200)
+        print(locations)
         locations_res = locations.filter(Q(on_off=0)).values_list('id', flat=True)
+
         if (request.user.on_off == 1):
             locations_pet = locations.filter(Q(on_off=1))
+            locations_pet_list = serializers.serialize('json', locations_pet)
         if (request.user.category):
-            recommended = Review.objects.filter(
-                Q(location_id__in=locations_res) & Q(category=request.user.category)).values('location', 'location__name',
-                                                                                             'location__address',
-                                                                                             'location__lot_address',
-                                                                                             'location__phone',
-                                                                                             'location__time',
-                                                                                             'location__url',
-                                                                                             'location__is_animal_in',
-                                                                                             'location__latitude',
-                                                                                             'location__logitude').annotate(
-                avg=Avg('star')).order_by('-avg')[:10]
+            print("user는 category가지고 있음")
+
+            recommended = Review.objects.filter(Q(category_id=request.user.category)&Q(location_id__in=locations_res)).values('location_id').annotate(star_avg=Avg('star'))[:5]\
+                .values('location_id', 'location__name', 'location__category',
+                                     'location__address','location__lot_address','location__phone',
+                                     'location__time','location__url','location__is_animal_in',
+                                     'location__latitude','location__logitude','location__on_off','star_avg')
+            # print(recommended)
+            recommended_list = json.dumps(list(recommended),cls=DecimalEncoder, ensure_ascii=False)
+            print(recommended_list)
         else:
             response = JsonResponse({"error": "카테고리 설정이 필요합니다."})
             response.status_code = 403  # To announce that the user isn't allowed to publish
             return response
-        if locations_pet:
-             locations_pet_list= serializers.serialize('json', locations_pet)
-        if recommended:
-            recommended_list = serializers.serialize('json', recommended)
-        else:
-            response = JsonResponse({"error": "추천할 장소가 없습니다."})
-            response.status_code = 403  # To announce that the user isn't allowed to publish
-            return response
+        # if (recommended):
+        #     response = JsonResponse({"error": "추천할 장소가 없습니다."})
+        #     response.status_code = 403  # To announce that the user isn't allowed to publish
+        #     return response
         # return HttpResponse({locations_pet_list,recommended_list}, content_type="text/json-comment-filtered")
         # return HttpResponse({"locations_pet_list":locations_pet_list,"recommended_list":recommended_list}, content_type="text/json-comment-filtered")
-        return JsonResponse([recommended_list,locations_pet_list], safe=False)
+        return JsonResponse({"recommended":recommended_list,"locations_pet":locations_pet_list}, safe=False)
     # Category 일단 보내보기
     # if request.user.is_authenticated:
     #     if not request.user.category:
@@ -113,5 +121,14 @@ def recommended(request):
         response = JsonResponse({"error": "로그인이 필요합니다."})
         response.status_code = 403  # To announce that the user isn't allowed to publish
         return response
-        # return HttpResponse("로그인 필요합니다.")
-    # return HttpResponse("로그인 하세요")
+
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        # 👇️ if passed in object is instance of Decimal
+        # convert it to a string
+        if isinstance(obj, Decimal):
+
+            return str(round(obj,2))
+        # 👇️ otherwise use the default behavior
+        return json.JSONEncoder.default(self, obj)

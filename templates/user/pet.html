@@ -13,22 +13,30 @@
         background-color: rgb(248, 248, 250);
         border: solid 0.5px rgb(234, 236, 239);
         width: 40%;
-        height: 50%;
+        height: 60%;
         margin-left: 25%;
-        margin-top: 10px;
         border-radius: 20px;
         padding-left: 15px;
+    }
+    .center
+    {
+        display: flex; 
+        justify-content: center;
+        
+    }
+    .bt
+    {
+        width: 100px; 
+        height: 40px;
     }
 
 </style>
 
 <h4 style="margin-top: 20px; margin-left: 25%; text-align:left"> <strong>{{ my_pet.name }}의 정보</strong></h4> <br>
 
-<form action="{% url 'user:pet' my_pet.id%}" method="post"  enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="box">
-        <input type="submit" style="width: 150px; float: right; margin-top: 10px; margin-right: 15px;"  value="수정" class="btn btn-block btn-round btn-secondary"><br><br>
-
+<div class="box">
+    <form action="{% url 'user:pet' my_pet.id%}" method="post"  enctype="multipart/form-data">
+        {% csrf_token %}
         <label for="name">반려동물 이름</label> <br><br>
         <a>{{pet_form.name}}</a><br>
 
@@ -46,11 +54,20 @@
 
         <label for="profile">{{ my_pet.name }}의 사진</label><br><br>
         <img style="width: 120px; height: 120px;" src="/media/{{ my_pet.profile }}"> <br>
-        {{pet_form.profile}}<br><br>
-    </div>
+        {{pet_form.profile}} <br>
 
-</form>
-
+        <div class="center">
+            <div class="bt"><button type="submit"  onclick="Alert_U()"  class="btn btn-block btn-round btn-secondary">수정</button></div>
+        </div>
+    </form>
+    <form action="{% url 'user:pet_delete' my_pet.id %}" method="post" >
+        {% csrf_token %}
+        <div class="center">
+            <div class="bt"><button type="submit"  onclick="Alert_D()"  class="btn btn-block btn-round btn-secondary">삭제</button></div>
+        </div>
+    </form>
+    
+</div>
 <!-- {{ my_pet.id }}
 {{ my_pet.profile }}
 {{ my_pet.name }}
@@ -58,5 +75,18 @@
 {{ my_pet.breed }}
 {{ my_pet.adaoption_day }}
 {{ my_pet.birthday }} -->
+
+<script>
+    function Alert_U() 
+    {
+      alert("{{ my_pet.name }}의 정보 수정 완료!")
+    }  
+
+    function Alert_D() 
+    {
+      alert("{{ my_pet.name }}의 정보 삭제 완료!")
+    }  
+
+</script>
 
 {% endblock %}
