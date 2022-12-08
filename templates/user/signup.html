@@ -16,6 +16,7 @@
     border: solid 0.5px rgb(234, 236, 239);
     border-radius: 20px;
     width: 60%;
+    margin-left: 20%;
    }
 </style>
 
@@ -23,6 +24,7 @@
     <form method="post" action="{% url 'user:signup' %}">
         {% csrf_token %}
         {% include "form_errors.html" %}
+        <h4 style="float: left;"> <strong> 회원가입 </strong></h4> <br><br><br>
         <h4 style="margin-top: 15px; margin-left: 35%; text-align:left;"> <strong>로그인 정보</strong></h4> <br>
         <div class="mb-3 box">
             <label for="username">아이디 (ID)</label>

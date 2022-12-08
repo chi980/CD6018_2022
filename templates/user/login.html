@@ -5,38 +5,58 @@
 {% load socialaccount %}
 {% load static %}
 {% providers_media_js %}
-<div class="container my-3">
+
+<style>
+   .box
+   {
+    width: 320px;
+    height: 100px;
+    text-align: left;
+    margin-left: 35%;
+   }
+   .all
+   {
+    background-color: rgb(248, 248, 250);
+    border: solid 0.5px rgb(234, 236, 239);
+    border-radius: 20px;
+    width: 60%;
+   }
+
+</style>
+
+<div class="container my-3 all">
+    <h4 style="float: left;"> <strong> 로그인 </strong></h4> <br><br><br>
     <form method="post" action="{% url 'user:login' %}">
         {% csrf_token %}
         {% include "form_errors.html" %}
-        <div class="mb-3">
+        <div class="mb-3 box">
             <label for="username">사용자ID</label>
-            <input type="text" class="form-control" name="username" id="username"
+            <input type="text" class="form-control size" name="username" id="username"
                    value="{{ form.username.value|default_if_none:'' }}">
         </div>
-        <div class="mb-3">
+        <div class="mb-3 box">
             <label for="password">비밀번호</label>
-            <input type="password" class="form-control" name="password" id="password"
+            <input type="password" class="form-control size" name="password" id="password"
                    value="{{ form.password.value|default_if_none:'' }}">
         </div>
-        <button style="width: 175px; height: 44px;" type="submit" class="btn btn-block btn-round btn-secondary">Login</button>
+        <button style="width: 182px; height: 44px; margin-left:42%;" type="submit" class="btn btn-block btn-round btn-secondary">Login</button> <br>
     </form> 
     
-    <a class="nav-link" href="{% url 'user:signup' %}">회원가입</a>
+    <div class="text-center"><a href="{% url 'user:signup' %}">회원가입</a></div>
     <br>
 
 
-    <div class="text-left text-muted delimiter">or use a social network</div>
+    <div class="text-center text-muted delimiter">or use a social network</div>
 
-    <div class="p-2 login_api">
+    <div class="p-2 login_api" style="margin-left:40%">
         <a style="margin-left: 15px;" href="{% provider_login_url 'kakao' %}">
             <img src="{% static 'images/kakao_login_medium_narrow.png' %}">
         </a> <br>
         <a class="btn btn-block btn-social btn-google" href="{% provider_login_url 'google' method='oauth2' %}">
-            <img  style="margin-top: 13px; width: 180px; height: 48px;  float: left;"src="{% static 'images/구글로그인.png' %}">
+            <img  style="margin-top: 13px; width: 184px; height: 48px; float: left;"src="{% static 'images/구글로그인.png' %}">
         </a>  <br><br><br>
         <a class="btn btn-block btn-social btn-naver" href="{% provider_login_url 'naver' method='oauth2' %}">
-            <img style="width: 175px; height: 44px; float: left;" src="{% static 'images/btnG_완성형.png' %}">
+            <img style="width: 182px; height: 44px; float: left;" src="{% static 'images/btnG_완성형.png' %}">
         </a>  <br> <br> <br> 
     </div>
 
