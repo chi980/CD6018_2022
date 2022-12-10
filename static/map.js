@@ -594,16 +594,49 @@ kakao.maps.event.addListener(map, "idle", function () {
     success: function (data) {
       // AJAX 통신 성공시 받은 데이터를 console에 print
       console.log("성공~")
-      console.log(data);
-      del_p = document.getElementById("delete_p");
-      del_p.innerHTML = data.recommended;
+//      console.log(data.locations_cafe);
+//      console.log(data.locations_restau);
+//      console.log(data.locations_pet);
+      var location_cafe = JSON.parse(data.locations_cafe) || null;
+      var location_restaurant = JSON.parse(data.locations_restau) || null;
+      var locations_pet = JSON.parse(data.locations_pet) || null;
+      console.log(location_cafe[0]);
+      console.log(location_cafe[0].id);
+      recommended_div_list = document.getElementsByClassName("steps__bg")
+      recommended_id_list = document.getElementsByClassName("location_id")
+      recommended_name_list = document.getElementsByClassName("location_name")
+      recommended_address_list = document.getElementsByClassName("location_address")
+      recommended_lot_address_list = document.getElementsByClassName("location_lot_address")
+      recommended_phone_list = document.getElementsByClassName("location_phone")
+      recommended_time_list = document.getElementsByClassName("location_time")
+      recommended_url_list = document.getElementsByClassName("location_url")
+      recommended_is_animal_in_list = document.getElementsByClassName("location_is_animal_in")
+      recommended_star_list = document.getElementsByClassName("location_star")
+      for(var i=0;i<recommended_div_list.length;i++) recommended_div_list[i].style.visibility="hidden";
+      if(data.recommended)
+      {
+        var recommended = JSON.parse(data.recommended)
+        for (var i = 0;i<recommended.length;i++)
+        {
+            // div->innertext, p->innerhtml
+            recommended_div_list[i].style.visibility="visible"
+            recommended_id_list[i].innerHTML = recommended[i].location_id;
+            recommended_name_list[i].innerHTML = recommended[i].location__name;
+            recommended_address_list[i].innerText = recommended[i].location__address;
+            recommended_phone_list[i].innerText = recommended[i].location__lot_address;
+            recommended_time_list[i].innerText = recommended[i].location__time;
+            recommended_url_list[i].href = recommended[i].location__url
+            recommended_url_list[i].innerHTML = recommended[i].location__url
+            recommended_star_list[i].innerText= recommended[i].star_avg
+        }
+      }
     },
     error: function (data) {
       // AJAX 통신 실패시 alert창
       //            alert(data.status); // the status code
       console.log(data);
       if (data.responseJSON.error) {
-        alert(data.responseJSON.error);
+//        alert(data.responseJSON.error);
       }
     },
   });
