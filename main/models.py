@@ -46,13 +46,13 @@ class Location(models.Model):
     # category = models.CharField(max_length=30, blank=True)
     category = models.IntegerField(blank=True, default=1, choices=CATEGORY_CHOICE, null=True)
     address = models.CharField(max_length=128, blank=True, null=True)
-    lot_address = models.CharField(max_length=100, blank=True, null=True)
-    phone = models.CharField(max_length=13, blank=True, null=True)
-    time = models.CharField(max_length=128,blank=True, null=True)
+    lot_address = models.CharField(max_length=128, blank=True, null=True)
+    phone = models.CharField(max_length=100, blank=True, null=True)
+    time = models.CharField(max_length=256,blank=True, null=True)
     url = models.URLField()
     is_animal_in = models.IntegerField(default=2, choices=ANIMAL_IN_CHOICE, null=True)
-    latitude = models.DecimalField(max_digits=12, decimal_places=10, default=0.0, null=True)     #위도
-    longitude = models.DecimalField(max_digits=13, decimal_places=10, default=0.0, null=True)    #경도
+    latitude = models.DecimalField(max_digits=20, decimal_places=18, default=0.0, null=True)     #위도
+    longitude = models.DecimalField(max_digits=21, decimal_places=18, default=0.0, null=True)    #경도
     # on_off = models.IntegerField(default=0,choices=ON_OFF_CHOICE)
 
     def __str__(self):

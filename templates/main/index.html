@@ -15,13 +15,13 @@
 <!--  <i class="fa fa-user" aria-hidden="true"></i>-->
 <!--</header>-->
 
-<form id="auto_form" action="{% url 'index' %}">
-  <input class="auto_form_input" type="hidden" name="swLatlng">
-  <input class="auto_form_input" type="hidden" name="neLatlng">
-</form>
+<!--<form id="auto_form" action="{% url 'index' %}">-->
+<!--  <input class="auto_form_input" type="hidden" name="swLatlng">-->
+<!--  <input class="auto_form_input" type="hidden" name="neLatlng">-->
+<!--</form>-->
 
 
-<div class="body">
+<div class="body" >
   <nav id="side-bar" class="side-bar">
     
       <div class="input-group mb-3" v-if="main-side">
@@ -75,73 +75,93 @@
       </section>
       {% endfor %}
     {% endif %}
-<!--      <section class="steps section" id="steps">-->
-<!--        <div class="steps__bg">-->
-<!--          <div class="steps__container grid">-->
-<!--            <div class="steps__card">-->
-<!--              <p class="steps__card-description">-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div><br>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--              </p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="steps__bg">-->
-<!--          <div class="steps__container grid">-->
-<!--            <div class="steps__card">-->
-<!--              <p class="steps__card-description">-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div><br>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--              </p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="steps__bg">-->
-<!--          <div class="steps__container grid">-->
-<!--            <div class="steps__card">-->
-<!--              <p class="steps__card-description">-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div><br>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--              </p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="steps__bg">-->
-<!--          <div class="steps__container grid">-->
-<!--            <div class="steps__card">-->
-<!--              <p class="steps__card-description">-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div><br>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--              </p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="steps__bg">-->
-<!--          <div class="steps__container grid">-->
-<!--            <div class="steps__card">-->
-<!--              <p class="steps__card-description">-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div><br>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--                <div class="steps__card-title"></div>-->
-<!--              </p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </section>            -->
+      <section class="steps section" id="steps">
+        <div class="steps__bg"  style="visibility:hidden">
+          <div class="steps__container grid">
+            <div class="steps__card">
+              <p> 1st </p>
+              <p class="location_id" style="display:none"></p>
+              <p class="steps__card-description location_name">
+              <div class="steps__card-title location_address"></div>
+              <div class="steps__card-title location_lot_address"></div>
+              <div class="steps__card-title location_phone"></div>
+              <div class="steps__card-title location_time"></div>
+              <a class="steps__card-title location_url"></a>
+              <div class="steps__card-title location_is_animal_in"></div><br>
+              <div class="steps__card-title location_star"></div>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="steps__bg"  style="visibility:hidden">
+          <div class="steps__container grid">
+            <div class="steps__card">
+              <p> 2nd </p>
+              <p class="location_id" style="display:none"></p>
+              <p class="steps__card-description location_name">
+              <div class="steps__card-title location_address"></div>
+              <div class="steps__card-title location_lot_address"></div>
+              <div class="steps__card-title location_phone"></div>
+              <div class="steps__card-title location_time"></div>
+              <a class="steps__card-title location_url"></a>
+              <div class="steps__card-title location_is_animal_in"></div><br>
+              <div class="steps__card-title location_star"></div>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="steps__bg"  style="visibility:hidden">
+          <div class="steps__container grid">
+            <div class="steps__card">
+              <p> 3rd </p>
+              <p class="location_id" style="display:none"></p>
+              <p class="steps__card-description location_name">
+              <div class="steps__card-title location_address"></div>
+              <div class="steps__card-title location_lot_address"></div>
+              <div class="steps__card-title location_phone"></div>
+              <div class="steps__card-title location_time"></div>
+              <a class="steps__card-title location_url"></a>
+              <div class="steps__card-title location_is_animal_in"></div><br>
+              <div class="steps__card-title location_star"></div>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="steps__bg"  style="visibility:hidden">
+          <div class="steps__container grid">
+            <div class="steps__card">
+              <p> 4th </p>
+              <p class="location_id" style="display:none"></p>
+              <p class="steps__card-description location_name">
+              <div class="steps__card-title location_address"></div>
+              <div class="steps__card-title location_lot_address"></div>
+              <div class="steps__card-title location_phone"></div>
+              <div class="steps__card-title location_time"></div>
+              <a class="steps__card-title location_url"></a>
+              <div class="steps__card-title location_is_animal_in"></div><br>
+              <div class="steps__card-title location_star"></div>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="steps__bg"  style="visibility:hidden">
+          <div class="steps__container grid">
+            <div class="steps__card">
+              <p> 5th </p>
+              <p class="location_id" style="display:none"></p>
+              <p class="steps__card-description location_name">
+              <div class="steps__card-title location_address"></div>
+              <div class="steps__card-title location_lot_address"></div>
+              <div class="steps__card-title location_phone"></div>
+              <div class="steps__card-title location_time"></div>
+              <a class="steps__card-title location_url"></a>
+              <div class="steps__card-title location_is_animal_in"></div><br>
+              <div class="steps__card-title location_star"></div>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </nav>
     <div id="mapwrap"> 
       <!-- 지도가 표시될 div -->
@@ -166,14 +186,5 @@
 </div>
 <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4f831c1ef2222f20d9bc5096cfa70dcf&libraries=services"></script>
 <script type="text/javascript" src="/static/map.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script type="text/javascript">
-// <!--    var auto_form_inputs = document.getElementsByClassName("auto_form_input");-->
-// <!--    auto_form_inputs[0].value = map.getBounds().getSouthWest();-->
-// <!--    auto_form_inputs[1].value = map.getBounds().getNorthEast();-->
-// <!--    console.log(auto_form_inputs[0].value);-->
-// <!--    console.log(auto_form_inputs[1].value);-->
-// <!--    var auto_form = document.getElementById("auto_form");-->
 
-</script>
 {% endblock %}
