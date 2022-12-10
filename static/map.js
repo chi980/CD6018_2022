@@ -566,7 +566,6 @@ function displayStepswindow() {
 }
 
 
-console.log("00000000000000000000000000000000000000000000000000000000000000000000");
 kakao.maps.event.addListener(map, "idle", function () {
   console.log("idle상태입니다.");
   // 지도 영역정보를 얻어옵니다

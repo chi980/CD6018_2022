@@ -15,10 +15,10 @@
 <!--  <i class="fa fa-user" aria-hidden="true"></i>-->
 <!--</header>-->
 
-<form id="auto_form" action="{% url 'index' %}">
-  <input class="auto_form_input" type="hidden" name="swLatlng">
-  <input class="auto_form_input" type="hidden" name="neLatlng">
-</form>
+<!--<form id="auto_form" action="{% url 'index' %}">-->
+<!--  <input class="auto_form_input" type="hidden" name="swLatlng">-->
+<!--  <input class="auto_form_input" type="hidden" name="neLatlng">-->
+<!--</form>-->
 
 
 <div class="body">
@@ -164,14 +164,49 @@
 </div>
 <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4f831c1ef2222f20d9bc5096cfa70dcf&libraries=services"></script>
 <script type="text/javascript" src="/static/map.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript">
-<!--    var auto_form_inputs = document.getElementsByClassName("auto_form_input");-->
-<!--    auto_form_inputs[0].value = map.getBounds().getSouthWest();-->
-<!--    auto_form_inputs[1].value = map.getBounds().getNorthEast();-->
-<!--    console.log(auto_form_inputs[0].value);-->
-<!--    console.log(auto_form_inputs[1].value);-->
-<!--    var auto_form = document.getElementById("auto_form");-->
+console.log("작동");
+kakao.maps.event.addListener(map, "idle", function () {
+  console.log("idle상태입니다.");
+  // 지도 영역정보를 얻어옵니다
+  var bounds = map.getBounds();
 
+  // 영역정보의 남서쪽 정보를 얻어옵니다
+  var swLatlng = bounds.getSouthWest();
+
+  // 영역정보의 북동쪽 정보를 얻어옵니다
+  var neLatlng = bounds.getNorthEast();
+  var mapinfo = {
+    swLatlng: swLatlng,
+    neLatlng: neLatlng,
+  };
+<!--  var message =-->
+<!--    "<p>영역좌표는 남서쪽 위도, 경도는  " + swLatlng.toString() + "이고 <br>";-->
+<!--  message += "북동쪽 위도, 경도는  " + neLatlng.toString() + "입니다 </p>";-->
+<!--  console.log(message);-->
+  $.ajax({
+    url: "/main/recommended/",
+    type: "POST",
+    headers: {
+      "X-CSRFTOKEN": "{{ csrf_token }}",
+    },
+    data: JSON.stringify(mapinfo),
+    success: function (data) {
+      // AJAX 통신 성공시 받은 데이터를 console에 print
+      console.log("성공~")
+      console.log(data);
+
+    },
+    error: function (data) {
+      // AJAX 통신 실패시 alert창
+      //            alert(data.status); // the status code
+      console.log(data);
+      if (data.responseJSON.error) {
+        alert(data.responseJSON.error);
+      }
+    },
+  });
+});
 </script>
+
 {% endblock %}

@@ -123,12 +123,12 @@ def recommended(request):
     recommended_list = None
     if request.user.is_authenticated:
         # 해당 지역 내의 location
-        locations = Location.objects.filter(Q(logitude__range=(cur_longitude_min, cur_longitude_max)) & Q(latitude__range=(cur_latitude_min, cur_latitude_max)))
-        locations_res = locations.filter(Q(on_off=0)).values_list('id', flat=True)
+        locations = Location.objects.filter(Q(longitude__range=(cur_longitude_min, cur_longitude_max)) & Q(latitude__range=(cur_latitude_min, cur_latitude_max)))
+        locations_res = locations.filter(~Q(category=2)).values_list('id', flat=True)
 
         # pet관련 장소 리스트
         if (request.user.on_off == 1):
-            locations_pet = locations.filter(Q(on_off=1))
+            locations_pet = locations.filter(Q(category=2))
             locations_pet_list = serializers.serialize('json', locations_pet)
 
         # 추천 리스트
@@ -137,22 +137,25 @@ def recommended(request):
                 .values('location_id', 'location__name', 'location__category',
                                      'location__address','location__lot_address','location__phone',
                                      'location__time','location__url','location__is_animal_in',
-                                     'location__latitude','location__logitude','location__on_off','star_avg')
+                                     'location__latitude','location__longitude','star_avg')
             # print(recommended)
             recommended_list = json.dumps(list(recommended),cls=DecimalEncoder, ensure_ascii=False)
         else:
             response = JsonResponse({"error": "카테고리 설정이 필요합니다."})
             response.status_code = 403  # To announce that the user isn't allowed to publish
-            return response
+            # return response
+            return HttpResponse("<script>alert('카테고리 설정이 필요합니다.');location.href='/auth/category';</script>")
         if not recommended:
             response = JsonResponse({"error": "추천할 장소가 없습니다."})
             response.status_code = 403  # To announce that the user isn't allowed to publish
             return response
-        return JsonResponse({"recommended":recommended_list,"locations_pet":locations_pet_list}, safe=False)
+        # return JsonResponse({"recommended":recommended_list,"locations_pet":locations_pet_list}, safe=False)
+        return HttpResponse("<script>alert('추천할 장소가 없습니다.');</script>")
     else:
         response = JsonResponse({"error": "로그인이 필요합니다."})
         response.status_code = 403  # To announce that the user isn't allowed to publish
-        return response
+        # return response
+        return HttpResponse("<script>alert('로그인이 필요합니다');location.href='/auth/login';</script>")
 
 
 class DecimalEncoder(json.JSONEncoder):
