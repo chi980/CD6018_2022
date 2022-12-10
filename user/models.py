@@ -16,8 +16,9 @@ class User(AbstractUser):
     )
 
     ON_OFF_CHOICE=(
-        (0,'음식점'),
-        (1,'전체')
+        (0,'카페'),
+        (1,'음식점'),
+        (2,'애견'),
     )
 
     email = models.EmailField(unique=False)
