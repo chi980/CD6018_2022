@@ -6,7 +6,7 @@ var mapContainer = document.getElementById("map"), // 지도를 표시할 div
 
 // 지도를 생성한다
 var map = new kakao.maps.Map(mapContainer, mapOption);
-
+var testPositions = [];
 var foodPositions = [
   {
     title: "디폴트",
@@ -371,10 +371,6 @@ function getCurrentPosBtn() {
 //    myMapInfo();
 //});
 
-
-
-
-
 //function myMapInfo(){
 //    // 지도 영역정보를 얻어옵니다
 //    var bounds = map.getBounds();
@@ -565,7 +561,9 @@ function displayStepswindow() {
   document.getElementById("steps").style.display = "none";
 }
 
-
+console.log(
+  "00000000000000000000000000000000000000000000000000000000000000000000"
+);
 kakao.maps.event.addListener(map, "idle", function () {
   console.log("idle상태입니다.");
   // 지도 영역정보를 얻어옵니다
@@ -593,51 +591,76 @@ kakao.maps.event.addListener(map, "idle", function () {
     data: JSON.stringify(mapinfo),
     success: function (data) {
       // AJAX 통신 성공시 받은 데이터를 console에 print
-      console.log("성공~")
-//      console.log(data.locations_cafe);
-//      console.log(data.locations_restau);
-//      console.log(data.locations_pet);
-      var location_cafe = JSON.parse(data.locations_cafe) || null;
-      var location_restaurant = JSON.parse(data.locations_restau) || null;
-      var locations_pet = JSON.parse(data.locations_pet) || null;
-      console.log(location_cafe[0]);
-      console.log(location_cafe[0].id);
-      recommended_div_list = document.getElementsByClassName("steps__bg")
-      recommended_id_list = document.getElementsByClassName("location_id")
-      recommended_name_list = document.getElementsByClassName("location_name")
-      recommended_address_list = document.getElementsByClassName("location_address")
-      recommended_lot_address_list = document.getElementsByClassName("location_lot_address")
-      recommended_phone_list = document.getElementsByClassName("location_phone")
-      recommended_time_list = document.getElementsByClassName("location_time")
-      recommended_url_list = document.getElementsByClassName("location_url")
-      recommended_is_animal_in_list = document.getElementsByClassName("location_is_animal_in")
-      recommended_star_list = document.getElementsByClassName("location_star")
-      for(var i=0;i<recommended_div_list.length;i++) recommended_div_list[i].style.visibility="hidden";
-      if(data.recommended)
-      {
-        var recommended = JSON.parse(data.recommended)
-        for (var i = 0;i<recommended.length;i++)
-        {
-            // div->innertext, p->innerhtml
-            recommended_div_list[i].style.visibility="visible"
-            recommended_id_list[i].innerHTML = recommended[i].location_id;
-            recommended_name_list[i].innerHTML = recommended[i].location__name;
-            recommended_address_list[i].innerText = recommended[i].location__address;
-            recommended_phone_list[i].innerText = recommended[i].location__lot_address;
-            recommended_time_list[i].innerText = recommended[i].location__time;
-            recommended_url_list[i].href = recommended[i].location__url
-            recommended_url_list[i].innerHTML = recommended[i].location__url
-            recommended_star_list[i].innerText= recommended[i].star_avg
-        }
-      }
+      console.log("성공~");
+      console.log(data);
+      del_p = document.getElementById("delete_p");
+      del_p.innerHTML = data.recommended;
     },
     error: function (data) {
       // AJAX 통신 실패시 alert창
       //            alert(data.status); // the status code
       console.log(data);
       if (data.responseJSON.error) {
-//        alert(data.responseJSON.error);
+        alert(data.responseJSON.error);
       }
     },
   });
 });
+
+positions.forEach(function (pos) {
+  // 마커를 생성합니다
+  var marker = new kakao.maps.Marker({
+    /* do something */
+  });
+
+  // content HTMLElement 생성
+  var content = document.createElement("div");
+
+  var info = document.createElement("span");
+  info.appendChild(document.createTextNode(pos.title));
+  content.appendChild(info);
+
+  var closeBtn = document.createElement("button");
+  closeBtn.appendChild(document.createTextNode("닫기"));
+  // 닫기 이벤트 추가
+  closeBtn.onclick = function () {
+    overlay.setMap(null);
+  };
+
+  content.appendChild(closeBtn);
+
+  // customoverlay 생성, 이때 map을 선언하지 않으면 지도위에 올라가지 않습니다.
+  var overlay = new daum.maps.CustomOverlay({
+    position: pos.latlng,
+    content: content,
+  });
+
+  // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+  kakao.maps.event.addListener(marker, "click", function () {
+    overlay.setMap(map);
+  });
+});
+
+// positions.forEach(function(pos) {
+//   var customOverlay = new daum.maps.CustomOverlay({ position: latlng });
+//   var content = document.createElement('div');
+//   var info = document.createElement('span');
+//   info.appendChild(document.createTextNode(pos.content));
+//   content.appendChild(info);
+//   var closeBtn = document.creat…
+// });
+
+//   var content = document.createElement('div');
+//     content.innerHTML =  data.title;
+//     content.style.cssText = 'background: white; border: 1px solid black';
+
+//     var closeBtn = document.createElement('button');
+//     closeBtn.innerHTML = '닫기';
+//     closeBtn.onclick = function () {
+//         overlay.setMap(null);
+//     };
+//     content.appendChild(closeBtn);
+//     overlay.setContent(content);
+
+//     kakao.maps.event.addListener(marker, 'click', function() {
+//         overlay.setMap(map);
