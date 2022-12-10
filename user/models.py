@@ -28,6 +28,7 @@ class User(AbstractUser):
     on_off = models.IntegerField(default=0,choices=ON_OFF_CHOICE)
     # USERNAME_FIELD = 'email'
     # REQUIRED_FIELDS = []
+    favorites = models.ManyToManyField('main.Location')
 
     def __str__(self):
         # return "{}님({})".format(self.last_name or '익명',self.username)
@@ -57,9 +58,9 @@ class Pet(models.Model):
     def __str__(self):
         return "{}님의 {}".format(self.user.last_name or "익명",self.name)
 
-class Favorite(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name='favorite')
-    location = models.OneToOneField('main.Location',on_delete=models.CASCADE, related_name='favorite')
-
-    def __str__(self):
-        return f'{self.user.id}님의 {self.location.name}'
+# class Favorite(models.Model):
+#     user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name='favorite')
+#     location = models.OneToOneField('main.Location',on_delete=models.CASCADE, related_name='favorite')
+#
+#     def __str__(self):
+#         return f'{self.user.id}님의 {self.location.name}'

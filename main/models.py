@@ -33,10 +33,10 @@ class Location(models.Model):
         (1,'가능'),
         (2,'정보 없음')
     )
-    ON_OFF_CHOICE=(
-        (0,'음식점'),
-        (1,'애견')
-    )
+    # ON_OFF_CHOICE=(
+    #     (0,'음식점'),
+    #     (1,'애견')
+    # )
     CATEGORY_CHOICE=(
         (0,'카페'),
         (1,'음식점'),
@@ -44,16 +44,16 @@ class Location(models.Model):
     )
     name = models.CharField(max_length=50)
     # category = models.CharField(max_length=30, blank=True)
-    category = models.IntegerField(blank=True, default=1, choices=CATEGORY_CHOICE)
-    address = models.CharField(max_length=128, blank=True)
-    lot_address = models.CharField(max_length=100, blank=True)
-    phone = models.CharField(max_length=13, blank=True)
-    time = models.CharField(max_length=128,blank=True)
-    url = models.URLField(blank=True)
-    is_animal_in = models.IntegerField(default=2, choices=ANIMAL_IN_CHOICE)
-    latitude = models.DecimalField(max_digits=9, decimal_places=7, default=0.0)     #위도
-    logitude = models.DecimalField(max_digits=10, decimal_places=7, default=0.0)    #경도
-    on_off = models.IntegerField(default=0,choices=ON_OFF_CHOICE)
+    category = models.IntegerField(blank=True, default=1, choices=CATEGORY_CHOICE, null=True)
+    address = models.CharField(max_length=128, blank=True, null=True)
+    lot_address = models.CharField(max_length=100, blank=True, null=True)
+    phone = models.CharField(max_length=13, blank=True, null=True)
+    time = models.CharField(max_length=128,blank=True, null=True)
+    url = models.URLField()
+    is_animal_in = models.IntegerField(default=2, choices=ANIMAL_IN_CHOICE, null=True)
+    latitude = models.DecimalField(max_digits=12, decimal_places=10, default=0.0, null=True)     #위도
+    longitude = models.DecimalField(max_digits=13, decimal_places=10, default=0.0, null=True)    #경도
+    # on_off = models.IntegerField(default=0,choices=ON_OFF_CHOICE)
 
     def __str__(self):
         return f'{self.name}(<a href="{self.url}"></a>)'

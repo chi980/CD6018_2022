@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login,logout
 from django.shortcuts import redirect,HttpResponseRedirect,get_object_or_404,HttpResponse
-from .models import User,Pet,Favorite
+from .models import User,Pet   #,Favorite
 from main.models import Location
 from user.forms import UserForm,PetForm, MyUserChangeForm, CategoryChangeForm
 from django.contrib import messages
@@ -18,14 +18,12 @@ from django.template.loader import render_to_string
 # Create your views here.
 def user_login(request):
     if request.method == 'POST':
-        print("sns로그인도  useR_login?")
-        print(request.POST)
-        print(request.POST['password'])
+        # print("sns로그인도  useR_login?")
         username = request.POST.get("username")
         password = request.POST.get("password")
         user = authenticate(username=username, password=password)
         if user is not None:
-            print("인증성공")
+            # print("인증성공")
             login(request, user)
             return redirect('index')
         else:

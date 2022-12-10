@@ -22,26 +22,26 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
         return user
 
     def pre_social_login(self, request, sociallogin):
-        print("pre_social_login!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        if sociallogin.user.id:
-            print("sns로그인 되어 있음")
-            return
+        # print("pre_social_login!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        # if sociallogin.user.id:
+            # print("sns로그인 되어 있음")
+            # return
         if request.user and request.user.is_authenticated:
-            print("sns로그인 계정은 없고 이미 로그인 된 상황")
+            # print("sns로그인 계정은 없고 이미 로그인 된 상황")
             try:
-                print("email이 동일")
+                # print("email이 동일")
                 login_user = User.objects.get(email=request.user)
                 sociallogin.connect(request, login_user)
                 
             except User.DoesNotExist:
-                print("email이 비동일")
+                # print("email이 비동일")
                 pass
 
     def save_user(self, request, sociallogin, form):
         # data = form.cleaned_data
         # user = super().save_user(request, sociallogin, form)
         # return user
-        print("save_user!!!!!!!!!!!!!!!!!!!!")
+        # print("save_user!!!!!!!!!!!!!!!!!!!!")
         # print(type(form))
         # pre_user = User.objects.get(email = sociallogin.user.email)
         # if not pre_user:
