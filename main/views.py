@@ -19,7 +19,9 @@ def index(request):
     locations_pet = None
     locations_pet_list = None
     recommended_list = None
-    # if request.method == 'POST':
+
+    if request.method == 'POST':
+        return redirect('/');
     #     if request.user.is_authenticated:
     #         cur_latitude_min = request.get('swLatlng_lat')
     #         cur_latitude_max = request.get('neLatlng_lat')

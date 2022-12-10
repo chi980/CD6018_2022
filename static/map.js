@@ -371,50 +371,9 @@ function getCurrentPosBtn() {
 //    myMapInfo();
 //});
 
-/*
-//kakao.maps.event.addListener(map, "idle", function () {
-//  console.log("idle상태입니다.");
-//  // 지도 영역정보를 얻어옵니다
-//  var bounds = map.getBounds();
-//
-//  // 영역정보의 남서쪽 정보를 얻어옵니다
-//  var swLatlng = bounds.getSouthWest();
-//
-//  // 영역정보의 북동쪽 정보를 얻어옵니다
-//  var neLatlng = bounds.getNorthEast();
-//  var mapinfo = {
-//    swLatlng: swLatlng,
-//    neLatlng: neLatlng,
-//  };
-//  var message =
-//    "<p>영역좌표는 남서쪽 위도, 경도는  " + swLatlng.toString() + "이고 <br>";
-//  message += "북동쪽 위도, 경도는  " + neLatlng.toString() + "입니다 </p>";
-//  console.log(message);
-//  $.ajax({
-//    url: "/main/recommended/",
-//    type: "POST",
-//    headers: {
-//      "X-CSRFTOKEN": "{{ csrf_token }}",
-//    },
-//    data: JSON.stringify(mapinfo),
-//    success: function (data) {
-//      // AJAX 통신 성공시 받은 데이터를 console에 print
-//      console.log("성공~")
-//      console.log(data);
-//      del_p = document.getElementById("delete_p");
-//      del_p.innerHTML = data.recommended;
-//    },
-//    error: function (data) {
-//      // AJAX 통신 실패시 alert창
-//      //            alert(data.status); // the status code
-//      console.log(data);
-//      if (data.responseJSON.error) {
-//        alert(data.responseJSON.error);
-//      }
-//    },
-//  });
-//});
-*/
+
+
+
 
 //function myMapInfo(){
 //    // 지도 영역정보를 얻어옵니다
@@ -605,3 +564,48 @@ function keywordSearch() {
 function displayStepswindow() {
   document.getElementById("steps").style.display = "none";
 }
+
+
+console.log("00000000000000000000000000000000000000000000000000000000000000000000");
+kakao.maps.event.addListener(map, "idle", function () {
+  console.log("idle상태입니다.");
+  // 지도 영역정보를 얻어옵니다
+  var bounds = map.getBounds();
+
+  // 영역정보의 남서쪽 정보를 얻어옵니다
+  var swLatlng = bounds.getSouthWest();
+
+  // 영역정보의 북동쪽 정보를 얻어옵니다
+  var neLatlng = bounds.getNorthEast();
+  var mapinfo = {
+    swLatlng: swLatlng,
+    neLatlng: neLatlng,
+  };
+  var message =
+    "<p>영역좌표는 남서쪽 위도, 경도는  " + swLatlng.toString() + "이고 <br>";
+  message += "북동쪽 위도, 경도는  " + neLatlng.toString() + "입니다 </p>";
+  console.log(message);
+  $.ajax({
+    url: "/main/recommended/",
+    type: "POST",
+    headers: {
+      "X-CSRFTOKEN": "{{ csrf_token }}",
+    },
+    data: JSON.stringify(mapinfo),
+    success: function (data) {
+      // AJAX 통신 성공시 받은 데이터를 console에 print
+      console.log("성공~")
+      console.log(data);
+      del_p = document.getElementById("delete_p");
+      del_p.innerHTML = data.recommended;
+    },
+    error: function (data) {
+      // AJAX 통신 실패시 alert창
+      //            alert(data.status); // the status code
+      console.log(data);
+      if (data.responseJSON.error) {
+        alert(data.responseJSON.error);
+      }
+    },
+  });
+});
