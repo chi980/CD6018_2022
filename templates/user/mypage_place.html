@@ -121,10 +121,12 @@
           {% for favorite in favorites %}
                <tr>
                 <th scope="row">{{forloop.counter}}</th>
-                <td>{{favorite.location.name}}</td>
-                <td>{{favorite.location.address}}</td>
+                <td style="display:none">{{favorite.id}}</td>
+                <td>{{favorite.name}}</td>
+                <td>{{favorite.address}}</td>
                 <td>
-                    <button type="button" class="btn btn-secondary" onclick="window.open('{{favorite.location.url}');">자세히보기</button>
+                    <a href="{{favorite.url}}">{{favorite.url}}</a>
+                    <button type="button" class="btn btn-secondary" onclick="window.open('{{favorite.url}');">자세히보기</button>
                 </td>
                 <td>
                     <button type="button" class="btn btn-secondary"  onclick="rowDelete(this)">삭제</button>
@@ -163,6 +165,23 @@
         {
             alert("삭제할 수 없습니다.");
         }else{
+<!--            console.log(This.parentElement.parentElement)-->
+<!--            console.log(This.parentElement.parentElement.children)-->
+            location_info = {location_id:This.parentElement.parentElement.children[1].innerHTML}
+            $.ajax({
+                url: "/main/favorites/",
+                type: "POST",
+                headers: {
+                  "X-CSRFTOKEN": "{{ csrf_token }}",
+                },
+                data: JSON.stringify(location_info),
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
             This.closest('tr').remove();//삭제
         }
     }

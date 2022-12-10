@@ -564,7 +564,19 @@ function keywordSearch() {
 function displayStepswindow() {
   document.getElementById("steps").style.display = "none";
 }
-
+//recommend_form_list = document.getElementsByClassName("favorite_form")
+recommended_id_list = document.getElementsByClassName("location_id")
+//recommended_id_input_list = document.getElementsByClassName("location_id_input")
+recommended_div_list = document.getElementsByClassName("steps__bg")
+recommended_name_list = document.getElementsByClassName("location_name")
+recommended_address_list = document.getElementsByClassName("location_address")
+recommended_lot_address_list = document.getElementsByClassName("location_lot_address")
+recommended_phone_list = document.getElementsByClassName("location_phone")
+recommended_time_list = document.getElementsByClassName("location_time")
+recommended_url_list = document.getElementsByClassName("location_url")
+recommended_is_animal_in_list = document.getElementsByClassName("location_is_animal_in")
+recommended_star_list = document.getElementsByClassName("location_star")
+location_btn_list = document.getElementsByClassName("favorite_btn")
 
 kakao.maps.event.addListener(map, "idle", function () {
   console.log("idle상태입니다.");
@@ -602,25 +614,19 @@ kakao.maps.event.addListener(map, "idle", function () {
       var locations_pet = JSON.parse(data.locations_pet) || null;
       console.log(location_cafe[0]);
       console.log(location_cafe[0].id);
-      recommended_div_list = document.getElementsByClassName("steps__bg")
-      recommended_id_list = document.getElementsByClassName("location_id")
-      recommended_name_list = document.getElementsByClassName("location_name")
-      recommended_address_list = document.getElementsByClassName("location_address")
-      recommended_lot_address_list = document.getElementsByClassName("location_lot_address")
-      recommended_phone_list = document.getElementsByClassName("location_phone")
-      recommended_time_list = document.getElementsByClassName("location_time")
-      recommended_url_list = document.getElementsByClassName("location_url")
-      recommended_is_animal_in_list = document.getElementsByClassName("location_is_animal_in")
-      recommended_star_list = document.getElementsByClassName("location_star")
+
       for(var i=0;i<recommended_div_list.length;i++) recommended_div_list[i].style.visibility="hidden";
       if(data.recommended)
       {
+        var location_favorite = JSON.parse(data.recommended_favorite) || null;
         var recommended = JSON.parse(data.recommended)
         for (var i = 0;i<recommended.length;i++)
         {
             // div->innertext, p->innerhtml
             recommended_div_list[i].style.visibility="visible"
             recommended_id_list[i].innerHTML = recommended[i].location_id;
+//            recommended_id_input_list.value = recommended[i].location_id;
+            location_btn_list[i].setAttribute("data-value",recommended[i].location_id);
             recommended_name_list[i].innerHTML = recommended[i].location__name;
             recommended_address_list[i].innerText = recommended[i].location__address;
             recommended_phone_list[i].innerText = recommended[i].location__lot_address;
@@ -628,6 +634,10 @@ kakao.maps.event.addListener(map, "idle", function () {
             recommended_url_list[i].href = recommended[i].location__url
             recommended_url_list[i].innerHTML = recommended[i].location__url
             recommended_star_list[i].innerText= recommended[i].star_avg
+            console.log(location_favorite)
+            if(location_favorite[i] == true) location_btn_list[i].children[0].src = "/static/images/like_sel.png"
+            else location_btn_list[i].children[0].src = "/static/images/like_no_sel.png"
+
         }
       }
     },
@@ -641,3 +651,46 @@ kakao.maps.event.addListener(map, "idle", function () {
     },
   });
 });
+//console.log(recommended_favorite_list)
+//for(var i=0;i<recommend_form_list.length;i++)
+//{
+//    recommend_form_list[i].addEventListener("submit",function(event){
+//
+//        event.preventDefault();
+//    })
+//}
+
+for (var i=0;i<location_btn_list.length;i++)
+{
+    location_btn_list[i].addEventListener("click",(event)=>{
+        console.log(event.currentTarget.getAttribute("data-value"));
+        img = event.currentTarget.children[0]
+        console.log(img)
+        var location_info= {
+            location_id: event.currentTarget.getAttribute("data-value"),
+        };
+        $.ajax({
+            url: "/main/favorites/",
+            type: "POST",
+            headers: {
+              "X-CSRFTOKEN": "{{ csrf_token }}",
+            },
+            data: JSON.stringify(location_info),
+            success: function (data) {
+                console.log(data)
+                if (data == "True"){
+                    //등록
+                    img.src = "/static/images/like_sel.png"
+                }
+                else{
+                    //삭제
+                    img.src = "/static/images/like_no_sel.png"
+                }
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    })
+}
