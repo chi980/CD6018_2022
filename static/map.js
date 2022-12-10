@@ -49,6 +49,8 @@ var petPositions = [
   {
     title: "디폴트",
     latlng: new kakao.maps.LatLng(37.5764251, 126.9114472),
+    url: "https://place.map.kakao.com/27397153",
+    road: "경기 남양주시 오남읍 양지로 234-10",
   },
   {
     title: "테스트1",
@@ -64,27 +66,6 @@ var petPositions = [
   },
 ];
 
-var coContent =
-  '<div class="wrap">' +
-  '    <div class="info">' +
-  '        <div class="title">' +
-  "           " +
-  //   positions[i].title +
-  '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-  "        </div>" +
-  '        <div class="body">' +
-  // '            <div class="img">' +
-  // // '                <img src="https://place.map.kakao.com/820074096" width="73" height="70">' +
-  // '           </div>' +
-  '	            <div class="desc">' +
-  '                	<div class="ellipsis"></div>' +
-  '                	<div class="jibun ellipsis">(우) 00000 (지번) 000동 0000 </div>' +
-  '               	 <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' +
-  "           	 </div>" +
-  "       	 </div>" +
-  "   	 </div>" +
-  "	</div>";
-
 var foodMarkers = [],
   cafeMarkers = [],
   petMarkers = [];
@@ -99,10 +80,89 @@ createPetMarkers();
 
 changeMarker("pet");
 
+function displayInfowindow(marker, title) {
+  var content = '<div style="padding:5px;z-index:1;">' + title + "</div>";
+
+  infowindow.setContent(content);
+  infowindow.open(map, marker);
+}
+
+// var coContent =
+//   '<div class="wrap">' +
+//   '    <div class="info">' +
+//   '        <div class="title">' +
+//   petPositions[0].title +
+//   "           " +
+//   '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
+//   "        </div>" +
+//   '        <div class="body">' +
+//   '	            <div class="desc">' +
+//   '                	<div class="ellipsis"></div>' +
+//   '                	<div class="jibun ellipsis">' +
+//   petPositions[0].road +
+//   '               	 <div><a href="' +
+//   petPositions[0].url +
+//   '" target="_blank" class="link">상세보기</a></div>' +
+//   "           	 </div>" +
+//   "       	 </div>" +
+//   "   	 </div>" +
+//   "	</div>";
+
+// var coContent =
+//   '<div class="wrap">' +
+//   '    <div class="info">' +
+//   '        <div class="title">' +
+//   petPositions[0].title +
+//   "           " +
+//   '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
+//   "        </div>" +
+//   '        <div class="body">' +
+//   '	            <div class="img">' +
+//   '               <img src="./images/pet_marker" width="73" height="70">' +
+//   "             </div>" +
+//   '            <div class="desc">' +
+//   '                	<div class="ellipsis"></div>' +
+//   '                	<div class="jibun ellipsis">' +
+//   petPositions[0].road +
+//   "</div>" +
+//   '               	 <div><a href="' +
+//   petPositions[0].url +
+//   '" target="_blank" class="link">상세보기</a></div>' +
+//   "           	 </div>" +
+//   "       	 </div>" +
+//   "   	 </div>" +
+//   "	</div>";
+
+var coContent =
+  '<div class="wrap">' +
+  '    <div class="info">' +
+  '        <div class="title">' +
+  petPositions[0].title +
+  "           " +
+  '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
+  "        </div>" +
+  '        <div class="body">' +
+  '	            <div class="img">' +
+  '               <img src="/static/images/pet_marker" width="73" height="70">' +
+  "             </div>" +
+  '            <div class="desc">' +
+  '                	<div class="ellipsis"></div>' +
+  '                	<div class="jibun ellipsis">' +
+  petPositions[0].road +
+  "</div>" +
+  '               	 <div><a href="' +
+  petPositions[0].url +
+  '" target="_blank" class="link">상세보기</a></div>' +
+  "           	 </div>" +
+  "       	 </div>" +
+  "   	 </div>" +
+  "	</div>";
+
 // 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴하는 함수입니다
 function createMarkerImage(src, size) {
   var markerImage = new kakao.maps.MarkerImage(src, size);
-  return markerImage;
+
+  return markerImage; // 마커 위에 커스텀오버레이를 표시합니다
 }
 // 좌표와 마커이미지를 받아 마커를 생성하여 리턴하는 함수입니다
 function createMarker(position, image, clickable) {
@@ -112,7 +172,25 @@ function createMarker(position, image, clickable) {
     clickable: clickable,
   });
 
+  // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+  kakao.maps.event.addListener(marker, "click", function () {
+    var overlay = new kakao.maps.CustomOverlay({
+      map: map,
+      clickable: true,
+      content: coContent,
+      position: marker.getPosition(),
+      xAnchor: 0.5,
+      yAnchor: 1,
+      zIndex: 3,
+    });
+    overlay.setMap(map);
+  });
   return marker;
+}
+
+// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
+function closeOverlay() {
+  overlay.setMap(null);
 }
 
 // 음식점 마커를 생성하고 음식점 마커 배열에 추가하는 함수입니다
@@ -233,153 +311,6 @@ function changeMarker(type) {
 var myMarkerImgSrc = "/static/images/my_marker.png";
 myImgSize = new kakao.maps.Size(22, 22);
 myMarkerImage = new kakao.maps.MarkerImage(myMarkerImgSrc, myImgSize);
-
-// var marker = new kakao.maps.Marker({
-//   map: map, // 마커를 표시할 지도
-//   position: positions.latlng, // 마커를 표시할 위치
-//   title: positions.title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-//   image: myMarkerImage, // 마커 이미지
-//   clickable: false,
-// });
-
-// 음식 마커 이미지의 이미지 주소입니다
-// var foodMarkerImgSrc = "/static/images/food_marker.png";
-// foodImgSize = new kakao.maps.Size(32, 40);
-// OverFoodImgSize = new kakao.maps.Size(36, 45);
-// foodMarkerImage = new kakao.maps.MarkerImage(foodMarkerImgSrc, foodImgSize);
-// OverFoodMarkerImage = new kakao.maps.MarkerImage(
-//   foodMarkerImgSrc,
-//   OverFoodImgSize
-// );
-
-// // 카페 마커 이미지의 이미지 주소입니다
-// var cafeMarkerImgSrc = "/static/images/cafe_marker.png";
-// cafeImgSize = new kakao.maps.Size(32, 40);
-// OverCafeImgSize = new kakao.maps.Size(36, 45);
-// cafeMarkerImage = new kakao.maps.MarkerImage(cafeMarkerImgSrc, cafeImgSize);
-// OverCafeMarkerImage = new kakao.maps.MarkerImage(
-//   cafeMarkerImgSrc,
-//   OverCafeImgSize
-// );
-
-// // 강아자 마커 이미지의 이미지 주소입니다
-// var petMarkerImgSrc = "/static/images/pet_marker.png";
-// petImgSize = new kakao.maps.Size(32, 40);
-// OverPetImgSize = new kakao.maps.Size(36, 45);
-// petMarkerImage = new kakao.maps.MarkerImage(petMarkerImgSrc, petImgSize);
-// OverPetMarkerImage = new kakao.maps.MarkerImage(
-//   petMarkerImgSrc,
-//   OverPetImgSize
-// );
-function closeOverlay() {
-  console.log("hi");
-}
-// makeMarkers.forEach(function (element) {});
-// 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-// positions.forEach(function (positions) {
-//   // 마커를 생성합니다
-//   if (positions.title == "디폴트")
-//     var marker = new kakao.maps.Marker({
-//       map: map, // 마커를 표시할 지도
-//       position: positions.latlng, // 마커를 표시할 위치
-//       title: positions.title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-//       image: myMarkerImage, // 마커 이미지
-//       clickable: false,
-//     });
-//   else if (positions.title == "테스트1")
-//     var marker = new kakao.maps.Marker({
-//       map: map, // 마커를 표시할 지도
-//       position: positions.latlng, // 마커를 표시할 위치
-//       title: positions.title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-//       image: foodMarkerImage, // 마커 이미지
-//       clickable: true,
-//     });
-//   else
-//     var marker = new kakao.maps.Marker({
-//       map: map, // 마커를 표시할 지도
-//       position: positions.latlng, // 마커를 표시할 위치
-//       title: positions.title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-//       image: petMarkerImage, // 마커 이미지
-//       clickable: true,
-//     });
-// var customOverlay = new kakao.maps.CustomOverlay({
-//   position: position.latlng,
-//   content: coContent,
-//   positions: marker.getPosition(),
-// });
-
-// // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-// kakao.maps.event.addListener(marker, "click", function () {
-//   customOverlay.setMap(map);
-// });
-
-// // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
-// function closeOverlay() {
-//   customOverlay.setMap(null);
-// }
-
-// });
-
-// for (var i = 0; i < positions.length; i++) {
-//   // 마커를 생성합니다
-//   if (positions[i].title == "디폴트")
-//     var marker = new kakao.maps.Marker({
-//       map: map, // 마커를 표시할 지도
-//       position: positions[i].latlng, // 마커를 표시할 위치
-//       title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-//       image: myMarkerImage, // 마커 이미지
-//       clickable: false,
-//     });
-//   else if (positions[i].title == "테스트1")
-//     var marker = new kakao.maps.Marker({
-//       map: map, // 마커를 표시할 지도
-//       position: positions[i].latlng, // 마커를 표시할 위치
-//       title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-//       image: foodMarkerImage, // 마커 이미지
-//       clickable: true,
-//     });
-//   else
-//     var marker = new kakao.maps.Marker({
-//       map: map, // 마커를 표시할 지도
-//       position: positions[i].latlng, // 마커를 표시할 위치
-//       title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-//       image: petMarkerImage, // 마커 이미지
-//       clickable: true,
-//     });
-//   // kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, customOverlay));
-//   // kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(customOverlay));
-// }
-
-// customOverlay.setMap(map);
-
-// var customOverlay = new kakao.maps.CustomOverlay({
-//   position: positions[i].latlng,
-//   content: coContent,
-//   positions: marker.getPosition(),
-// });
-
-// // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-// kakao.maps.event.addListener(marker, "click", function () {
-//   customOverlay.setMap(map);
-// });
-
-// // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
-// function closeOverlay() {
-//   overlay.setMap(null);
-// }
-
-// //커스텀 오버레이 표시
-// function makeCustomOverlay(map, marker, customOverlay) {
-//   return function () {
-//     customOverlay.open(map, marker);
-//   };
-// }
-
-// function makeOutListener(customOverlay) {
-//   return function () {
-//     customOverlay.close();
-//   };
-// }
 
 function locationLoadSuccess(pos) {
   // 나의 위치 마커 이미지의 이미지 주소입니다
