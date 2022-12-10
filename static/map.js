@@ -6,7 +6,7 @@ var mapContainer = document.getElementById("map"), // 지도를 표시할 div
 
 // 지도를 생성한다
 var map = new kakao.maps.Map(mapContainer, mapOption);
-
+var testPositions = [];
 var foodPositions = [
   {
     title: "디폴트",
@@ -371,10 +371,6 @@ function getCurrentPosBtn() {
 //    myMapInfo();
 //});
 
-
-
-
-
 //function myMapInfo(){
 //    // 지도 영역정보를 얻어옵니다
 //    var bounds = map.getBounds();
@@ -565,8 +561,9 @@ function displayStepswindow() {
   document.getElementById("steps").style.display = "none";
 }
 
-
-console.log("00000000000000000000000000000000000000000000000000000000000000000000");
+console.log(
+  "00000000000000000000000000000000000000000000000000000000000000000000"
+);
 kakao.maps.event.addListener(map, "idle", function () {
   console.log("idle상태입니다.");
   // 지도 영역정보를 얻어옵니다
@@ -594,7 +591,7 @@ kakao.maps.event.addListener(map, "idle", function () {
     data: JSON.stringify(mapinfo),
     success: function (data) {
       // AJAX 통신 성공시 받은 데이터를 console에 print
-      console.log("성공~")
+      console.log("성공~");
       console.log(data);
       del_p = document.getElementById("delete_p");
       del_p.innerHTML = data.recommended;
@@ -609,3 +606,61 @@ kakao.maps.event.addListener(map, "idle", function () {
     },
   });
 });
+
+positions.forEach(function (pos) {
+  // 마커를 생성합니다
+  var marker = new kakao.maps.Marker({
+    /* do something */
+  });
+
+  // content HTMLElement 생성
+  var content = document.createElement("div");
+
+  var info = document.createElement("span");
+  info.appendChild(document.createTextNode(pos.title));
+  content.appendChild(info);
+
+  var closeBtn = document.createElement("button");
+  closeBtn.appendChild(document.createTextNode("닫기"));
+  // 닫기 이벤트 추가
+  closeBtn.onclick = function () {
+    overlay.setMap(null);
+  };
+
+  content.appendChild(closeBtn);
+
+  // customoverlay 생성, 이때 map을 선언하지 않으면 지도위에 올라가지 않습니다.
+  var overlay = new daum.maps.CustomOverlay({
+    position: pos.latlng,
+    content: content,
+  });
+
+  // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+  kakao.maps.event.addListener(marker, "click", function () {
+    overlay.setMap(map);
+  });
+});
+
+// positions.forEach(function(pos) {
+//   var customOverlay = new daum.maps.CustomOverlay({ position: latlng });
+//   var content = document.createElement('div');
+//   var info = document.createElement('span');
+//   info.appendChild(document.createTextNode(pos.content));
+//   content.appendChild(info);
+//   var closeBtn = document.creat…
+// });
+
+//   var content = document.createElement('div');
+//     content.innerHTML =  data.title;
+//     content.style.cssText = 'background: white; border: 1px solid black';
+
+//     var closeBtn = document.createElement('button');
+//     closeBtn.innerHTML = '닫기';
+//     closeBtn.onclick = function () {
+//         overlay.setMap(null);
+//     };
+//     content.appendChild(closeBtn);
+//     overlay.setContent(content);
+
+//     kakao.maps.event.addListener(marker, 'click', function() {
+//         overlay.setMap(map);
