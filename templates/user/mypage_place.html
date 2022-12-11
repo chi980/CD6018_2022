@@ -107,7 +107,7 @@
 <div class="right">
     <h4 style="margin-top: 15px; margin-left: 10px; text-align:left"> <strong>관심장소</strong></h4>
 
-    <table class="table table-hover" style="margin-left: 10px; margin-top: 15px;">
+    <table class="table table-hover" style="margin-left: 10px; margin-top: 15px; text-align: left;">
         <thead class="thead-light">
           <tr>
             <th scope="col">번호</th>
@@ -119,14 +119,12 @@
         </thead>
         <tbody>
           {% for favorite in favorites %}
-               <tr>
-                <th scope="row">{{forloop.counter}}</th>
-                <td style="display:none">{{favorite.id}}</td>
+              <tr>
+                <td scope="row">{{forloop.counter}}</td>
                 <td>{{favorite.name}}</td>
                 <td>{{favorite.address}}</td>
                 <td>
                     <a href="{{favorite.url}}">{{favorite.url}}</a>
-                    <button type="button" class="btn btn-secondary" onclick="window.open('{{favorite.url}');">자세히보기</button>
                 </td>
                 <td>
                     <button type="button" class="btn btn-secondary"  onclick="rowDelete(this)">삭제</button>
@@ -135,25 +133,6 @@
           {% endfor %}
         </tbody>
       </table>
-
-      <!-- 페이지네이션 -->
-      <nav aria-label="Page navigation example">
-        <ul class="pagination" style="justify-content: center" > 
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
 
 </div>
 </body>
@@ -165,8 +144,8 @@
         {
             alert("삭제할 수 없습니다.");
         }else{
-<!--            console.log(This.parentElement.parentElement)-->
-<!--            console.log(This.parentElement.parentElement.children)-->
+//            console.log(This.parentElement.parentElement)
+//            console.log(This.parentElement.parentElement.children)
             location_info = {location_id:This.parentElement.parentElement.children[1].innerHTML}
             $.ajax({
                 url: "/main/favorites/",
