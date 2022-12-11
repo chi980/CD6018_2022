@@ -33,3 +33,5 @@ DATABASES = {
 
 #'django-insecure-)sqstsc!nza^o)+q)z_p+0$13v$nb^8p5re5x$5#y1gok0my22'
 SECRET_KEY = 'django-insecure-)q^w$$y6tenvgv=ja4v*ecvjk&!7w+tbba5tmi%@evgbelspao*'
+
+ALLOWED_HOSTS = ['ec2-3-34-149-198.ap-northeast-2.compute.amazonaws.com']
