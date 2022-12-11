@@ -1,5 +1,5 @@
 from django.http import HttpResponse,JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from main.models import Location, Review, Category
 from user.models import User
 from .models import Category
@@ -59,12 +59,20 @@ def recommended(request):
             locations_pet_list = json.dumps(list(locations_pet),cls=DecimalEncoder,ensure_ascii=False)
         # 추천 리스트
         if (request.user.category):
-            raw_recommended = Review.objects.filter(Q(category_id=request.user.category)&Q(location_id__in=locations_store)).values('location_id').annotate(star_avg=Avg('star'))[:5]
+            raw_recommended = Review.objects.filter(Q(category_id=request.user.category)&Q(location_id__in=locations_store)).values('location_id').annotate(star_avg=Avg('star')).order_by('-star')[:5]
             recommended = raw_recommended.values('location_id', 'location__name', 'location__category',
                                      'location__address','location__lot_address','location__phone',
                                      'location__time','location__url','location__is_animal_in',
                                      'location__latitude','location__longitude','star_avg')
             # user_favorites = User.objects.filter(id=request.user.id).
+            recommended_favorite = list(map(lambda l: l in list(request.user.favorites.values_list('id', flat=True).all()),list(raw_recommended.values_list('location_id', flat=True))))
+            recommended_favorite_json = json.dumps(recommended_favorite)
+            # print("*"*200)
+            # print(raw_recommended.values('location_id'))
+            # print(list(request.user.favorites.values_list('id', flat=True).all()))
+            # print("*"*200)
+            #
+            # print(recommended_favorite)
             recommended_list = json.dumps(list(recommended),cls=DecimalEncoder, ensure_ascii=False)
         else:
             response = JsonResponse({"error": "카테고리 설정이 필요합니다."})
@@ -75,7 +83,7 @@ def recommended(request):
             return JsonResponse({"locations_cafe":locations_cafe_list,"locations_restau":locations_restau_list,"locations_pet":locations_pet_list})
         print("*" * 100)
         print(recommended)
-        return JsonResponse({"recommended":recommended_list,"locations_cafe":locations_cafe_list,"locations_restau":locations_restau_list,"locations_pet":locations_pet_list}, safe=False)
+        return JsonResponse({"recommended":recommended_list,"recommended_favorite":recommended_favorite_json,"locations_cafe":locations_cafe_list,"locations_restau":locations_restau_list,"locations_pet":locations_pet_list}, safe=False)
         # return HttpResponse("<script>alert('추천할 장소가 없습니다.');</script>")
     else:
         response = JsonResponse({"error": "로그인이 필요합니다."})
@@ -95,3 +103,36 @@ class DecimalEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
+@csrf_exempt
+@login_required
+#로그인 추가하기
+def favorite(request):
+    print("favorite!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    if request.method == "POST":
+        data = True
+        jsonObject = json.loads(request.body)
+        location_id = jsonObject.get('location_id')
+        location = get_object_or_404(Location, pk=location_id)
+        if location.users.filter(username=request.user.username).exists():
+            location.users.remove(request.user)
+            data = False
+            print("삭제됩니다...")
+        else:
+            location.users.add(request.user)
+            print("등록됩니다...")
+        location.save()
+        my_favorites = request.user.favorites.all()
+        print(my_favorites)
+        #
+        # print("="*100)
+        # print(location_id)
+        return HttpResponse(data)
+    else:
+        my_favorites = request.user.favorites.all()
+        print(my_favorites)
+        return HttpResponse(my_favorites)
+        # my_favorites_json = json.dumps(list(my_favorites), ensure_ascii=False)
+        # my_favorites_json = json.dumps(my_favorites)
+        # return JsonResponse({"my_favorites":my_favorites_json})
+        # my_favorites_json = serializers.serialize('json', my_favorites)
+        # return HttpResponse(my_favorites_json, content_type="application/json")

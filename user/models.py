@@ -29,7 +29,7 @@ class User(AbstractUser):
     on_off = models.IntegerField(default=0,choices=ON_OFF_CHOICE)
     # USERNAME_FIELD = 'email'
     # REQUIRED_FIELDS = []
-    favorites = models.ManyToManyField('main.Location',related_name='users')
+    favorites = models.ManyToManyField('main.Location',related_name='users',null=True,blank=True)
 
     def __str__(self):
         # return "{}님({})".format(self.last_name or '익명',self.username)

@@ -561,9 +561,20 @@ function displayStepswindow() {
   document.getElementById("steps").style.display = "none";
 }
 
-console.log(
-  "00000000000000000000000000000000000000000000000000000000000000000000"
-);
+//recommend_form_list = document.getElementsByClassName("favorite_form")
+recommended_id_list = document.getElementsByClassName("location_id")
+//recommended_id_input_list = document.getElementsByClassName("location_id_input")
+recommended_div_list = document.getElementsByClassName("steps__bg")
+recommended_name_list = document.getElementsByClassName("location_name")
+recommended_address_list = document.getElementsByClassName("location_address")
+recommended_lot_address_list = document.getElementsByClassName("location_lot_address")
+recommended_phone_list = document.getElementsByClassName("location_phone")
+recommended_time_list = document.getElementsByClassName("location_time")
+recommended_url_list = document.getElementsByClassName("location_url")
+recommended_is_animal_in_list = document.getElementsByClassName("location_is_animal_in")
+recommended_star_list = document.getElementsByClassName("location_star")
+location_btn_list = document.getElementsByClassName("favorite_btn")
+
 kakao.maps.event.addListener(map, "idle", function () {
   console.log("idle상태입니다.");
   // 지도 영역정보를 얻어옵니다
@@ -591,10 +602,42 @@ kakao.maps.event.addListener(map, "idle", function () {
     data: JSON.stringify(mapinfo),
     success: function (data) {
       // AJAX 통신 성공시 받은 데이터를 console에 print
-      console.log("성공~");
-      console.log(data);
-      del_p = document.getElementById("delete_p");
-      del_p.innerHTML = data.recommended;
+
+      console.log("성공~")
+//      console.log(data.locations_cafe);
+//      console.log(data.locations_restau);
+//      console.log(data.locations_pet);
+      var location_cafe = JSON.parse(data.locations_cafe) || null;
+      var location_restaurant = JSON.parse(data.locations_restau) || null;
+      var locations_pet = JSON.parse(data.locations_pet) || null;
+      console.log(location_cafe[0]);
+      console.log(location_cafe[0].id);
+
+      for(var i=0;i<recommended_div_list.length;i++) recommended_div_list[i].style.visibility="hidden";
+      if(data.recommended)
+      {
+        var location_favorite = JSON.parse(data.recommended_favorite) || null;
+        var recommended = JSON.parse(data.recommended)
+        for (var i = 0;i<recommended.length;i++)
+        {
+            // div->innertext, p->innerhtml
+            recommended_div_list[i].style.visibility="visible"
+            recommended_id_list[i].innerHTML = recommended[i].location_id;
+//            recommended_id_input_list.value = recommended[i].location_id;
+            location_btn_list[i].setAttribute("data-value",recommended[i].location_id);
+            recommended_name_list[i].innerHTML = recommended[i].location__name;
+            recommended_address_list[i].innerText = recommended[i].location__address;
+            recommended_phone_list[i].innerText = recommended[i].location__lot_address;
+            recommended_time_list[i].innerText = recommended[i].location__time;
+            recommended_url_list[i].href = recommended[i].location__url
+            recommended_url_list[i].innerHTML = recommended[i].location__url
+            recommended_star_list[i].innerText= recommended[i].star_avg
+            console.log(location_favorite)
+            if(location_favorite[i] == true) location_btn_list[i].children[0].src = "/static/images/like_sel.png"
+            else location_btn_list[i].children[0].src = "/static/images/like_no_sel.png"
+
+        }
+      }
     },
     error: function (data) {
       // AJAX 통신 실패시 alert창
@@ -606,6 +649,51 @@ kakao.maps.event.addListener(map, "idle", function () {
     },
   });
 });
+
+//console.log(recommended_favorite_list)
+//for(var i=0;i<recommend_form_list.length;i++)
+//{
+//    recommend_form_list[i].addEventListener("submit",function(event){
+//
+//        event.preventDefault();
+//    })
+//}
+
+for (var i=0;i<location_btn_list.length;i++)
+{
+    location_btn_list[i].addEventListener("click",(event)=>{
+        console.log(event.currentTarget.getAttribute("data-value"));
+        img = event.currentTarget.children[0]
+        console.log(img)
+        var location_info= {
+            location_id: event.currentTarget.getAttribute("data-value"),
+        };
+        $.ajax({
+            url: "/main/favorites/",
+            type: "POST",
+            headers: {
+              "X-CSRFTOKEN": "{{ csrf_token }}",
+            },
+            data: JSON.stringify(location_info),
+            success: function (data) {
+                console.log(data)
+                if (data == "True"){
+                    //등록
+                    img.src = "/static/images/like_sel.png"
+                }
+                else{
+                    //삭제
+                    img.src = "/static/images/like_no_sel.png"
+                }
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    })
+}
+
 
 positions.forEach(function (pos) {
   // 마커를 생성합니다
@@ -664,3 +752,4 @@ positions.forEach(function (pos) {
 
 //     kakao.maps.event.addListener(marker, 'click', function() {
 //         overlay.setMap(map);
+
