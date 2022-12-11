@@ -6,7 +6,6 @@ var mapContainer = document.getElementById("map"), // 지도를 표시할 div
 
 // 지도를 생성한다
 var map = new kakao.maps.Map(mapContainer, mapOption);
-var testPositions = [];
 var foodPositions = [
   {
     title: "디폴트",
@@ -65,242 +64,6 @@ var petPositions = [
     latlng: new kakao.maps.LatLng(37.5526086, 126.9255956),
   },
 ];
-
-var foodMarkers = [],
-  cafeMarkers = [],
-  petMarkers = [];
-
-var foodMarkerImgSrc = "/static/images/food_marker.png",
-  cafeMarkerImgSrc = "/static/images/cafe_marker.png",
-  petMarkerImgSrc = "/static/images/pet_marker.png";
-
-createFoodMarkers();
-createCafeMarkers();
-createPetMarkers();
-
-changeMarker("pet");
-
-function displayInfowindow(marker, title) {
-  var content = '<div style="padding:5px;z-index:1;">' + title + "</div>";
-
-  infowindow.setContent(content);
-  infowindow.open(map, marker);
-}
-
-// var coContent =
-//   '<div class="wrap">' +
-//   '    <div class="info">' +
-//   '        <div class="title">' +
-//   petPositions[0].title +
-//   "           " +
-//   '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-//   "        </div>" +
-//   '        <div class="body">' +
-//   '	            <div class="desc">' +
-//   '                	<div class="ellipsis"></div>' +
-//   '                	<div class="jibun ellipsis">' +
-//   petPositions[0].road +
-//   '               	 <div><a href="' +
-//   petPositions[0].url +
-//   '" target="_blank" class="link">상세보기</a></div>' +
-//   "           	 </div>" +
-//   "       	 </div>" +
-//   "   	 </div>" +
-//   "	</div>";
-
-// var coContent =
-//   '<div class="wrap">' +
-//   '    <div class="info">' +
-//   '        <div class="title">' +
-//   petPositions[0].title +
-//   "           " +
-//   '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-//   "        </div>" +
-//   '        <div class="body">' +
-//   '	            <div class="img">' +
-//   '               <img src="./images/pet_marker" width="73" height="70">' +
-//   "             </div>" +
-//   '            <div class="desc">' +
-//   '                	<div class="ellipsis"></div>' +
-//   '                	<div class="jibun ellipsis">' +
-//   petPositions[0].road +
-//   "</div>" +
-//   '               	 <div><a href="' +
-//   petPositions[0].url +
-//   '" target="_blank" class="link">상세보기</a></div>' +
-//   "           	 </div>" +
-//   "       	 </div>" +
-//   "   	 </div>" +
-//   "	</div>";
-
-var coContent =
-  '<div class="wrap">' +
-  '    <div class="info">' +
-  '        <div class="title">' +
-  petPositions[0].title +
-  "           " +
-  '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-  "        </div>" +
-  '        <div class="body">' +
-  '	            <div class="img">' +
-  '               <img src="/static/images/pet_marker" width="73" height="70">' +
-  "             </div>" +
-  '            <div class="desc">' +
-  '                	<div class="ellipsis"></div>' +
-  '                	<div class="jibun ellipsis">' +
-  petPositions[0].road +
-  "</div>" +
-  '               	 <div><a href="' +
-  petPositions[0].url +
-  '" target="_blank" class="link">상세보기</a></div>' +
-  "           	 </div>" +
-  "       	 </div>" +
-  "   	 </div>" +
-  "	</div>";
-
-// 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴하는 함수입니다
-function createMarkerImage(src, size) {
-  var markerImage = new kakao.maps.MarkerImage(src, size);
-
-  return markerImage; // 마커 위에 커스텀오버레이를 표시합니다
-}
-// 좌표와 마커이미지를 받아 마커를 생성하여 리턴하는 함수입니다
-function createMarker(position, image, clickable) {
-  var marker = new kakao.maps.Marker({
-    position: position,
-    image: image,
-    clickable: clickable,
-  });
-
-  // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-  kakao.maps.event.addListener(marker, "click", function () {
-    var overlay = new kakao.maps.CustomOverlay({
-      map: map,
-      clickable: true,
-      content: coContent,
-      position: marker.getPosition(),
-      xAnchor: 0.5,
-      yAnchor: 1,
-      zIndex: 3,
-    });
-    overlay.setMap(map);
-  });
-  return marker;
-}
-
-// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
-function closeOverlay() {
-  overlay.setMap(null);
-}
-
-// 음식점 마커를 생성하고 음식점 마커 배열에 추가하는 함수입니다
-function createFoodMarkers() {
-  for (var i = 0; i < foodPositions.length; i++) {
-    var imageSize = new kakao.maps.Size(32, 40);
-
-    // 마커이미지와 마커를 생성합니다
-    var markerImage = createMarkerImage(foodMarkerImgSrc, imageSize),
-      marker = createMarker(foodPositions[i].latlng, markerImage, true);
-
-    // 생성된 마커를 음식점 마커 배열에 추가합니다
-    foodMarkers.push(marker);
-  }
-}
-
-// 음식점 마커들의 지도 표시 여부를 설정하는 함수입니다
-function setFoodMarkers(map) {
-  for (var i = 0; i < foodMarkers.length; i++) {
-    foodMarkers[i].setMap(map);
-  }
-}
-
-// 카페 마커를 생성하고 카페 마커 배열에 추가하는 함수입니다
-function createCafeMarkers() {
-  for (var i = 0; i < cafePositions.length; i++) {
-    var imageSize = new kakao.maps.Size(32, 40);
-
-    // 마커이미지와 마커를 생성합니다
-    var markerImage = createMarkerImage(cafeMarkerImgSrc, imageSize),
-      marker = createMarker(cafePositions[i].latlng, markerImage, true);
-
-    // 생성된 마커를 카페 마커 배열에 추가합니다
-    cafeMarkers.push(marker);
-  }
-}
-
-// 카페 마커들의 지도 표시 여부를 설정하는 함수입니다
-function setCafeMarkers(map) {
-  for (var i = 0; i < cafeMarkers.length; i++) {
-    cafeMarkers[i].setMap(map);
-  }
-}
-
-// 애견관련 마커를 생성하고 애견 마커 배열에 추가하는 함수입니다
-function createPetMarkers() {
-  for (var i = 0; i < petPositions.length; i++) {
-    var imageSize = new kakao.maps.Size(32, 40);
-
-    // 마커이미지와 마커를 생성합니다
-    var markerImage = createMarkerImage(petMarkerImgSrc, imageSize),
-      marker = createMarker(petPositions[i].latlng, markerImage, true);
-
-    // 생성된 마커를 애견 마커 배열에 추가합니다
-    petMarkers.push(marker);
-  }
-}
-
-// 애견 마커들의 지도 표시 여부를 설정하는 함수입니다
-function setPetMarkers(map) {
-  for (var i = 0; i < petMarkers.length; i++) {
-    petMarkers[i].setMap(map);
-  }
-}
-
-// 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일과 지도에 표시되는 마커를 변경합니다
-function changeMarker(type) {
-  var foodMenu = document.getElementById("foodMenu");
-  var cafeMenu = document.getElementById("cafeMenu");
-  var petMenu = document.getElementById("petMenu");
-
-  // 음식점 카테고리가 클릭됐을 때
-  if (type === "food") {
-    // 커피숍 카테고리를 선택된 스타일로 변경하고
-    foodMenu.className = "menu_selected";
-
-    // 카페와 펫 카테고리는 선택되지 않은 스타일로 바꿉니다
-    cafeMenu.className = "";
-    petMenu.className = "";
-
-    // 음식점 마커들만 지도에 표시하도록 설정합니다
-    setFoodMarkers(map);
-    setCafeMarkers(null);
-    setPetMarkers(null);
-  } else if (type === "cafe") {
-    // 카페 카테고리가 클릭됐을 때
-
-    // 카페 카테고리를 선택된 스타일로 변경하고
-    foodMenu.className = "";
-    cafeMenu.className = "menu_selected";
-    petMenu.className = "";
-
-    // 카페 마커들만 지도에 표시하도록 설정합니다
-    setFoodMarkers(null);
-    setCafeMarkers(map);
-    setPetMarkers(null);
-  } else if (type === "pet") {
-    // 펫 카테고리가 클릭됐을 때
-
-    // 펫 카테고리를 선택된 스타일로 변경하고
-    foodMenu.className = "";
-    cafeMenu.className = "";
-    petMenu.className = "menu_selected";
-
-    // 펫 마커들만 지도에 표시하도록 설정합니다
-    setFoodMarkers(null);
-    setCafeMarkers(null);
-    setPetMarkers(map);
-  }
-}
 
 // 마커를 표시할 위치와 title 객체 배열입니다
 
@@ -562,18 +325,22 @@ function displayStepswindow() {
 }
 
 //recommend_form_list = document.getElementsByClassName("favorite_form")
-recommended_id_list = document.getElementsByClassName("location_id")
+recommended_id_list = document.getElementsByClassName("location_id");
 //recommended_id_input_list = document.getElementsByClassName("location_id_input")
-recommended_div_list = document.getElementsByClassName("steps__bg")
-recommended_name_list = document.getElementsByClassName("location_name")
-recommended_address_list = document.getElementsByClassName("location_address")
-recommended_lot_address_list = document.getElementsByClassName("location_lot_address")
-recommended_phone_list = document.getElementsByClassName("location_phone")
-recommended_time_list = document.getElementsByClassName("location_time")
-recommended_url_list = document.getElementsByClassName("location_url")
-recommended_is_animal_in_list = document.getElementsByClassName("location_is_animal_in")
-recommended_star_list = document.getElementsByClassName("location_star")
-location_btn_list = document.getElementsByClassName("favorite_btn")
+recommended_div_list = document.getElementsByClassName("steps__bg");
+recommended_name_list = document.getElementsByClassName("location_name");
+recommended_address_list = document.getElementsByClassName("location_address");
+recommended_lot_address_list = document.getElementsByClassName(
+  "location_lot_address"
+);
+recommended_phone_list = document.getElementsByClassName("location_phone");
+recommended_time_list = document.getElementsByClassName("location_time");
+recommended_url_list = document.getElementsByClassName("location_url");
+recommended_is_animal_in_list = document.getElementsByClassName(
+  "location_is_animal_in"
+);
+recommended_star_list = document.getElementsByClassName("location_star");
+location_btn_list = document.getElementsByClassName("favorite_btn");
 
 kakao.maps.event.addListener(map, "idle", function () {
   console.log("idle상태입니다.");
@@ -603,41 +370,56 @@ kakao.maps.event.addListener(map, "idle", function () {
     success: function (data) {
       // AJAX 통신 성공시 받은 데이터를 console에 print
 
-      console.log("성공~")
-//      console.log(data.locations_cafe);
-//      console.log(data.locations_restau);
-//      console.log(data.locations_pet);
+      console.log("성공~");
+      //      console.log(data.locations_cafe);
+      //      console.log(data.locations_restau);
+      //      console.log(data.locations_pet);
       var location_cafe = JSON.parse(data.locations_cafe) || null;
-      var location_restaurant = JSON.parse(data.locations_restau) || null;
+      var location_food = JSON.parse(data.locations_restau) || null;
       var locations_pet = JSON.parse(data.locations_pet) || null;
       console.log(location_cafe[0]);
       console.log(location_cafe[0].id);
 
-      for(var i=0;i<recommended_div_list.length;i++) recommended_div_list[i].style.visibility="hidden";
-      if(data.recommended)
-      {
+      for (var i = 0; i < recommended_div_list.length; i++)
+        recommended_div_list[i].style.visibility = "hidden";
+      if (data.recommended) {
         var location_favorite = JSON.parse(data.recommended_favorite) || null;
-        var recommended = JSON.parse(data.recommended)
-        for (var i = 0;i<recommended.length;i++)
-        {
-            // div->innertext, p->innerhtml
-            recommended_div_list[i].style.visibility="visible"
-            recommended_id_list[i].innerHTML = recommended[i].location_id;
-//            recommended_id_input_list.value = recommended[i].location_id;
-            location_btn_list[i].setAttribute("data-value",recommended[i].location_id);
-            recommended_name_list[i].innerHTML = recommended[i].location__name;
-            recommended_address_list[i].innerText = recommended[i].location__address;
-            recommended_phone_list[i].innerText = recommended[i].location__lot_address;
-            recommended_time_list[i].innerText = recommended[i].location__time;
-            recommended_url_list[i].href = recommended[i].location__url
-            recommended_url_list[i].innerHTML = recommended[i].location__url
-            recommended_star_list[i].innerText= recommended[i].star_avg
-            console.log(location_favorite)
-            if(location_favorite[i] == true) location_btn_list[i].children[0].src = "/static/images/like_sel.png"
-            else location_btn_list[i].children[0].src = "/static/images/like_no_sel.png"
-
+        var recommended = JSON.parse(data.recommended);
+        for (var i = 0; i < recommended.length; i++) {
+          // div->innertext, p->innerhtml
+          recommended_div_list[i].style.visibility = "visible";
+          recommended_id_list[i].innerHTML = recommended[i].location_id;
+          //            recommended_id_input_list.value = recommended[i].location_id;
+          location_btn_list[i].setAttribute(
+            "data-value",
+            recommended[i].location_id
+          );
+          recommended_name_list[i].innerHTML = recommended[i].location__name;
+          recommended_address_list[i].innerText =
+            recommended[i].location__address;
+          recommended_phone_list[i].innerText =
+            recommended[i].location__lot_address;
+          recommended_time_list[i].innerText = recommended[i].location__time;
+          recommended_url_list[i].href = recommended[i].location__url;
+          recommended_url_list[i].innerHTML = recommended[i].location__url;
+          recommended_star_list[i].innerText = recommended[i].star_avg;
+          console.log(location_favorite);
+          if (location_favorite[i] == true)
+            location_btn_list[i].children[0].src =
+              "/static/images/like_sel.png";
+          else
+            location_btn_list[i].children[0].src =
+              "/static/images/like_no_sel.png";
         }
       }
+
+      var location_cafe;
+      location_food;
+      location_pet;
+
+      createFoodMarkers(location_food);
+      createCafeMarkers(location_cafe);
+      createPetMarkers(location_pet);
     },
     error: function (data) {
       // AJAX 통신 실패시 alert창
@@ -649,7 +431,257 @@ kakao.maps.event.addListener(map, "idle", function () {
     },
   });
 });
+var foodMarkers = [],
+  cafeMarkers = [],
+  petMarkers = [];
 
+changeMarker("pet");
+
+var foodMarkerImgSrc = "/static/images/food_marker.png",
+  cafeMarkerImgSrc = "/static/images/cafe_marker.png",
+  petMarkerImgSrc = "/static/images/pet_marker.png";
+
+// function displayInfowindow(marker, title) {
+//   var content = '<div style="padding:5px;z-index:1;">' + title + "</div>";
+
+//   infowindow.setContent(content);
+//   infowindow.open(map, marker);
+// }
+
+// var coContent =
+//   '<div class="wrap">' +
+//   '    <div class="info">' +
+//   '        <div class="title">' +
+//   petPositions[0].title +
+//   "           " +
+//   '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
+//   "        </div>" +
+//   '        <div class="body">' +
+//   '	            <div class="desc">' +
+//   '                	<div class="ellipsis"></div>' +
+//   '                	<div class="jibun ellipsis">' +
+//   petPositions[0].road +
+//   '               	 <div><a href="' +
+//   petPositions[0].url +
+//   '" target="_blank" class="link">상세보기</a></div>' +
+//   "           	 </div>" +
+//   "       	 </div>" +
+//   "   	 </div>" +
+//   "	</div>";
+
+// var coContent =
+//   '<div class="wrap">' +
+//   '    <div class="info">' +
+//   '        <div class="title">' +
+//   petPositions[0].title +
+//   "           " +
+//   '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
+//   "        </div>" +
+//   '        <div class="body">' +
+//   '	            <div class="img">' +
+//   '               <img src="./images/pet_marker" width="73" height="70">' +
+//   "             </div>" +
+//   '            <div class="desc">' +
+//   '                	<div class="ellipsis"></div>' +
+//   '                	<div class="jibun ellipsis">' +
+//   petPositions[0].road +
+//   "</div>" +
+//   '               	 <div><a href="' +
+//   petPositions[0].url +
+//   '" target="_blank" class="link">상세보기</a></div>' +
+//   "           	 </div>" +
+//   "       	 </div>" +
+//   "   	 </div>" +
+//   "	</div>";
+
+var coContent =
+  '<div class="wrap">' +
+  '    <div class="info">' +
+  '        <div class="title">' +
+  petPositions[0].title +
+  "           " +
+  '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
+  "        </div>" +
+  '        <div class="body">' +
+  '	            <div class="img">' +
+  '               <img src="/static/images/pet_marker" width="73" height="70">' +
+  "             </div>" +
+  '            <div class="desc">' +
+  '                	<div class="ellipsis"></div>' +
+  '                	<div class="jibun ellipsis">' +
+  petPositions[0].road +
+  "</div>" +
+  '               	 <div><a href="' +
+  petPositions[0].url +
+  '" target="_blank" class="link">상세보기</a></div>' +
+  "           	 </div>" +
+  "       	 </div>" +
+  "   	 </div>" +
+  "	</div>";
+
+// 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴하는 함수입니다
+function createMarkerImage(src, size) {
+  var markerImage = new kakao.maps.MarkerImage(src, size);
+
+  return markerImage; // 마커 위에 커스텀오버레이를 표시합니다
+}
+// 좌표와 마커이미지를 받아 마커를 생성하여 리턴하는 함수입니다
+function createMarker(position, image, clickable) {
+  var marker = new kakao.maps.Marker({
+    position: position,
+    image: image,
+    clickable: clickable,
+  });
+
+  // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+  kakao.maps.event.addListener(marker, "click", function () {
+    var overlay = new kakao.maps.CustomOverlay({
+      map: map,
+      clickable: true,
+      content: coContent,
+      position: marker.getPosition(),
+      xAnchor: 0.5,
+      yAnchor: 1,
+      zIndex: 3,
+    });
+    overlay.setMap(map);
+  });
+  return marker;
+}
+
+// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
+function closeOverlay() {
+  overlay.setMap(null);
+}
+
+// 음식점 마커를 생성하고 음식점 마커 배열에 추가하는 함수입니다
+function createFoodMarkers() {
+  for (var i = 0; i < location_food.length; i++) {
+    var imageSize = new kakao.maps.Size(32, 40);
+
+    // 마커이미지와 마커를 생성합니다
+    var markerImage = createMarkerImage(foodMarkerImgSrc, imageSize),
+      marker = createMarker(
+        new kakao.maps.LatLng(
+          location_food[i].latitude,
+          location_food[i].longitude
+        ),
+        markerImage,
+        true
+      );
+
+    // 생성된 마커를 음식점 마커 배열에 추가합니다
+    foodMarkers.push(marker);
+  }
+}
+
+// 음식점 마커들의 지도 표시 여부를 설정하는 함수입니다
+function setFoodMarkers(map) {
+  for (var i = 0; i < foodMarkers.length; i++) {
+    foodMarkers[i].setMap(map);
+  }
+}
+
+// 카페 마커를 생성하고 카페 마커 배열에 추가하는 함수입니다
+function createCafeMarkers() {
+  for (var i = 0; i < location_food.length; i++) {
+    var imageSize = new kakao.maps.Size(32, 40);
+
+    // 마커이미지와 마커를 생성합니다
+    var markerImage = createMarkerImage(cafeMarkerImgSrc, imageSize),
+      marker = createMarker(
+        new kakao.maps.LatLng(
+          location_cafe[i].latitude,
+          location_cafe[i].longitude
+        ),
+        markerImage,
+        true
+      );
+
+    // 생성된 마커를 카페 마커 배열에 추가합니다
+    cafeMarkers.push(marker);
+  }
+}
+
+// 카페 마커들의 지도 표시 여부를 설정하는 함수입니다
+function setCafeMarkers(map) {
+  for (var i = 0; i < cafeMarkers.length; i++) {
+    cafeMarkers[i].setMap(map);
+  }
+}
+
+// 애견관련 마커를 생성하고 애견 마커 배열에 추가하는 함수입니다
+function createPetMarkers() {
+  for (var i = 0; i < location_pet.length; i++) {
+    var imageSize = new kakao.maps.Size(32, 40);
+
+    // 마커이미지와 마커를 생성합니다
+    var markerImage = createMarkerImage(petMarkerImgSrc, imageSize),
+      marker = createMarker(
+        new kakao.maps.LatLng(
+          location_pet[i].latitude,
+          location_pet[i].longitude
+        ),
+        markerImage,
+        true
+      );
+    // 생성된 마커를 애견 마커 배열에 추가합니다
+    petMarkers.push(marker);
+  }
+}
+
+// 애견 마커들의 지도 표시 여부를 설정하는 함수입니다
+function setPetMarkers(map) {
+  for (var i = 0; i < petMarkers.length; i++) {
+    petMarkers[i].setMap(map);
+  }
+}
+
+// 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일과 지도에 표시되는 마커를 변경합니다
+function changeMarker(type) {
+  var foodMenu = document.getElementById("foodMenu");
+  var cafeMenu = document.getElementById("cafeMenu");
+  var petMenu = document.getElementById("petMenu");
+
+  // 음식점 카테고리가 클릭됐을 때
+  if (type === "food") {
+    // 커피숍 카테고리를 선택된 스타일로 변경하고
+    foodMenu.className = "menu_selected";
+
+    // 카페와 펫 카테고리는 선택되지 않은 스타일로 바꿉니다
+    cafeMenu.className = "";
+    petMenu.className = "";
+
+    // 음식점 마커들만 지도에 표시하도록 설정합니다
+    setFoodMarkers(map);
+    setCafeMarkers(null);
+    setPetMarkers(null);
+  } else if (type === "cafe") {
+    // 카페 카테고리가 클릭됐을 때
+
+    // 카페 카테고리를 선택된 스타일로 변경하고
+    foodMenu.className = "";
+    cafeMenu.className = "menu_selected";
+    petMenu.className = "";
+
+    // 카페 마커들만 지도에 표시하도록 설정합니다
+    setFoodMarkers(null);
+    setCafeMarkers(map);
+    setPetMarkers(null);
+  } else if (type === "pet") {
+    // 펫 카테고리가 클릭됐을 때
+
+    // 펫 카테고리를 선택된 스타일로 변경하고
+    foodMenu.className = "";
+    cafeMenu.className = "";
+    petMenu.className = "menu_selected";
+
+    // 펫 마커들만 지도에 표시하도록 설정합니다
+    setFoodMarkers(null);
+    setCafeMarkers(null);
+    setPetMarkers(map);
+  }
+}
 //console.log(recommended_favorite_list)
 //for(var i=0;i<recommend_form_list.length;i++)
 //{
@@ -659,41 +691,37 @@ kakao.maps.event.addListener(map, "idle", function () {
 //    })
 //}
 
-for (var i=0;i<location_btn_list.length;i++)
-{
-    location_btn_list[i].addEventListener("click",(event)=>{
-        console.log(event.currentTarget.getAttribute("data-value"));
-        img = event.currentTarget.children[0]
-        console.log(img)
-        var location_info= {
-            location_id: event.currentTarget.getAttribute("data-value"),
-        };
-        $.ajax({
-            url: "/main/favorites/",
-            type: "POST",
-            headers: {
-              "X-CSRFTOKEN": "{{ csrf_token }}",
-            },
-            data: JSON.stringify(location_info),
-            success: function (data) {
-                console.log(data)
-                if (data == "True"){
-                    //등록
-                    img.src = "/static/images/like_sel.png"
-                }
-                else{
-                    //삭제
-                    img.src = "/static/images/like_no_sel.png"
-                }
-
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    })
+for (var i = 0; i < location_btn_list.length; i++) {
+  location_btn_list[i].addEventListener("click", (event) => {
+    console.log(event.currentTarget.getAttribute("data-value"));
+    img = event.currentTarget.children[0];
+    console.log(img);
+    var location_info = {
+      location_id: event.currentTarget.getAttribute("data-value"),
+    };
+    $.ajax({
+      url: "/main/favorites/",
+      type: "POST",
+      headers: {
+        "X-CSRFTOKEN": "{{ csrf_token }}",
+      },
+      data: JSON.stringify(location_info),
+      success: function (data) {
+        console.log(data);
+        if (data == "True") {
+          //등록
+          img.src = "/static/images/like_sel.png";
+        } else {
+          //삭제
+          img.src = "/static/images/like_no_sel.png";
+        }
+      },
+      error: function (data) {
+        console.log(data);
+      },
+    });
+  });
 }
-
 
 positions.forEach(function (pos) {
   // 마커를 생성합니다
@@ -752,4 +780,3 @@ positions.forEach(function (pos) {
 
 //     kakao.maps.event.addListener(marker, 'click', function() {
 //         overlay.setMap(map);
-
