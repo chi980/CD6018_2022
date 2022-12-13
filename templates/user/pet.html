@@ -53,7 +53,7 @@
         {{pet_form.birthday}}<br>
 
         <label for="profile">{{ my_pet.name }}의 사진</label><br><br>
-        <img style="width: 120px; height: 120px;" src="/media/{{ my_pet.profile }}"> <br>
+        <img style="width: 120px; height: 120px;" src="https://petzonebucket.s3.ap-northeast-2.amazonaws.com/{{ my_pet.profile }}"> <br>
         {{pet_form.profile}} <br>
 
         <div class="center">
@@ -68,6 +68,8 @@
     </form>
     
 </div>
+
+
 <!-- {{ my_pet.id }}
 {{ my_pet.profile }}
 {{ my_pet.name }}

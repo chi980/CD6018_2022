@@ -76,7 +76,7 @@
         {% if my_pet %}
             {% for pet in my_pet %}
                 {% if forloop.counter == 1 %}
-                    <img class="img_r" src="/media/{{ pet.profile }}">
+                    <img class="img_r" src="https://petzonebucket.s3.ap-northeast-2.amazonaws.com/{{ pet.profile }}">
                     <div style="margin-top: 10px">
                         <a>우리 집 대표</a> <br>
                         <a><strong>{{ pet.name }}</strong> </a> <br>
@@ -121,7 +121,7 @@
     {% if my_pet %}
         {% for pet in my_pet %}
         <div class="btn_pet" OnClick="location.href='/auth/pet/{{pet.id}}'">
-            <img class="img_sr" style="width: 120px; height: 120px;" src="/media/{{ pet.profile }}"> <br>
+            <img class="img_sr" style="width: 120px; height: 120px;" src="https://petzonebucket.s3.ap-northeast-2.amazonaws.com/{{ pet.profile }}"> <br>
             <a ><strong>{{ pet.name }} 정보수정</strong></a>
         </div>
         {% endfor %}

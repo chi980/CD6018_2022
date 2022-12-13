@@ -16,8 +16,8 @@ class User(AbstractUser):
     )
 
     ON_OFF_CHOICE=(
-        (0,'카페'),
-        (1,'음식점'),
+        (0,"음식점"),
+        (1,'카페'),
         (2,'애견'),
     )
 
@@ -29,7 +29,7 @@ class User(AbstractUser):
     on_off = models.IntegerField(default=0,choices=ON_OFF_CHOICE)
     # USERNAME_FIELD = 'email'
     # REQUIRED_FIELDS = []
-    favorites = models.ManyToManyField('main.Location',related_name='users',null=True,blank=True)
+    favorites = models.ManyToManyField('main.Location',related_name='users')
 
     def __str__(self):
         # return "{}님({})".format(self.last_name or '익명',self.username)

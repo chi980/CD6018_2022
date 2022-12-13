@@ -47,8 +47,11 @@ def recommended(request):
         # 해당 지역 내의 location
         locations = Location.objects.filter(Q(longitude__range=(cur_longitude_min, cur_longitude_max)) & Q(latitude__range=(cur_latitude_min, cur_latitude_max)))
         locations_store = locations.filter(~Q(category=2)).values_list('id', flat=True)
-        locations_cafe = locations.filter(Q(category=0)).values()
-        locations_restau = locations.filter(Q(category=1)).values()
+        # locations_cafe = locations.filter(Q(category=0)).values()
+        locations_cafe = locations.filter(Q(category=1)).values()
+
+        # locations_restau = locations.filter(Q(category=1)).values()
+        locations_restau = locations.filter(Q(category=0)).values()
 
         locations_cafe_list = json.dumps(list(locations_cafe),cls=DecimalEncoder,ensure_ascii=False)
         locations_restau_list = json.dumps(list(locations_restau),cls=DecimalEncoder,ensure_ascii=False)
