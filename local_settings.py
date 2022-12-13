@@ -15,6 +15,8 @@ DATABASES = {
 S3 = {
     'aws_access_key_id':'AKIAVTRQYLJCYH3QTWFF',
     'aws_secret_access_key':'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',
+    # 'aws_access_key_id':'AKIAVTRQYLJC5KZO7PF4',
+    # 'aws_secret_access_key':'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',
     'aws_storage_bucket_name':'petzonebucket',
     'aws_querystring_auth':False
 }
@@ -33,3 +35,4 @@ S3 = {
 
 #'django-insecure-)sqstsc!nza^o)+q)z_p+0$13v$nb^8p5re5x$5#y1gok0my22'
 SECRET_KEY = 'django-insecure-)q^w$$y6tenvgv=ja4v*ecvjk&!7w+tbba5tmi%@evgbelspao*'
+
