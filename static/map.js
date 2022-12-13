@@ -6,69 +6,35 @@ var mapContainer = document.getElementById("map"), // 지도를 표시할 div
 
 // 지도를 생성한다
 var map = new kakao.maps.Map(mapContainer, mapOption);
-// var foodPositions = [
-//   {
-//     title: "디폴트",
-//     latlng: new kakao.maps.LatLng(37.5794251, 126.9214472),
-//   },
-//   {
-//     title: "테스트1",
-//     latlng: new kakao.maps.LatLng(37.5804251, 126.9215472),
-//   },
-//   {
-//     title: "테스트2",
-//     latlng: new kakao.maps.LatLng(37.5732662, 126.9135409),
-//   },
-//   {
-//     title: "테스트3",
-//     latlng: new kakao.maps.LatLng(37.5727086, 126.9245956),
-//   },
-// ];
 
-// var cafePositions = [
-//   {
-//     title: "디폴트",
-//     latlng: new kakao.maps.LatLng(37.5794251, 126.8214472),
-//   },
-//   {
-//     title: "테스트1",
-//     latlng: new kakao.maps.LatLng(37.5783251, 126.9233472),
-//   },
-//   {
-//     title: "테스트2",
-//     latlng: new kakao.maps.LatLng(37.5722662, 126.9145409),
-//   },
-//   {
-//     title: "테스트3",
-//     latlng: new kakao.maps.LatLng(37.5726086, 126.9235956),
-//   },
-// ];
+if (navigator.geolocation) {
+  // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+  navigator.geolocation.getCurrentPosition(function (pos) {
+    var currentPos = new kakao.maps.LatLng(
+      pos.coords.latitude,
+      pos.coords.longitude
+    );
+    // 지도 이동(기존 위치와 가깝다면 부드럽게 이동)
+    map.panTo(currentPos);
 
-// var petPositions = [
-//   {
-//     title: "디폴트",
-//     latlng: new kakao.maps.LatLng(37.5764251, 126.9114472),
-//     url: "https://place.map.kakao.com/27397153",
-//     road: "경기 남양주시 오남읍 양지로 234-10",
-//   },
-//   {
-//     title: "테스트1",
-//     latlng: new kakao.maps.LatLng(37.5795251, 126.9214472),
-//   },
-//   {
-//     title: "테스트2",
-//     latlng: new kakao.maps.LatLng(37.5722562, 126.9155409),
-//   },
-//   {
-//     title: "테스트3",
-//     latlng: new kakao.maps.LatLng(37.5526086, 126.9255956),
-//   },
-// ];
+    // 마커 생성
+    var marker = new kakao.maps.Marker({
+      position: currentPos,
+      image: myMarkerImage, // 마커 이미지
+      clickable: false,
+    });
+    // 기존에 마커가 있다면 제거
+    marker.setMap(null);
+    marker.setMap(map);
 
-// 마커를 표시할 위치와 title 객체 배열입니다
+    // map.setCenter(currentPos);
+  });
+} else {
+  // HTML5의 GeoLocation을 사용할 수 없을때
 
-// 주소 - 좌표 변환 객체를 생성 (1206추가)
-// var geocoder = new daum.maps.services.geocoder();
+  var currentPos = new kakao.maps.LatLng(37.5794251, 126.9214472);
+  alert("현재 위치를 찾을 수 없습니다!");
+}
 
 // 나의 위치 마커 이미지의 이미지 주소입니다
 var myMarkerImgSrc = "/static/images/my_marker.png";
@@ -112,7 +78,6 @@ function locationLoadError(pos) {
 
 // 1. 내 위치 가져오기 버튼 클릭시
 function getCurrentPosBtn() {
-  console.log("위치 가져오기 버튼 클릭");
   navigator.geolocation.getCurrentPosition(
     locationLoadSuccess,
     locationLoadError
@@ -303,15 +268,6 @@ function keywordSearch() {
     paginationEl.appendChild(fragment);
   }
 
-  // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-  // 인포윈도우에 장소명을 표시합니다
-  function displayInfowindow(marker, title) {
-    var content = '<div style="padding:5px;z-index:1;">' + title + "</div>";
-
-    infowindow.setContent(content);
-    infowindow.open(map, marker);
-  }
-
   // 검색결과 목록의 자식 Element를 제거하는 함수입니다
   function removeAllChildNods(el) {
     while (el.hasChildNodes()) {
@@ -377,6 +333,7 @@ kakao.maps.event.addListener(map, "idle", function () {
       var location_cafe = JSON.parse(data.locations_cafe) || null;
       var location_food = JSON.parse(data.locations_restau) || null;
       var location_pet = JSON.parse(data.locations_pet) || null;
+      // console.log(location_pet[0] + "oo");
 
       for (var i = 0; i < recommended_div_list.length; i++)
         recommended_div_list[i].style.visibility = "hidden";
@@ -429,78 +386,36 @@ kakao.maps.event.addListener(map, "idle", function () {
 var foodMarkers = [],
   cafeMarkers = [],
   petMarkers = [];
-console.log(foodMarkers[0]);
-changeMarker("pet");
+
+changeMarker("cafe");
 
 var foodMarkerImgSrc = "/static/images/food_marker.png",
   cafeMarkerImgSrc = "/static/images/cafe_marker.png",
   petMarkerImgSrc = "/static/images/pet_marker.png";
 
-// function displayInfowindow(marker, title) {
-//   var content = '<div style="padding:5px;z-index:1;">' + title + "</div>";
-
-//   infowindow.setContent(content);
-//   infowindow.open(map, marker);
-// }
-
-// var coContent =
-//   '<div class="wrap">' +
-//   '    <div class="info">' +
-//   '        <div class="title">' +
-//   petPositions[0].title +
-//   "           " +
-//   '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-//   "        </div>" +
-//   '        <div class="body">' +
-//   '	            <div class="desc">' +
-//   '                	<div class="ellipsis"></div>' +
-//   '                	<div class="jibun ellipsis">' +
-//   petPositions[0].road +
-//   '               	 <div><a href="' +
-//   petPositions[0].url +
-//   '" target="_blank" class="link">상세보기</a></div>' +
-//   "           	 </div>" +
-//   "       	 </div>" +
-//   "   	 </div>" +
-//   "	</div>";
-
-// var coContent =
-//   '<div class="wrap">' +
-//   '    <div class="info">' +
-//   '        <div class="title">' +
-//   petPositions[0].title +
-//   "           " +
-//   '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-//   "        </div>" +
-//   '        <div class="body">' +
-//   '	            <div class="img">' +
-//   '               <img src="./images/pet_marker" width="73" height="70">' +
-//   "             </div>" +
-//   '            <div class="desc">' +
-//   '                	<div class="ellipsis"></div>' +
-//   '                	<div class="jibun ellipsis">' +
-//   petPositions[0].road +
-//   "</div>" +
-//   '               	 <div><a href="' +
-//   petPositions[0].url +
-//   '" target="_blank" class="link">상세보기</a></div>' +
-//   "           	 </div>" +
-//   "       	 </div>" +
-//   "   	 </div>" +
-//   "	</div>";
-
 // 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴하는 함수입니다
 function createMarkerImage(src, size) {
   var markerImage = new kakao.maps.MarkerImage(src, size);
-
   return markerImage; // 마커 위에 커스텀오버레이를 표시합니다
 }
 // 좌표와 마커이미지를 받아 마커를 생성하여 리턴하는 함수입니다
-function createMarker(position, image, clickable) {
+function createMarker(name, position, image, clickable) {
   var marker = new kakao.maps.Marker({
+    title: name,
     position: position,
     image: image,
     clickable: clickable,
+  });
+
+  kakao.maps.event.addListener(marker, "click", function () {
+    var iwContent = '<div style="padding:5px;">' + marker.getTitle() + "</div>"; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    var infowindow = new kakao.maps.InfoWindow({
+      map: map, // 인포윈도우가 표시될 지도
+      position: marker.getPosition(),
+      content: iwContent,
+      removable: true,
+    });
+    infowindow.open(map, marker);
   });
   return marker;
 }
@@ -513,6 +428,7 @@ function createFoodMarkers(location_food) {
     // 마커이미지와 마커를 생성합니다
     var markerImage = createMarkerImage(foodMarkerImgSrc, imageSize),
       marker = createMarker(
+        location_food[i].name,
         new kakao.maps.LatLng(
           location_food[i].latitude,
           location_food[i].longitude
@@ -520,45 +436,6 @@ function createFoodMarkers(location_food) {
         markerImage,
         true
       );
-    var coContent =
-      '<div class="wrap">' +
-      '    <div class="info">' +
-      '        <div class="title">' +
-      location_food[i].name +
-      "           " +
-      '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-      "        </div>" +
-      '        <div class="body">' +
-      '	            <div class="img">' +
-      '               <img src="/static/images/pet_marker" width="73" height="70">' +
-      "             </div>" +
-      '            <div class="desc">' +
-      '                	<div class="ellipsis"></div>' +
-      '                	<div class="jibun ellipsis">' +
-      location_food[i].address +
-      "</div>" +
-      '               	 <div><a href="' +
-      location_food[i].url +
-      '" target="_blank" class="link">상세보기</a></div>' +
-      "           	 </div>" +
-      "       	 </div>" +
-      "   	 </div>" +
-      "	</div>";
-
-    kakao.maps.event.addListener(marker, "click", function () {
-      // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-
-      var overlay = new kakao.maps.CustomOverlay({
-        map: map,
-        clickable: true,
-        content: coContent,
-        position: marker.getPosition(),
-        xAnchor: 0.5,
-        yAnchor: 1,
-        zIndex: 3,
-      });
-      overlay.setMap(map);
-    });
     // 생성된 마커를 음식점 마커 배열에 추가합니다
     foodMarkers.push(marker);
   }
@@ -579,6 +456,7 @@ function createCafeMarkers(location_cafe) {
     // 마커이미지와 마커를 생성합니다
     var markerImage = createMarkerImage(cafeMarkerImgSrc, imageSize),
       marker = createMarker(
+        location_cafe[i].name,
         new kakao.maps.LatLng(
           location_cafe[i].latitude,
           location_cafe[i].longitude
@@ -586,44 +464,6 @@ function createCafeMarkers(location_cafe) {
         markerImage,
         true
       );
-    var coContent =
-      '<div class="wrap">' +
-      '    <div class="info">' +
-      '        <div class="title">' +
-      location_cafe[i].name +
-      "           " +
-      '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-      "        </div>" +
-      '        <div class="body">' +
-      '	            <div class="img">' +
-      '               <img src="/static/images/pet_marker" width="73" height="70">' +
-      "             </div>" +
-      '            <div class="desc">' +
-      '                	<div class="ellipsis"></div>' +
-      '                	<div class="jibun ellipsis">' +
-      location_cafe[i].address +
-      "</div>" +
-      '               	 <div><a href="' +
-      location_cafe[i].url +
-      '" target="_blank" class="link">상세보기</a></div>' +
-      "           	 </div>" +
-      "       	 </div>" +
-      "   	 </div>" +
-      "	</div>";
-    kakao.maps.event.addListener(marker, "click", function () {
-      // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-      var overlay = new kakao.maps.CustomOverlay({
-        map: map,
-        clickable: true,
-        content: coContent,
-        position: marker.getPosition(),
-        xAnchor: 0.5,
-        yAnchor: 1,
-        zIndex: 3,
-      });
-      overlay.setMap(map);
-    });
-
     // 생성된 마커를 카페 마커 배열에 추가합니다
     cafeMarkers.push(marker);
   }
@@ -635,7 +475,6 @@ function setCafeMarkers(map) {
     cafeMarkers[i].setMap(map);
   }
 }
-
 // 애견관련 마커를 생성하고 애견 마커 배열에 추가하는 함수입니다
 function createPetMarkers(location_pet) {
   for (var i = 0; i < location_pet.length; i++) {
@@ -644,6 +483,7 @@ function createPetMarkers(location_pet) {
     // 마커이미지와 마커를 생성합니다
     var markerImage = createMarkerImage(petMarkerImgSrc, imageSize),
       marker = createMarker(
+        location_pet[i].name,
         new kakao.maps.LatLng(
           location_pet[i].latitude,
           location_pet[i].longitude
@@ -651,49 +491,10 @@ function createPetMarkers(location_pet) {
         markerImage,
         true
       );
-    var coContent =
-      '<div class="wrap">' +
-      '    <div class="info">' +
-      '        <div class="title">' +
-      location_pet[i].name +
-      "           " +
-      '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-      "        </div>" +
-      '        <div class="body">' +
-      '	            <div class="img">' +
-      '               <img src="/static/images/pet_marker" width="73" height="70">' +
-      "             </div>" +
-      '            <div class="desc">' +
-      '                	<div class="ellipsis"></div>' +
-      '                	<div class="jibun ellipsis">' +
-      location_pet[i].address +
-      "</div>" +
-      '               	 <div><a href="' +
-      location_pet[i].url +
-      '" target="_blank" class="link">상세보기</a></div>' +
-      "           	 </div>" +
-      "       	 </div>" +
-      "   	 </div>" +
-      "	</div>";
-    kakao.maps.event.addListener(marker, "click", function () {
-      // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-
-      var overlay = new kakao.maps.CustomOverlay({
-        map: map,
-        clickable: true,
-        content: coContent,
-        position: marker.getPosition(),
-        xAnchor: 0.5,
-        yAnchor: 1,
-        zIndex: 3,
-      });
-      overlay.setMap(map);
-    });
     // 생성된 마커를 애견 마커 배열에 추가합니다
     petMarkers.push(marker);
   }
 }
-
 // 애견 마커들의 지도 표시 여부를 설정하는 함수입니다
 function setPetMarkers(map) {
   for (var i = 0; i < petMarkers.length; i++) {
@@ -787,65 +588,9 @@ for (var i = 0; i < location_btn_list.length; i++) {
   });
 }
 
-positions.forEach(function (pos) {
-  // 마커를 생성합니다
-  var marker = new kakao.maps.Marker({
-    /* do something */
-  });
-
-  // content HTMLElement 생성
-  var content = document.createElement("div");
-
-  var info = document.createElement("span");
-  info.appendChild(document.createTextNode(pos.title));
-  content.appendChild(info);
-
-  var closeBtn = document.createElement("button");
-  closeBtn.appendChild(document.createTextNode("닫기"));
-  // 닫기 이벤트 추가
-  closeBtn.onclick = function () {
-    overlay.setMap(null);
+// 인포윈도우를 표시하는 클로저를 만드는 함수입니다
+function makeClickListener(map, marker, infowindow) {
+  return function () {
+    infowindow.open(map, marker);
   };
-
-  content.appendChild(closeBtn);
-
-  // customoverlay 생성, 이때 map을 선언하지 않으면 지도위에 올라가지 않습니다.
-  var overlay = new daum.maps.CustomOverlay({
-    position: pos.latlng,
-    content: content,
-  });
-
-  // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-  kakao.maps.event.addListener(marker, "click", function () {
-    overlay.setMap(map);
-  });
-});
-
-// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
-function closeOverlay() {
-  overlay.setMap(null);
 }
-
-// positions.forEach(function(pos) {
-//   var overlay = new daum.maps.CustomOverlay({ position: latlng });
-//   var content = document.createElement('div');
-//   var info = document.createElement('span');
-//   info.appendChild(document.createTextNode(pos.content));
-//   content.appendChild(info);
-//   var closeBtn = document.creat…
-// });
-
-//   var content = document.createElement('div');
-//     content.innerHTML =  data.title;
-//     content.style.cssText = 'background: white; border: 1px solid black';
-
-//     var closeBtn = document.createElement('button');
-//     closeBtn.innerHTML = '닫기';
-//     closeBtn.onclick = function () {
-//         overlay.setMap(null);
-//     };
-//     content.appendChild(closeBtn);
-//     overlay.setContent(content);
-
-//     kakao.maps.event.addListener(marker, 'click', function() {
-//         overlay.setMap(map);
