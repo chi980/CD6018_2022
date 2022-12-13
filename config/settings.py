@@ -28,7 +28,7 @@ SECRET_KEY = SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['3.34.149.198', 'www.mjupetzone.com']
+# ALLOWED_HOSTS = ['3.34.149.198', 'www.mjupetzone.com']
 
 
 # Application definition
@@ -192,3 +192,6 @@ AWS_QUERYSTRING_AUTH = S3['aws_querystring_auth']
 # 이미지 업로드(file)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+ALLOWED_HOSTS = []
