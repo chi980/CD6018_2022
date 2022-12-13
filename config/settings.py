@@ -182,12 +182,12 @@ SOCIALACCOUNT_PROVIDERS = {
 
 
 # 이미지 업로드(aws s3)(https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html)
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-#
-# AWS_ACCESS_KEY_ID = S3['aws_access_key_id']
-# AWS_SECRET_ACCESS_KEY = S3['aws_secret_access_key']
-# AWS_STORAGE_BUCKET_NAME = S3['aws_storage_bucket_name']
-# AWS_QUERYSTRING_AUTH = S3['aws_querystring_auth']
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_ACCESS_KEY_ID = S3['aws_access_key_id']
+AWS_SECRET_ACCESS_KEY = S3['aws_secret_access_key']
+AWS_STORAGE_BUCKET_NAME = S3['aws_storage_bucket_name']
+AWS_QUERYSTRING_AUTH = S3['aws_querystring_auth']
 
 # 이미지 업로드(file)
 MEDIA_URL = '/media/'
