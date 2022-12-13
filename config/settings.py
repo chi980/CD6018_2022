@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import pymysql
-from local_settings import DATABASES, SECRET_KEY
+from local_settings import DATABASES, SECRET_KEY, S3
 import os
 pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
